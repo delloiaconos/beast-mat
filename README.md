@@ -10,6 +10,12 @@ For the general project introduction, history, battery-model documentation, and
 links to the other implementations, see the main
 [BEAST repository](https://github.com/delloiaconos/beast.git).
 
+> ⚠️ **Important Notice** ⚠️
+>
+> The MATLAB implementation has been imported from the original BEAST codebase but **has not yet been fully reviewed or tested**. The code may contain errors, incompatibilities, or incomplete functionality.
+>
+> **Do not rely on the current implementation for production use or validated results.**
+
 ## About this implementation
 
 The MATLAB code originates from the academic work that preceded the current
