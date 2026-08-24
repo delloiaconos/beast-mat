@@ -84,7 +84,7 @@ elseif ( BEAST.PostProc.MATEnable == true  && BEAST.PostProc.MATImportWS == true
     load( WSname, 'MAT' );
     clear WSname;
 else
-    display( 'MAT not loaded!' );
+    disp( 'MAT not loaded!' );
 end
 
 if( BEAST.PostProc.CPPEnable == true )

@@ -81,7 +81,7 @@ classdef MixAlgorithm < Estimators.Estimator
             obj.Lxold   = zeros( obj.Nx, obj.Ny );
             
             if( length( diag( obj.objModel.sxW ) ) ~= obj.Nx )
-                display( 'ESTIMATOR MixAlgorithm ERROR!' );
+                disp( 'ESTIMATOR MixAlgorithm ERROR!' );
                 pause;
             end
             

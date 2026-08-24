@@ -31,7 +31,7 @@ if exist( varname, 'var' )
     fclose(fw);
     clear fw;
 else
-    display( ['WARNING: Unable to Export "' varname '"'] );
+    disp( ['WARNING: Unable to Export "' varname '"'] );
 end
 
 varname = 'MDCellModelSel';
@@ -42,7 +42,7 @@ if exist( varname, 'var' )
     fclose(fw);
     clear fw
 else
-    display( ['WARNING: Unable to Export "' varname '"'] );
+    disp( ['WARNING: Unable to Export "' varname '"'] );
 end
     
 % Esportazione MD

@@ -35,7 +35,7 @@ function [ cellmodel ] = Initialize( basepath, cmSelector, prefix )
     clear pckName pckContent pckClasses ii;
     
     if( strcmpi( cmName, '' ) ~= false )
-        display( 'ERROR: CellModelInit - CellModel not recognized!\n' );
+        disp( 'ERROR: CellModelInit - CellModel not recognized!\n' );
         keyboard();
         pause;
     end
@@ -47,7 +47,7 @@ function [ cellmodel ] = Initialize( basepath, cmSelector, prefix )
     for kk=1:length(cmRequired)
     	fileName = [basepath, '/', prefix , '_pfix_', cmRequired{kk}, '.in'];
     	if exist( fileName, 'file' ) ~= 2 
-    		display( ['ERROR: CellModelInit - File "', fileName, '"Not Found!\n'] );
+    		disp( ['ERROR: CellModelInit - File "', fileName, '"Not Found!\n'] );
         	pause;
     	else
     		fr = fopen(fileName);
@@ -65,7 +65,7 @@ function [ cellmodel ] = Initialize( basepath, cmSelector, prefix )
     
     fileName = [basepath, '/', prefix , '_COV_spEvec', '.in'];
     if exist( fileName, 'file' ) ~= 2 
-    	display( ['ERROR: CellModelInit - File "', fileName, '"Not Found!\n'] );
+    	disp( ['ERROR: CellModelInit - File "', fileName, '"Not Found!\n'] );
         pause;
     else
     	fr = fopen(fileName);
@@ -77,7 +77,7 @@ function [ cellmodel ] = Initialize( basepath, cmSelector, prefix )
 
     fileName = [basepath, '/', prefix , '_COV_spRvec', '.in'];
     if exist( fileName, 'file' ) ~= 2 
-    	display( ['ERROR: CellModelInit - File "', fileName, '"Not Found!\n'] );
+    	disp( ['ERROR: CellModelInit - File "', fileName, '"Not Found!\n'] );
         pause;
     else
     	fr = fopen(fileName);
@@ -89,7 +89,7 @@ function [ cellmodel ] = Initialize( basepath, cmSelector, prefix )
     
     fileName = [basepath, '/', prefix , '_COV_sxVvec', '.in'];
     if exist( fileName, 'file' ) ~= 2 
-    	display( ['ERROR: CellModelInit - File "', fileName, '"Not Found!\n'] );
+    	disp( ['ERROR: CellModelInit - File "', fileName, '"Not Found!\n'] );
         pause;
     else
     	fr = fopen(fileName);
@@ -101,7 +101,7 @@ function [ cellmodel ] = Initialize( basepath, cmSelector, prefix )
     
     fileName = [basepath, '/', prefix , '_COV_sxWvec', '.in'];
     if exist( fileName, 'file' ) ~= 2 
-    	display( ['ERROR: CellModelInit - File "', fileName, '"Not Found!\n'] );
+    	disp( ['ERROR: CellModelInit - File "', fileName, '"Not Found!\n'] );
         pause;
     else
     	fr = fopen(fileName);
@@ -114,7 +114,7 @@ function [ cellmodel ] = Initialize( basepath, cmSelector, prefix )
     deltat = 0.0;
     fileName = [basepath, '/', prefix , '_deltat', '.in'];
     if exist( fileName, 'file' ) ~= 2 
-    	display( ['ERROR: CellModelInit - File "', fileName, '"Not Found!\n'] );
+    	disp( ['ERROR: CellModelInit - File "', fileName, '"Not Found!\n'] );
         pause;
     else
     	fr = fopen(fileName);

@@ -16,7 +16,7 @@
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
 if fieldexists( 'BEAST', 'ProcMat' ) == false
-    display( 'ERROR: [BEAST_ProcMat] Unable to run widout BEAST.ProcMat!' );
+    disp( 'ERROR: [BEAST_ProcMat] Unable to run widout BEAST.ProcMat!' );
 	break;
 end
 
@@ -28,7 +28,7 @@ end
 if BEAST.ProcMat.LoadBinaries == true
     run( 'BEAST_ProcMat_LoadBinaries' );
 else
-	display( 'ERROR: [BEAST_ProcMat] Import from Binaries ONLY!' );
+	disp( 'ERROR: [BEAST_ProcMat] Import from Binaries ONLY!' );
 	break;
 end;
     
@@ -77,7 +77,7 @@ if( BEAST.ProcMat.PreemptiveStop == true )
     end
 end
 
-display( ['STARTING FILTER: "', MAT.FilterName , '"'] );
+disp( ['STARTING FILTER: "', MAT.FilterName , '"'] );
 
 objMembers = properties( objEstimator );
 
@@ -130,7 +130,7 @@ if( BEAST.ProcMat.Plot.Enable == true )
     
     rtPlots.vars.t_all = zeros( 1, 1 );
     
-    for jj = 1:length( BEAST.ProcMat.Plot.Vars );
+    for jj = 1:length( BEAST.ProcMat.Plot.Vars )
         varName = BEAST.ProcMat.Plot.Vars{jj};
         
         % Check if the variable exsists
@@ -149,7 +149,7 @@ if( BEAST.ProcMat.Plot.Enable == true )
             strSize = strrep( strSize, 'Nu', 'objEstimator.Nu' );
             
             if( eval( strSize ) > 1 )
-                display( ['WARNING: [BEAST_ProcMat] Unable to plot "', varName, '", size > 1'] );
+                disp( ['WARNING: [BEAST_ProcMat] Unable to plot "', varName, '", size > 1'] );
                 keyboard();
                 break;
             else
@@ -205,7 +205,7 @@ if( BEAST.ProcMat.Plot.Enable == true )
             
             clear strCreate strSize strPlot Var iiFunHandler;
         else
-            display( ['WARNING: [BEAST_ProcMat] Unable to plot "', varName, '"; variable not available' ] );
+            disp( ['WARNING: [BEAST_ProcMat] Unable to plot "', varName, '"; variable not available' ] );
         end
     end
     clear jj varName iVar;   
@@ -275,7 +275,7 @@ clear kk hw tnew unew yXPnew ExportList PlotList rtPlots;
 %  ====================================
 %
 
-display( 'BEGIN: Result Export' );
+disp( 'BEGIN: Result Export' );
 
 direfileoutput = BEAST.ProcMat.OutputPath;
 extefileoutput = BEAST.ProcMat.BinOutputExt;
@@ -313,7 +313,7 @@ if BEAST.ProcMat.ExportBinaries == true
             strExport = sprintf( 'BINexport_MATdouble( MAT.%s, ''%s'' );', Var{3}, filename );
             eval( strExport );
         else
-            display( ['ERROR: [BEAST_ProcMat] Unable to export: "', Var{1}, '"'] );
+            disp( ['ERROR: [BEAST_ProcMat] Unable to export: "', Var{1}, '"'] );
         end
     end
     
@@ -336,4 +336,4 @@ if BEAST.ProcMat.SaveWorkspace == true
 end
 clear direfileoutput filename extefileoutput;
 
-display( 'END: Results Export' );
+disp( 'END: Results Export' );
