@@ -1,0 +1,24 @@
+#!datafiles/**
+#Exclude Backups..
+/**/*.zip
+/**/*.7z
+/**/*.tar
+
+
+# Exclude runs data
+/runs/*.mat
+/runs/**/*.mat
+/runs/**/*.in
+/runs/**/*.out
+/runs/**/*.txt
+/runs/**/*.jpg
+/runs/**/*.eps
+/runs/**/*.bmp
+/runs/**/*.fig
+/runs/**/*.zip
+/runs/*.zip
+
+!/runs/*/Data/*.mat
+ 
+# Ignore temporary files
+*~
