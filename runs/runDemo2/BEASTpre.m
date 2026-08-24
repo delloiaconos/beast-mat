@@ -46,7 +46,7 @@ clc;
 
 %% percorsi e path
 localFolder     = [pwd, '/'];
-mfilesFolder    = [localFolder,'../../mfiles/'];
+mfilesFolder    = [localFolder,'../../src/'];
 
 
 addpath( [mfilesFolder,'CellModels/'] );
