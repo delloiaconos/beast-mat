@@ -154,4 +154,4 @@ BEAST.Backup.ExternalCommand         = '../bckfigures.sh ./figures ../backups/ B
 
 
 %% RUN FROM HERE %%     
-run( [BEAST.BasePath, 'mfiles/BEAST_Launcher.m'] );
+run( [BEAST.BasePath, 'src/BEAST_Launcher'] );
