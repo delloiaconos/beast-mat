@@ -3,7 +3,7 @@
 /**/*.zip
 /**/*.7z
 /**/*.tar
-
+datafiles/*
 
 # Exclude runs data
 /runs/*.mat
