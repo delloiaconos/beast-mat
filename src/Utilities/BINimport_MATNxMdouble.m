@@ -15,21 +15,27 @@
 %
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
-function matrix = BINimport_MATNxMdouble(filename,nn,mm);
+function mtx = BINimport_MATNxMdouble(fname,nn,mm)
 
-% Importa da *filename* (binario) la matrice DOUBLE *matrix* 
-% conversione DOUBLE (fortran) <-> 2 x double (matlab)
+    % Importa da *filename* (binario) la matrice DOUBLE *matrix* 
+    % conversione DOUBLE (fortran) <-> 2 x double (matlab)
 
-ind              = fopen(filename);
-[vector,ncounta] = fread(ind,'float64');
-                   fclose(ind);
-ncard  = length(vector);
-if ncard~=nn*mm
-    disp 'ERROR 10 in BINimport_MATNXMdouble'
-    disp 'Please STOP!'
-    pause
-end
+    try
+        ind      = fopen(fname);
+        [vect,~] = fread(ind,'float64');
+        fclose(ind);
+    catch ex
+        warning( "Unable to open file: '%s'", fname );
+        vect = [];
+    end                       
+    
+    ncard  = length(vect);
+    if ncard~=nn*mm
+        disp( 'BINimport_MATNXMdouble' );
+        disp( 'Please STOP!' );
+        pause();
+    end
 
-matrix = reshape(vector,nn,mm);
+    mtx = reshape(vector,nn,mm);
 return 
 
