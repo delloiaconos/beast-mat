@@ -17,14 +17,14 @@
 
 % =========================================================================
 function vec = BINimport_VECdouble(fname)
-    % Importa da *filename* la matrice (binario) la matrice DOUBLE PRECISION *matrix* 
+    % Importa da *fname* la matrice (binario) la matrice DOUBLE PRECISION *matrix* 
+    
     try
-        ind              = fopen(fname);
-        [vec,~] = fread(ind,'double');
-                           fclose(ind);
+        fid              = fopen(fname);
+        [vec,~] = fread(fid,'double');
+                           fclose(fid);
     catch ex
         warning( "Unable to open file: '%s'", fname );
         vec = [];
     end
-return % ==================================================================
-
+return 

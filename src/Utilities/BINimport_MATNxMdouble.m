@@ -17,13 +17,13 @@
 
 function mtx = BINimport_MATNxMdouble(fname,nn,mm)
 
-    % Importa da *filename* (binario) la matrice DOUBLE *matrix* 
+    % Importa da *fname* (binario) la matrice DOUBLE *matrix* 
     % conversione DOUBLE (fortran) <-> 2 x double (matlab)
 
     try
-        ind      = fopen(fname);
-        [vect,~] = fread(ind,'float64');
-        fclose(ind);
+        fid      = fopen(fname);
+        [vect,~] = fread(fid,'float64');
+        fclose(fid);
     catch ex
         warning( "Unable to open file: '%s'", fname );
         vect = [];

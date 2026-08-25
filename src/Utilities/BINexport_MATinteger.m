@@ -15,12 +15,12 @@
 %
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
-function BINexport_MATinteger(matrix,filename);
+function BINexport_MATinteger(matrix,fname)
 
-% Esporta su *filename* (binario) la matrice INTEGER *matrix* 
-% conversione INTEGER (fortran) <-> int32 (matlab)
+    % Esporta su *fname* (binario) la matrice INTEGER *matrix* 
+    % conversione INTEGER (fortran) <-> int32 (matlab)
 
-ind     = fopen(filename,'w');
-ncounta = fwrite(ind,matrix,'int32');
-          fclose(ind);
+    fid     = fopen(fname,'w');
+    ncounta = fwrite(fid,matrix,'int32');
+    fclose(fid);
 return 

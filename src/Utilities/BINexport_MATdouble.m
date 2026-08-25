@@ -15,12 +15,12 @@
 %
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
-function BINexport_MATdouble(matrix,filename);
+function BINexport_MATdouble(mtx,fname)
 
-% Esporta su *filename* (binario) la matrice DOUBLE PRECISION *matrix* 
-% conversione DOUBLE PRECISION (fortran) <-> double (matlab)
+    % Esporta su *fname* (binario) la matrice DOUBLE PRECISION *matrix* 
+    % conversione DOUBLE PRECISION (fortran) <-> double (matlab)
 
-ind     = fopen(filename,'w');
-ncounta = fwrite(ind,matrix,'double');
-          fclose(ind);
+    fid     = fopen(fname,'w');
+    ncounta = fwrite(fid, mtx, 'double');
+    fclose(fid);
 return 

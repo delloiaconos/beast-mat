@@ -15,40 +15,22 @@
 %
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
-function matrix = BINimport_MATdouble(filename);
+function mtx = BINimport_MATdouble(fname)
 
-% Importa da *filename* (binario) la matrice DOUBLE *matrix* 
-% conversione DOUBLE (fortran) <-> 2 x double (matlab)
-
-ind              = fopen(filename);
-%[a0,ncount0]     = fread(ind,1,'float32');
-[vector,ncounta] = fread(ind,'float64');
-                   fclose(ind);
-n     = length(vector);
-nsize  = sqrt(n);
-matrix = reshape(vector,nsize,nsize);
+    % Importa da *fname* (binario) la matrice DOUBLE *matrix* 
+    % conversione DOUBLE (fortran) <-> 2 x double (matlab)
+    
+    try
+        fid = fopen(fname);
+        [vect,~] = fread(fid,'float64');
+        fclose(fid);
+    catch ex
+        warning( "Unable to open file: '%s'", fname );
+        vect = [];
+    end                       
+    
+    n     = length(vect);
+    nsize = sqrt(n);
+    mtx   = reshape(vect,nsize,nsize);
 return 
 
-
-% function L=read_mat(file);
-% %read from the binary file ftnind the complex inductance matrix
-% %L(1:nlatac,1:nlatac)
-% ind=fopen(file);
-% [a0,ncount0]=fread(ind,1,'float32');
-% [a,ncounta]=fread(ind,inf,'float64');
-% n=length(a);
-% nlatac=sqrt(n);
-% L=a(1:n);
-% clear a
-% L=reshape(L,nlatac,nlatac);
-% fclose(ind);
-
-% ind              = fopen(filename);
-% for ii=1:16*16
-%     [a0,ncount0]=fread(ind,1,'float64');
-%     if abs(a0)>1e15
-%         a0
-%         ii
-%         pause
-%     end
-% end

@@ -17,16 +17,15 @@
 
 % =========================================================================
 function vect = BINimport_VECinteger(fname)
-    % Importa da *filename* la matrice (binario) la matrice DOUBLE PRECISION *matrix* 
+    % Importa da *fname* la matrice (binario) la matrice DOUBLE PRECISION *matrix* 
 
     try
-        ind      = fopen(fname);
-        [vect,~] = fread(ind,'int32');
-        fclose(ind);
+        fid      = fopen(fname);
+        [vect,~] = fread(fid,'int32');
+        fclose(fid);
     catch ex
         warning( "Unable to open file: '%s'", fname );
         vect = [];
     end  
 
-return % ==================================================================
-
+return 
