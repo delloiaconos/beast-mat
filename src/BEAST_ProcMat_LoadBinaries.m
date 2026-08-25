@@ -19,32 +19,32 @@ InputPath = BEAST.ProcMat.InputPath;
 BinaryExt = BEAST.ProcMat.BinInputExt;
 
 
-filename = [InputPath, 'MD_deltat', BinaryExt];
-	MD.deltat = BINimport_VECdouble( filename );
+fname = [InputPath, 'MD_deltat', BinaryExt];
+	MD.deltat = BINimport_VECdouble( fname );
 
-filename = [InputPath, 'MD_t_all', BinaryExt];
-	MD.t_all = BINimport_VECdouble( filename );
+fname = [InputPath, 'MD_t_all', BinaryExt];
+	MD.t_all = BINimport_VECdouble( fname );
 	npoints = length( MD.t_all );
     MD.Nt = npoints;
     
-filename = [InputPath, 'MD_u_all', BinaryExt];        % matrice
-    MD.u_all =  BINimport_MAT_Ndouble( filename,  npoints );	
+fname = [InputPath, 'MD_u_all', BinaryExt];        % matrice
+    MD.u_all =  BINimport_MAT_Ndouble( fname,  npoints );	
 
-filename = [InputPath, 'MD_yXP_all', BinaryExt];       % matrice
-    MD.yXP_all = BINimport_MAT_Ndouble( filename,  npoints );
+fname = [InputPath, 'MD_yXP_all', BinaryExt];       % matrice
+    MD.yXP_all = BINimport_MAT_Ndouble( fname,  npoints );
 
-filename = [InputPath, 'MD_x0', BinaryExt];
-    MD.x0 = BINimport_VECdouble( filename );
+fname = [InputPath, 'MD_x0', BinaryExt];
+    MD.x0 = BINimport_VECdouble( fname );
 
-filename = [InputPath, 'MD_p0', BinaryExt];
-    MD.p0 = BINimport_VECdouble( filename );
+fname = [InputPath, 'MD_p0', BinaryExt];
+    MD.p0 = BINimport_VECdouble( fname );
 
 
 clear npoints;
 
 % CellModel Selection
-filename = [InputPath, 'MD_CellModelSel', '.txt'];
-    fr = fopen( filename, 'rt' );
+fname = [InputPath, 'MD_CellModelSel', '.txt'];
+    fr = fopen( fname, 'rt' );
     MD.CellModelSel = fscanf( fr, '%s' );
     fclose( fr );
 
@@ -55,13 +55,13 @@ MDobj = CellModels.Initialize( InputPath, MD.CellModelSel, 'MD' );
 
 
 % EstimationMethodSel
-filename = [InputPath, 'MD_EstimationMethodSel', '.txt'];
-    fr = fopen( filename, 'rt' );
+fname = [InputPath, 'MD_EstimationMethodSel', '.txt'];
+    fr = fopen( fname, 'rt' );
     MD.EstimationMethodSel = fscanf( fr, '%s' );
     fclose( fr );
     
 
-clear filename fr;
+clear fname fr;
 clear InputPath BinaryExt;
 
 

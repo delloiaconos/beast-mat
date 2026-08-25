@@ -45,12 +45,12 @@ function [ cellmodel ] = Initialize( basepath, cmSelector, prefix )
     pfix = struct();
     
     for kk=1:length(cmRequired)
-    	fileName = [basepath, '/', prefix , '_pfix_', cmRequired{kk}, '.in'];
-    	if exist( fileName, 'file' ) ~= 2 
-    		disp( ['ERROR: CellModelInit - File "', fileName, '"Not Found!\n'] );
+    	fname = [basepath, '/', prefix , '_pfix_', cmRequired{kk}, '.in'];
+    	if exist( fname, 'file' ) ~= 2 
+    		disp( ['ERROR: CellModelInit - File "', fname, '"Not Found!\n'] );
         	pause;
     	else
-    		fr = fopen(fileName);
+    		fr = fopen(fname);
 			[vector,n] = fread(fr,'double');
             fclose(fr);
             
@@ -63,48 +63,48 @@ function [ cellmodel ] = Initialize( basepath, cmSelector, prefix )
     
     COV = struct();
     
-    fileName = [basepath, '/', prefix , '_COV_spEvec', '.in'];
-    if exist( fileName, 'file' ) ~= 2 
-    	disp( ['ERROR: CellModelInit - File "', fileName, '"Not Found!\n'] );
+    fname = [basepath, '/', prefix , '_COV_spEvec', '.in'];
+    if exist( fname, 'file' ) ~= 2 
+    	disp( ['ERROR: CellModelInit - File "', fname, '"Not Found!\n'] );
         pause;
     else
-    	fr = fopen(fileName);
+    	fr = fopen(fname);
 		[vector,n] = fread(fr,'double');
         fclose(fr);
     	
     	COV.spE = diag(vector);     
     end
 
-    fileName = [basepath, '/', prefix , '_COV_spRvec', '.in'];
-    if exist( fileName, 'file' ) ~= 2 
-    	disp( ['ERROR: CellModelInit - File "', fileName, '"Not Found!\n'] );
+    fname = [basepath, '/', prefix , '_COV_spRvec', '.in'];
+    if exist( fname, 'file' ) ~= 2 
+    	disp( ['ERROR: CellModelInit - File "', fname, '"Not Found!\n'] );
         pause;
     else
-    	fr = fopen(fileName);
+    	fr = fopen(fname);
 		[vector,n] = fread(fr,'double');
         fclose(fr);
     	
     	COV.spR = diag(vector);     
     end    
     
-    fileName = [basepath, '/', prefix , '_COV_sxVvec', '.in'];
-    if exist( fileName, 'file' ) ~= 2 
-    	disp( ['ERROR: CellModelInit - File "', fileName, '"Not Found!\n'] );
+    fname = [basepath, '/', prefix , '_COV_sxVvec', '.in'];
+    if exist( fname, 'file' ) ~= 2 
+    	disp( ['ERROR: CellModelInit - File "', fname, '"Not Found!\n'] );
         pause;
     else
-    	fr = fopen(fileName);
+    	fr = fopen(fname);
 		[vector,n] = fread(fr,'double');
         fclose(fr);
     	
     	COV.sxV = diag(vector);     
     end
     
-    fileName = [basepath, '/', prefix , '_COV_sxWvec', '.in'];
-    if exist( fileName, 'file' ) ~= 2 
-    	disp( ['ERROR: CellModelInit - File "', fileName, '"Not Found!\n'] );
+    fname = [basepath, '/', prefix , '_COV_sxWvec', '.in'];
+    if exist( fname, 'file' ) ~= 2 
+    	disp( ['ERROR: CellModelInit - File "', fname, '"Not Found!\n'] );
         pause;
     else
-    	fr = fopen(fileName);
+    	fr = fopen(fname);
 		[vector,n] = fread(fr,'double');
         fclose(fr);
     	
@@ -112,12 +112,12 @@ function [ cellmodel ] = Initialize( basepath, cmSelector, prefix )
     end
     
     deltat = 0.0;
-    fileName = [basepath, '/', prefix , '_deltat', '.in'];
-    if exist( fileName, 'file' ) ~= 2 
-    	disp( ['ERROR: CellModelInit - File "', fileName, '"Not Found!\n'] );
+    fname = [basepath, '/', prefix , '_deltat', '.in'];
+    if exist( fname, 'file' ) ~= 2 
+    	disp( ['ERROR: CellModelInit - File "', fname, '"Not Found!\n'] );
         pause;
     else
-    	fr = fopen(fileName);
+    	fr = fopen(fname);
 		[vector,n] = fread(fr,'double');
         fclose(fr);
     	

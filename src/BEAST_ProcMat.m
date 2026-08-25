@@ -308,9 +308,9 @@ if BEAST.ProcMat.ExportBinaries == true
 
         %ExportableVars = { {'ClassVar', 'Size', 'ExportName', 'FunctionHandlerToApply'} };
         if any( ismember( objMembers, Var{1} ) )
-            filename = [direfileoutput, Var{3}, extefileoutput];
+            fname = [direfileoutput, Var{3}, extefileoutput];
             
-            strExport = sprintf( 'BINexport_MATdouble( MAT.%s, ''%s'' );', Var{3}, filename );
+            strExport = sprintf( 'BINexport_MATdouble( MAT.%s, ''%s'' );', Var{3}, fname );
             eval( strExport );
         else
             disp( ['ERROR: [BEAST_ProcMat] Unable to export: "', Var{1}, '"'] );
@@ -318,14 +318,14 @@ if BEAST.ProcMat.ExportBinaries == true
     end
     
     %Export time, input, output
-    filename = [direfileoutput, 't_all', extefileoutput];
-        BINexport_MATdouble( MAT.t_all, filename );
+    fname = [direfileoutput, 't_all', extefileoutput];
+        BINexport_MATdouble( MAT.t_all, fname );
     
-    filename = [direfileoutput, 'u_all', extefileoutput];
-        BINexport_MATdouble( MAT.u_all, filename );
+    fname = [direfileoutput, 'u_all', extefileoutput];
+        BINexport_MATdouble( MAT.u_all, fname );
     
-	filename = [direfileoutput, 'y_all', extefileoutput];
-        BINexport_MATdouble( MAT.y_all, filename );
+	fname = [direfileoutput, 'y_all', extefileoutput];
+        BINexport_MATdouble( MAT.y_all, fname );
 end
 clear jj strExport Nexports;
 clear objMembers objEstimator MDobj;
@@ -334,6 +334,6 @@ clear objMembers objEstimator MDobj;
 if BEAST.ProcMat.SaveWorkspace == true
     save( [direfileoutput, BEAST.ProcMat.OutputWorkspace], '-mat', 'MAT' );
 end
-clear direfileoutput filename extefileoutput;
+clear direfileoutput fname extefileoutput;
 
 disp( 'END: Results Export' );

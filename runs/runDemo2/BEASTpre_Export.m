@@ -25,8 +25,8 @@ end
 
 varname = 'MDCellModelSel';
 if exist( varname, 'var' )
-    filename = [direfileinput, 'MD_CellModelSel.txt'];
-    fw     = fopen(filename,'wt');
+    fname = [direfileinput, 'MD_CellModelSel.txt'];
+    fw     = fopen(fname,'wt');
     fprintf(fw,MDCellModelSel);
     fclose(fw);
     clear fw;
@@ -36,8 +36,8 @@ end
 
 varname = 'MDCellModelSel';
 if exist( varname, 'var' )
-    filename = [direfileinput, 'MD_EstimationMethodSel.txt'];
-    fw     = fopen(filename,'wt');
+    fname = [direfileinput, 'MD_EstimationMethodSel.txt'];
+    fw     = fopen(fname,'wt');
     fprintf(fw,'%s',EstimationMethodSel);
     fclose(fw);
     clear fw
@@ -46,56 +46,56 @@ else
 end
     
 % Esportazione MD
-filename = [direfileinput, 'MD_deltat', extefileinput];
-    BINexport_MATdouble(MD.deltat,filename);
-filename = [direfileinput, 'MD_t_all', extefileinput];
-    BINexport_MATdouble(MD.t_all,filename);
-filename = [direfileinput, 'MD_u_all', extefileinput];        % matrice
-    BINexport_MATdouble(MD.u_all,filename);
-filename = [direfileinput, 'MD_yXP_all', extefileinput];       % matrice
-    BINexport_MATdouble(MD.yXP_all,filename);
-filename = [direfileinput, 'MD_x0', extefileinput];
-    BINexport_MATdouble(MD.x0,filename);
-filename = [direfileinput, 'MD_p0', extefileinput];
-    BINexport_MATdouble(MD.p0,filename);
+fname = [direfileinput, 'MD_deltat', extefileinput];
+    BINexport_MATdouble(MD.deltat,fname);
+fname = [direfileinput, 'MD_t_all', extefileinput];
+    BINexport_MATdouble(MD.t_all,fname);
+fname = [direfileinput, 'MD_u_all', extefileinput];        % matrice
+    BINexport_MATdouble(MD.u_all,fname);
+fname = [direfileinput, 'MD_yXP_all', extefileinput];       % matrice
+    BINexport_MATdouble(MD.yXP_all,fname);
+fname = [direfileinput, 'MD_x0', extefileinput];
+    BINexport_MATdouble(MD.x0,fname);
+fname = [direfileinput, 'MD_p0', extefileinput];
+    BINexport_MATdouble(MD.p0,fname);
 
-filename = [direfileinput, 'MD_COV_sxWvec', extefileinput];
-    BINexport_MATdouble(diag(MDobj.sxW),filename);
-filename = [direfileinput, 'MD_COV_sxVvec', extefileinput];
-    BINexport_MATdouble(diag(MDobj.sxV),filename);
-filename = [direfileinput, 'MD_COV_spRvec', extefileinput];
-    BINexport_MATdouble(diag(MDobj.spR),filename);
-filename = [direfileinput, 'MD_COV_spEvec', extefileinput];
-    BINexport_MATdouble(diag(MDobj.spE),filename);
+fname = [direfileinput, 'MD_COV_sxWvec', extefileinput];
+    BINexport_MATdouble(diag(MDobj.sxW),fname);
+fname = [direfileinput, 'MD_COV_sxVvec', extefileinput];
+    BINexport_MATdouble(diag(MDobj.sxV),fname);
+fname = [direfileinput, 'MD_COV_spRvec', extefileinput];
+    BINexport_MATdouble(diag(MDobj.spR),fname);
+fname = [direfileinput, 'MD_COV_spEvec', extefileinput];
+    BINexport_MATdouble(diag(MDobj.spE),fname);
     
-filename = [direfileinput, 'MD_pfix_Qn_Ah', extefileinput];
-    BINexport_MATdouble(MD.pfix.Qn_Ah,filename);
-filename = [direfileinput, 'MD_pfix_eta', extefileinput];
-    BINexport_MATdouble(MD.pfix.eta,filename);
-filename = [direfileinput, 'MD_pfix_soc', extefileinput];
-    BINexport_MATdouble(MD.pfix.soc,filename);
-filename = [direfileinput, 'MD_pfix_ocv0', extefileinput];
-    BINexport_MATdouble(MD.pfix.ocv0,filename);
-filename = [direfileinput, 'MD_pfix_ocv1', extefileinput];
-    BINexport_MATdouble(MD.pfix.ocv1,filename);
+fname = [direfileinput, 'MD_pfix_Qn_Ah', extefileinput];
+    BINexport_MATdouble(MD.pfix.Qn_Ah,fname);
+fname = [direfileinput, 'MD_pfix_eta', extefileinput];
+    BINexport_MATdouble(MD.pfix.eta,fname);
+fname = [direfileinput, 'MD_pfix_soc', extefileinput];
+    BINexport_MATdouble(MD.pfix.soc,fname);
+fname = [direfileinput, 'MD_pfix_ocv0', extefileinput];
+    BINexport_MATdouble(MD.pfix.ocv0,fname);
+fname = [direfileinput, 'MD_pfix_ocv1', extefileinput];
+    BINexport_MATdouble(MD.pfix.ocv1,fname);
     
-clear filename Nt pfixBattery ifigCounter
+clear fname Nt pfixBattery ifigCounter
 
 
 
 % Esportazione XP
-filename = [direfileinput, 'XP_t_all', extefileinput];
-    BINexport_MATdouble(XP.t_all,filename);
-filename = [direfileinput, 'XP_y_all', extefileinput];
-    BINexport_MATdouble(XP.y_all,filename);
-filename = [direfileinput, 'XP_u_all', extefileinput];
-    BINexport_MATdouble(XP.u_all,filename);
+fname = [direfileinput, 'XP_t_all', extefileinput];
+    BINexport_MATdouble(XP.t_all,fname);
+fname = [direfileinput, 'XP_y_all', extefileinput];
+    BINexport_MATdouble(XP.y_all,fname);
+fname = [direfileinput, 'XP_u_all', extefileinput];
+    BINexport_MATdouble(XP.u_all,fname);
 
 
-filename = [direfileinput, 'XP_x_all', extefileinput];
-    BINexport_MATdouble(XP.x_all, filename);
+fname = [direfileinput, 'XP_x_all', extefileinput];
+    BINexport_MATdouble(XP.x_all, fname);
     
-%filename = [direfileinput, 'XP_p_all', extefileinput];
+%fname = [direfileinput, 'XP_p_all', extefileinput];
 
     
 

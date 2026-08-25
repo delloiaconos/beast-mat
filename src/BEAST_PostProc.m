@@ -24,22 +24,22 @@ close all;
 BinaryExt = '.in';
 InputPath = BEAST.PostProc.ModelPath;
 
-filename = [InputPath, 'MD_t_all', BinaryExt];
-	MD.t_all = BINimport_VECdouble( filename );
+fname = [InputPath, 'MD_t_all', BinaryExt];
+	MD.t_all = BINimport_VECdouble( fname );
     MD.Nt    = length( MD.t_all );
 
-filename = [InputPath, 'MD_u_all', BinaryExt];        % matrice
-    MD.u_all =  BINimport_MAT_Ndouble( filename, MD.Nt );	
+fname = [InputPath, 'MD_u_all', BinaryExt];        % matrice
+    MD.u_all =  BINimport_MAT_Ndouble( fname, MD.Nt );	
 
-filename = [InputPath, 'MD_yXP_all', BinaryExt];       % matrice
-    MD.yXP_all = BINimport_MAT_Ndouble( filename, MD.Nt );
+fname = [InputPath, 'MD_yXP_all', BinaryExt];       % matrice
+    MD.yXP_all = BINimport_MAT_Ndouble( fname, MD.Nt );
 
-filename = [InputPath, 'XP_t_all', BinaryExt];
-	XP.t_all = BINimport_VECdouble( filename );
+fname = [InputPath, 'XP_t_all', BinaryExt];
+	XP.t_all = BINimport_VECdouble( fname );
     XP.Nt    = length( XP.t_all );
     
-filename = [InputPath, 'XP_x_all', BinaryExt];       % matrice
-    XP.x_all = BINimport_MAT_Ndouble( filename, XP.Nt );
+fname = [InputPath, 'XP_x_all', BinaryExt];       % matrice
+    XP.x_all = BINimport_MAT_Ndouble( fname, XP.Nt );
 
     
 BinaryExt = '.out';
@@ -47,36 +47,36 @@ BinaryExt = '.out';
 if( BEAST.PostProc.MATEnable == true  && BEAST.PostProc.MATImportBin == true )
     SimPath = BEAST.PostProc.MATPath;
     
-    filename = [SimPath, 't_all', BinaryExt];       % matrice
-        MAT.t_all = BINimport_VECdouble( filename );
+    fname = [SimPath, 't_all', BinaryExt];       % matrice
+        MAT.t_all = BINimport_VECdouble( fname );
         MAT.Nt    = length( MAT.t_all );
     
-    filename = [SimPath, 'y_all', BinaryExt];       % matrice
-        MAT.y_all = BINimport_MAT_Ndouble( filename, MAT.Nt );
+    fname = [SimPath, 'y_all', BinaryExt];       % matrice
+        MAT.y_all = BINimport_MAT_Ndouble( fname, MAT.Nt );
     
-    filename = [SimPath, 'u_all', BinaryExt];       % matrice
-        MAT.y_all = BINimport_MAT_Ndouble( filename, MAT.Nt );
+    fname = [SimPath, 'u_all', BinaryExt];       % matrice
+        MAT.y_all = BINimport_MAT_Ndouble( fname, MAT.Nt );
         
-    filename = [SimPath, 'xP_all', BinaryExt];       % matrice
-        MAT.xP_all = BINimport_MAT_Ndouble( filename, MAT.Nt );
+    fname = [SimPath, 'xP_all', BinaryExt];       % matrice
+        MAT.xP_all = BINimport_MAT_Ndouble( fname, MAT.Nt );
 
-    filename = [SimPath, 'pP_all', BinaryExt];       % matrice
-        MAT.pP_all = BINimport_MAT_Ndouble( filename, MAT.Nt );
+    fname = [SimPath, 'pP_all', BinaryExt];       % matrice
+        MAT.pP_all = BINimport_MAT_Ndouble( fname, MAT.Nt );
 
-    filename = [SimPath, 'Lp_all', BinaryExt];       % matrice
-        MAT.Lp_all = BINimport_MAT_Ndouble( filename, MAT.Nt );
+    fname = [SimPath, 'Lp_all', BinaryExt];       % matrice
+        MAT.Lp_all = BINimport_MAT_Ndouble( fname, MAT.Nt );
 
-    filename = [SimPath, 'Lx_all', BinaryExt];       % matrice
-        MAT.Lx_all = BINimport_MAT_Ndouble( filename, MAT.Nt );
+    fname = [SimPath, 'Lx_all', BinaryExt];       % matrice
+        MAT.Lx_all = BINimport_MAT_Ndouble( fname, MAT.Nt );
     
-    filename = [SimPath, 'spP_all', BinaryExt];       % matrice
-        MAT.spP_all = BINimport_MAT_Ndouble( filename, MAT.Nt );
+    fname = [SimPath, 'spP_all', BinaryExt];       % matrice
+        MAT.spP_all = BINimport_MAT_Ndouble( fname, MAT.Nt );
     
-    filename = [SimPath, 'sxP_all', BinaryExt];       % matrice
-        MAT.sxP_all = BINimport_MAT_Ndouble( filename, MAT.Nt );
+    fname = [SimPath, 'sxP_all', BinaryExt];       % matrice
+        MAT.sxP_all = BINimport_MAT_Ndouble( fname, MAT.Nt );
         
-    filename = [SimPath, 'dy_all', BinaryExt];       % matrice
-        MAT.dy_all = BINimport_MAT_Ndouble( filename, MAT.Nt );
+    fname = [SimPath, 'dy_all', BinaryExt];       % matrice
+        MAT.dy_all = BINimport_MAT_Ndouble( fname, MAT.Nt );
         
         
 elseif ( BEAST.PostProc.MATEnable == true  && BEAST.PostProc.MATImportWS == true )
@@ -90,17 +90,17 @@ end
 if( BEAST.PostProc.CPPEnable == true )
     SimPath = BEAST.PostProc.CPPPath;
 
-    filename = [SimPath, 'xP_all', BinaryExt];       % matrice
-        CPP.xP_all = BINimport_MAT_Ndouble( filename,  npoints );
+    fname = [SimPath, 'xP_all', BinaryExt];       % matrice
+        CPP.xP_all = BINimport_MAT_Ndouble( fname,  npoints );
 
-    filename = [SimPath, 'pP_all', BinaryExt];       % matrice
-        CPP.pP_all = BINimport_MAT_Ndouble( filename,  npoints );
+    fname = [SimPath, 'pP_all', BinaryExt];       % matrice
+        CPP.pP_all = BINimport_MAT_Ndouble( fname,  npoints );
 
-    filename = [SimPath, 'Lp_all', BinaryExt];       % matrice
-        CPP.Lp_all = BINimport_MAT_Ndouble( filename,  npoints );
+    fname = [SimPath, 'Lp_all', BinaryExt];       % matrice
+        CPP.Lp_all = BINimport_MAT_Ndouble( fname,  npoints );
 
-    filename = [SimPath, 'Lx_all', BinaryExt];       % matrice
-        CPP.Lx_all = BINimport_MAT_Ndouble( filename,  npoints );
+    fname = [SimPath, 'Lx_all', BinaryExt];       % matrice
+        CPP.Lx_all = BINimport_MAT_Ndouble( fname,  npoints );
 end
 clear SimPath ;
 

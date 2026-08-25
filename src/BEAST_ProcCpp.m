@@ -33,19 +33,19 @@ end
 
 
 % Get CellModelName
-filename = [InputPath, 'MD_CellModelSel', '.txt'];
-    fr = fopen( filename, 'rt' );
+fname = [InputPath, 'MD_CellModelSel', '.txt'];
+    fr = fopen( fname, 'rt' );
     Cpp.CellModelName = fscanf( fr, '%s' );
     fclose( fr );
 
 
 % Get EstimationMethodName
 
-filename = [InputPath, 'MD_EstimationMethodSel', '.txt'];
-    fr = fopen( filename, 'rt' );
+fname = [InputPath, 'MD_EstimationMethodSel', '.txt'];
+    fr = fopen( fname, 'rt' );
     Cpp.EstimationMethodName = fscanf( fr, '%s' );
     fclose( fr );
-clear filename fr;
+clear fname fr;
 
 
 if isunix() == true
