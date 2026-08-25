@@ -47,37 +47,37 @@ end
     
 % Esportazione MD
 fname = [direfileinput, 'MD_deltat', extefileinput];
-    BINexport_MATdouble(MD.deltat,fname);
+    beast.io.writeDoubleMatrix(fname, MD.deltat);
 fname = [direfileinput, 'MD_t_all', extefileinput];
-    BINexport_MATdouble(MD.t_all,fname);
+    beast.io.writeDoubleMatrix(fname, MD.t_all);
 fname = [direfileinput, 'MD_u_all', extefileinput];        % matrice
-    BINexport_MATdouble(MD.u_all,fname);
+    beast.io.writeDoubleMatrix(fname, MD.u_all);
 fname = [direfileinput, 'MD_yXP_all', extefileinput];       % matrice
-    BINexport_MATdouble(MD.yXP_all,fname);
+    beast.io.writeDoubleMatrix(fname, MD.yXP_all);
 fname = [direfileinput, 'MD_x0', extefileinput];
-    BINexport_MATdouble(MD.x0,fname);
+    beast.io.writeDoubleMatrix(fname, MD.x0);
 fname = [direfileinput, 'MD_p0', extefileinput];
-    BINexport_MATdouble(MD.p0,fname);
+    beast.io.writeDoubleMatrix(fname, MD.p0);
 
 fname = [direfileinput, 'MD_COV_sxWvec', extefileinput];
-    BINexport_MATdouble(diag(MDobj.sxW),fname);
+    beast.io.writeDoubleMatrix(fname, diag(MDobj.sxW));
 fname = [direfileinput, 'MD_COV_sxVvec', extefileinput];
-    BINexport_MATdouble(diag(MDobj.sxV),fname);
+    beast.io.writeDoubleMatrix(fname, diag(MDobj.sxV));
 fname = [direfileinput, 'MD_COV_spRvec', extefileinput];
-    BINexport_MATdouble(diag(MDobj.spR),fname);
+    beast.io.writeDoubleMatrix(fname, diag(MDobj.spR));
 fname = [direfileinput, 'MD_COV_spEvec', extefileinput];
-    BINexport_MATdouble(diag(MDobj.spE),fname);
+    beast.io.writeDoubleMatrix(fname, diag(MDobj.spE));
     
 fname = [direfileinput, 'MD_pfix_Qn_Ah', extefileinput];
-    BINexport_MATdouble(MD.pfix.Qn_Ah,fname);
+    beast.io.writeDoubleMatrix(fname, MD.pfix.Qn_Ah);
 fname = [direfileinput, 'MD_pfix_eta', extefileinput];
-    BINexport_MATdouble(MD.pfix.eta,fname);
+    beast.io.writeDoubleMatrix(fname, MD.pfix.eta);
 fname = [direfileinput, 'MD_pfix_soc', extefileinput];
-    BINexport_MATdouble(MD.pfix.soc,fname);
+    beast.io.writeDoubleMatrix(fname, MD.pfix.soc);
 fname = [direfileinput, 'MD_pfix_ocv0', extefileinput];
-    BINexport_MATdouble(MD.pfix.ocv0,fname);
+    beast.io.writeDoubleMatrix(fname, MD.pfix.ocv0);
 fname = [direfileinput, 'MD_pfix_ocv1', extefileinput];
-    BINexport_MATdouble(MD.pfix.ocv1,fname);
+    beast.io.writeDoubleMatrix(fname, MD.pfix.ocv1);
     
 clear fname Nt pfixBattery ifigCounter
 
@@ -85,17 +85,14 @@ clear fname Nt pfixBattery ifigCounter
 
 % Esportazione XP
 fname = [direfileinput, 'XP_t_all', extefileinput];
-    BINexport_MATdouble(XP.t_all,fname);
+    beast.io.writeDoubleMatrix(fname, XP.t_all);
 fname = [direfileinput, 'XP_y_all', extefileinput];
-    BINexport_MATdouble(XP.y_all,fname);
+    beast.io.writeDoubleMatrix(fname, XP.y_all);
 fname = [direfileinput, 'XP_u_all', extefileinput];
-    BINexport_MATdouble(XP.u_all,fname);
+    beast.io.writeDoubleMatrix(fname, XP.u_all);
 
 
 fname = [direfileinput, 'XP_x_all', extefileinput];
-    BINexport_MATdouble(XP.x_all, fname);
+    beast.io.writeDoubleMatrix(fname, XP.x_all);
     
 %fname = [direfileinput, 'XP_p_all', extefileinput];
-
-    
-

@@ -310,7 +310,7 @@ if BEAST.ProcMat.ExportBinaries == true
         if any( ismember( objMembers, Var{1} ) )
             fname = [direfileoutput, Var{3}, extefileoutput];
             
-            strExport = sprintf( 'BINexport_MATdouble( MAT.%s, ''%s'' );', Var{3}, fname );
+            strExport = sprintf( 'beast.io.writeDoubleMatrix(''%s'', MAT.%s );', fname, Var{3} );
             eval( strExport );
         else
             disp( ['ERROR: [BEAST_ProcMat] Unable to export: "', Var{1}, '"'] );
@@ -319,13 +319,13 @@ if BEAST.ProcMat.ExportBinaries == true
     
     %Export time, input, output
     fname = [direfileoutput, 't_all', extefileoutput];
-        BINexport_MATdouble( MAT.t_all, fname );
+        beast.io.writeDoubleMatrix(fname, MAT.t_all );
     
     fname = [direfileoutput, 'u_all', extefileoutput];
-        BINexport_MATdouble( MAT.u_all, fname );
+        beast.io.writeDoubleMatrix(fname, MAT.u_all );
     
 	fname = [direfileoutput, 'y_all', extefileoutput];
-        BINexport_MATdouble( MAT.y_all, fname );
+        beast.io.writeDoubleMatrix(fname, MAT.y_all);
 end
 clear jj strExport Nexports;
 clear objMembers objEstimator MDobj;

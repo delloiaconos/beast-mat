@@ -19,27 +19,25 @@ disp( 'BEGIN: BEAST 04 - Post Processing...' );
 
 close all;
 
-
-
 BinaryExt = '.in';
 InputPath = BEAST.PostProc.ModelPath;
 
 fname = [InputPath, 'MD_t_all', BinaryExt];
-	MD.t_all = BINimport_VECdouble( fname );
+	MD.t_all = beast.io.readDoubleVector( fname );
     MD.Nt    = length( MD.t_all );
 
 fname = [InputPath, 'MD_u_all', BinaryExt];        % matrice
-    MD.u_all =  BINimport_MAT_Ndouble( fname, MD.Nt );	
+    MD.u_all =  beast.io.readDoubleMatrix( fname, [-1, MD.Nt] );	
 
 fname = [InputPath, 'MD_yXP_all', BinaryExt];       % matrice
-    MD.yXP_all = BINimport_MAT_Ndouble( fname, MD.Nt );
+    MD.yXP_all = beast.io.readDoubleMatrix( fname, [-1, MD.Nt] );
 
 fname = [InputPath, 'XP_t_all', BinaryExt];
-	XP.t_all = BINimport_VECdouble( fname );
+	XP.t_all = beast.io.readDoubleVector( fname );
     XP.Nt    = length( XP.t_all );
     
 fname = [InputPath, 'XP_x_all', BinaryExt];       % matrice
-    XP.x_all = BINimport_MAT_Ndouble( fname, XP.Nt );
+    XP.x_all = beast.io.readDoubleMatrix( fname, [-1, XP.Nt] );
 
     
 BinaryExt = '.out';
@@ -48,35 +46,35 @@ if( BEAST.PostProc.MATEnable == true  && BEAST.PostProc.MATImportBin == true )
     SimPath = BEAST.PostProc.MATPath;
     
     fname = [SimPath, 't_all', BinaryExt];       % matrice
-        MAT.t_all = BINimport_VECdouble( fname );
+        MAT.t_all = beast.io.readDoubleVector( fname );
         MAT.Nt    = length( MAT.t_all );
     
     fname = [SimPath, 'y_all', BinaryExt];       % matrice
-        MAT.y_all = BINimport_MAT_Ndouble( fname, MAT.Nt );
+        MAT.y_all = beast.io.readDoubleMatrix( fname, [-1, MAT.Nt] );
     
     fname = [SimPath, 'u_all', BinaryExt];       % matrice
-        MAT.y_all = BINimport_MAT_Ndouble( fname, MAT.Nt );
+        MAT.y_all = beast.io.readDoubleMatrix( fname, [-1, MAT.Nt] );
         
     fname = [SimPath, 'xP_all', BinaryExt];       % matrice
-        MAT.xP_all = BINimport_MAT_Ndouble( fname, MAT.Nt );
+        MAT.xP_all = beast.io.readDoubleMatrix( fname, [-1, MAT.Nt] );
 
     fname = [SimPath, 'pP_all', BinaryExt];       % matrice
-        MAT.pP_all = BINimport_MAT_Ndouble( fname, MAT.Nt );
+        MAT.pP_all = beast.io.readDoubleMatrix( fname, [-1, MAT.Nt] );
 
     fname = [SimPath, 'Lp_all', BinaryExt];       % matrice
-        MAT.Lp_all = BINimport_MAT_Ndouble( fname, MAT.Nt );
+        MAT.Lp_all = beast.io.readDoubleMatrix( fname, [-1, MAT.Nt] );
 
     fname = [SimPath, 'Lx_all', BinaryExt];       % matrice
-        MAT.Lx_all = BINimport_MAT_Ndouble( fname, MAT.Nt );
+        MAT.Lx_all = beast.io.readDoubleMatrix( fname, [-1, MAT.Nt] );
     
     fname = [SimPath, 'spP_all', BinaryExt];       % matrice
-        MAT.spP_all = BINimport_MAT_Ndouble( fname, MAT.Nt );
+        MAT.spP_all = beast.io.readDoubleMatrix( fname, [-1, MAT.Nt] );
     
     fname = [SimPath, 'sxP_all', BinaryExt];       % matrice
-        MAT.sxP_all = BINimport_MAT_Ndouble( fname, MAT.Nt );
+        MAT.sxP_all = beast.io.readDoubleMatrix( fname, [-1, MAT.Nt] );
         
     fname = [SimPath, 'dy_all', BinaryExt];       % matrice
-        MAT.dy_all = BINimport_MAT_Ndouble( fname, MAT.Nt );
+        MAT.dy_all = beast.io.readDoubleMatrix( fname, [-1, MAT.Nt] );
         
         
 elseif ( BEAST.PostProc.MATEnable == true  && BEAST.PostProc.MATImportWS == true )
@@ -91,16 +89,16 @@ if( BEAST.PostProc.CPPEnable == true )
     SimPath = BEAST.PostProc.CPPPath;
 
     fname = [SimPath, 'xP_all', BinaryExt];       % matrice
-        CPP.xP_all = BINimport_MAT_Ndouble( fname,  npoints );
+        CPP.xP_all = beast.io.readDoubleMatrix( fname, [-1, npoints] );
 
     fname = [SimPath, 'pP_all', BinaryExt];       % matrice
-        CPP.pP_all = BINimport_MAT_Ndouble( fname,  npoints );
+        CPP.pP_all = beast.io.readDoubleMatrix( fname, [-1, npoints] );
 
     fname = [SimPath, 'Lp_all', BinaryExt];       % matrice
-        CPP.Lp_all = BINimport_MAT_Ndouble( fname,  npoints );
+        CPP.Lp_all = beast.io.readDoubleMatrix( fname, [-1, npoints] );
 
     fname = [SimPath, 'Lx_all', BinaryExt];       % matrice
-        CPP.Lx_all = BINimport_MAT_Ndouble( fname,  npoints );
+        CPP.Lx_all = beast.io.readDoubleMatrix( fname, [-1, npoints] );
 end
 clear SimPath ;
 

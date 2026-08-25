@@ -20,24 +20,24 @@ BinaryExt = BEAST.ProcMat.BinInputExt;
 
 
 fname = [InputPath, 'MD_deltat', BinaryExt];
-	MD.deltat = BINimport_VECdouble( fname );
+	MD.deltat = beast.io.readDoubleVector( fname );
 
 fname = [InputPath, 'MD_t_all', BinaryExt];
-	MD.t_all = BINimport_VECdouble( fname );
+	MD.t_all = beast.io.readDoubleVector( fname );
 	npoints = length( MD.t_all );
     MD.Nt = npoints;
     
 fname = [InputPath, 'MD_u_all', BinaryExt];        % matrice
-    MD.u_all =  BINimport_MAT_Ndouble( fname,  npoints );	
+    MD.u_all =  beast.io.readDoubleMatrix( fname, [-1, npoints] );
 
 fname = [InputPath, 'MD_yXP_all', BinaryExt];       % matrice
-    MD.yXP_all = BINimport_MAT_Ndouble( fname,  npoints );
+    MD.yXP_all = beast.io.readDoubleMatrix( fname, [-1, npoints] );
 
 fname = [InputPath, 'MD_x0', BinaryExt];
-    MD.x0 = BINimport_VECdouble( fname );
+    MD.x0 = beast.io.readDoubleVector( fname );
 
 fname = [InputPath, 'MD_p0', BinaryExt];
-    MD.p0 = BINimport_VECdouble( fname );
+    MD.p0 = beast.io.readDoubleVector( fname );
 
 
 clear npoints;
