@@ -15,15 +15,15 @@
 %
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
-function [t_all, i_all] = IGetFromXPFile1(XPfilename);
-% Returns equispaced t,i vectors
+function [t_all, i_all] = IGetFromXPFile1(XPfilename)
+    % Returns equispaced t,i vectors
 
-load(XPfilename); % in XPdata
-t_tmp = XPdata.tt;
-i_tmp = XPdata.ii; 
-nt_tmp = length(t_tmp);
+    load(XPfilename); % in XPdata
+    t_tmp = XPdata.tt;
+    i_tmp = XPdata.ii; 
+    nt_tmp = length(t_tmp);
 
-t_all = linspace(t_tmp(1),t_tmp(end),nt_tmp);
-i_all = interp1(t_tmp,i_tmp,t_all);
+    t_all = linspace(t_tmp(1),t_tmp(end),nt_tmp);
+    i_all = interp1(t_tmp,i_tmp,t_all);
 
-end%function
+end
