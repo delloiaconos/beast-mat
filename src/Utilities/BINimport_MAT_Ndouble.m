@@ -15,13 +15,18 @@
 %
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
-function matrix = BINimport_MAT_Ndouble(fname,nn)
+function mtx = BINimport_MAT_Ndouble(fname,nn)
 
-    fid              = fopen(fname);
-    [vector,~] = fread(fid,'float64');
-                    fclose(fid);
-    ncard  = length(vector);
+    try
+        fid = fopen(fname);
+        [vect,~] = fread(fid,'float64');
+        fclose(fid);
+    catch ex
+        warning( "Unable to open file: '%s'", fname );
+        vect = [];
+    end      
 
-    matrix = reshape(vector, ncard ./ nn, nn);
+    ncard  = length(vect);
+    mtx = reshape(vect, ncard ./ nn, nn);
 return 
 
