@@ -39,7 +39,7 @@ XP.p0(1,1) = 100e-3;
 
 if strcmp(BEAST.XPGen.ModelName, 'R0A1B1' )
 
-    XP.obj = CellModels.R0A1B1( XP.pfix, COV, XP.deltat );
+    XP.obj = beast.CellModels.R0A1B1( XP.pfix, COV, XP.deltat );
     
     XP.p0(2,1) = 0.999;
     XP.p0(3,1) = -1.e-5;
@@ -51,7 +51,7 @@ elseif strcmp( BEAST.XPGen.ModelName, 'R0R1C1' )
     COV.spR = diag([COV.pR0 COV.pR1 COV.pC1]);
     COV.spE = COV.vout;
     
-    XP.obj = CellModels.R0R1C1( XP.pfix, COV, XP.deltat );
+    XP.obj = beast.CellModels.R0R1C1( XP.pfix, COV, XP.deltat );
     
     XP.p0(2,1) = 100e-3;         % R0
     XP.p0(2,1) = 100e-3;         % R1
@@ -60,7 +60,7 @@ elseif strcmp( BEAST.XPGen.ModelName, 'R0R1C1' )
 elseif strcmp( BEAST.XPGen.ModelName, 'R0R1T1' )
 
 
-    XP.obj = CellModels.R0R1T1( XP.pfix, COV, XP.deltat );
+    XP.obj = beast.CellModels.R0R1T1( XP.pfix, COV, XP.deltat );
     XP.p0(2,1) = 1.e-3;
     XP.p0(3,1) = 30*60;
     
@@ -71,7 +71,7 @@ elseif strcmp( BEAST.XPGen.ModelName, 'R0R1C1R2C2' )
     COV.spR = diag([COV.pR0 COV.pR1 COV.pC1 COV.pR1 COV.pC1]);
     COV.spE = COV.vout;
     
-    XP.obj = CellModels.R0R1C1R2C2( XP.pfix, COV, XP.deltat );
+    XP.obj = beast.CellModels.R0R1C1R2C2( XP.pfix, COV, XP.deltat );
     
     
     XP.x0(2,1) = 0.00;

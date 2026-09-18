@@ -37,7 +37,7 @@ end;
 %  ========= FILTER SELECTION =========
 %  ====================================
 %
-pckName    = 'Estimators';
+pckName    = 'beast.Estimators';
 pckContent = what( pckName );
 pckClasses = pckContent.classes;
 
@@ -89,8 +89,8 @@ ExportList     = {};
 for jj = 1:length( objEstimator.ExportableVars );
     
     Var = cell2struct( objEstimator.ExportableVars{jj}, ...
-                       Estimators.Estimator.ExportableFields, 2 );
-    iiFunHandler = find( strcmpi(Estimators.Estimator.ExportableFields, 'FunHandler' ) );
+                       beast.Estimators.Estimator.ExportableFields, 2 );
+    iiFunHandler = find( strcmpi(beast.Estimators.Estimator.ExportableFields, 'FunHandler' ) );
     
     ExportableVars{jj} = Var.ExportName;
     
@@ -101,7 +101,7 @@ for jj = 1:length( objEstimator.ExportableVars );
             strExport = sprintf( 'objEstimator.%s', Var.ClassVar );
         end
         
-        % Export only if ExportName isn't null and Export == TRUE
+        % Export only if ExportName is not null and Export == TRUE
         if( ~isempty( Var.ExportName ) && Var.Export == true)
             
             strExport = sprintf( 'MAT.%s(:,kk) = %s;', Var.ExportName, strExport );
@@ -118,7 +118,7 @@ for jj = 1:length( objEstimator.ExportableVars );
             eval( strCreate );
         end
     else
-        dipslay( ['ERROR: [BEAST_ProcMat] Unable to export: "', Var.ClassVar, '"'] );
+        display( ['ERROR: [BEAST_ProcMat] Unable to export: "', Var.ClassVar, '"'] );
     end
 end
 clear strExport strCreate strSize Var iiFunHandler;
@@ -138,8 +138,8 @@ if( BEAST.ProcMat.Plot.Enable == true )
     
         if( ~isempty( iVar ) ) 
             
-            Var = cell2struct( objEstimator.ExportableVars{iVar}, Estimators.Estimator.ExportableFields, 2 );
-            iiFunHandler = find( strcmpi(Estimators.Estimator.ExportableFields, 'FunHandler' ), 1, 'first' );
+            Var = cell2struct( objEstimator.ExportableVars{iVar}, beast.Estimators.Estimator.ExportableFields, 2 );
+            iiFunHandler = find( strcmpi(beast.Estimators.Estimator.ExportableFields, 'FunHandler' ), 1, 'first' );
            
             % vector collecting results
             strSize = Var.Size;

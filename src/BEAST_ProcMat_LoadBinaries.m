@@ -50,7 +50,7 @@ fname = [InputPath, 'MD_CellModelSel', '.txt'];
 
 %% Initialize and load Cell Model!
 
-MDobj = CellModels.Initialize( InputPath, MD.CellModelSel, 'MD' );
+MDobj = beast.CellModels.Initialize( InputPath, MD.CellModelSel, 'MD' );
 
 
 

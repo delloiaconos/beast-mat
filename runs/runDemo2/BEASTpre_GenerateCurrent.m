@@ -46,7 +46,7 @@ if iisel == 10
     td    = 2.5*60;
     trest = 1.25*60;
     
-    [ t_all, i_all ] = CurrentPulsed01( DeltaT, Tmax, Ic, Id, Per, tc, td, trest );
+    [ t_all, i_all ] = beast.CurrentGenerators.CurrentPulsed01( DeltaT, Tmax, Ic, Id, Per, tc, td, trest );
 elseif iisel == 15
     Ic  = 1*Qn_Ah; % Corrente carica
     Id  = 5*Qn_Ah; % Corrente scarica
@@ -55,7 +55,7 @@ elseif iisel == 15
     td    = 2.5*60;
     trest = 1.25*60;
     
-    [ t_all, i_all ] = CurrentPulsed01( DeltaT, Tmax, Ic, Id, Per, tc, td, trest );
+    [ t_all, i_all ] = beast.CurrentGenerators.CurrentPulsed01( DeltaT, Tmax, Ic, Id, Per, tc, td, trest );
     
     i_all = -i_all;
 elseif iisel == 20
@@ -106,7 +106,7 @@ elseif iisel == 30
     td    = 2.5*60;
     trest = 1.25*60;
     
-    [ t_pulse, i_pulse ] = CurrentPulsed01( DeltaT, Per, Ic, Id, Per, tc, td, trest );
+    [ t_pulse, i_pulse ] = beast.CurrentGenerators.CurrentPulsed01( DeltaT, Per, Ic, Id, Per, tc, td, trest );
     
     i_all( istr:iend ) = i_pulse(1:(iend-istr+1) );
     
@@ -133,7 +133,7 @@ elseif iisel == 40
     td    = 2.5*60;
     trest = 1.25*60;
     
-    [ t_all, i_all ] = CurrentPulsed01( DeltaT, Tmax, Ic, Id, Per, tc, td, trest );
+    [ t_all, i_all ] = beast.CurrentGenerators.CurrentPulsed01( DeltaT, Tmax, Ic, Id, Per, tc, td, trest );
     npts = length( t_all );
     
     %istr = find( t_all/60 >= Per, 1, 'first' );
@@ -236,7 +236,7 @@ elseif iisel == 150
     td    = 0*60;
     trest = 1*60;
     
-    [ t_pulse, i_pulse ] = CurrentPulsed01( DeltaT, Per, Ic, Id, Per, tc, td, trest );
+    [ t_pulse, i_pulse ] = beast.CurrentGenerators.CurrentPulsed01( DeltaT, Per, Ic, Id, Per, tc, td, trest );
     
     i_all = [i_all i_pulse -5.05*i_norm(600:end) ];
     

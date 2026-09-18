@@ -24,9 +24,7 @@ BEAST.LaunchDir               = pwd;
 BEAST.BasePath                = '../../' ;
 
 BEAST.Paths                   = { 'src/', ...
-                                 'src/CellModels/', ...
-				                 'src/Utilities/', ...
-                                 'src/CurrentGenerators/'};
+				                 'src/Utilities/'};
 
 for ii=1:length( BEAST.Paths )
 	addpath( [BEAST.BasePath BEAST.Paths{ii}] );

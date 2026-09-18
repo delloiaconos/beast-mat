@@ -49,10 +49,7 @@ localFolder     = [pwd, '/'];
 mfilesFolder    = [localFolder,'../../src/'];
 
 
-addpath( [mfilesFolder,'CellModels/'] );
-addpath( [mfilesFolder,'Estimators/'] );
 addpath( [mfilesFolder,'Utilities/'] );
-addpath( [mfilesFolder,'CurrentGenerators/'] );
 addpath( [localFolder,'../../datafiles/'] );
 addpath( mfilesFolder );
 
