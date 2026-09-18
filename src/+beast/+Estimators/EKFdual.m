@@ -69,7 +69,7 @@ classdef EKFdual < beast.Estimators.Estimator
         % Constructor
         function  obj = EKFdual( objCellModel, DeltaT )
             
-            obj.objModel    = objCellModel;
+            obj.objCell    = objCellModel;
             obj.deltat      = DeltaT;
         
             obj.Nx = objCellModel.Nx;
@@ -93,7 +93,7 @@ classdef EKFdual < beast.Estimators.Estimator
         end
         
         function Initialize( obj, x0, p0, uold, yXPold, told )
-            MDobj = obj.objModel; % Useful copy
+            MDobj = obj.objCell; % Useful copy
             
             obj.told    = told;
             obj.uold    = uold;
@@ -111,7 +111,7 @@ classdef EKFdual < beast.Estimators.Estimator
         end
         
         function Step( obj, unew, yXPnew, tnew )
-            MDobj = obj.objModel; % Useful copy
+            MDobj = obj.objCell; % Useful copy
             
             %% (1/XX) PARAMETER - estimate time update
             pMnew = obj.pPold;                

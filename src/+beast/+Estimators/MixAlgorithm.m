@@ -61,7 +61,7 @@ classdef MixAlgorithm < beast.Estimators.Estimator
 
         % Constructor
         function  obj = MixAlgorithm( objCellModel, DeltaT )         
-            obj.objModel    = objCellModel;
+            obj.objCell    = objCellModel;
             obj.deltat      = DeltaT;
        
             obj.Nx = objCellModel.Nx;
@@ -80,16 +80,16 @@ classdef MixAlgorithm < beast.Estimators.Estimator
             %obj.xMold   = x0;
             obj.Lxold   = zeros( obj.Nx, obj.Ny );
             
-            if( length( diag( obj.objModel.sxW ) ) ~= obj.Nx )
+            if( length( diag( obj.objCell.sxW ) ) ~= obj.Nx )
                 disp( 'ESTIMATOR MixAlgorithm ERROR!' );
                 pause;
             end
             
-            obj.Lxold   = 1e5*diag( obj.objModel.sxW );
+            obj.Lxold   = 1e5*diag( obj.objCell.sxW );
         end
         
         function Step( obj, unew, yXPnew, tnew )
-                MDobj = obj.objModel; % Useful copy
+                MDobj = obj.objCell; % Useful copy
                 
                 xMnew = MDobj.f0( obj.xPold, obj.pPold, unew, obj.deltat );
     

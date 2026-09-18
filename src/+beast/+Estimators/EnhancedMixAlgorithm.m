@@ -53,7 +53,7 @@ classdef EnhancedMixAlgorithm < beast.Estimators.Estimator
         % Constructor
         function  obj = EnhancedMixAlgorithm( objCellModel, DeltaT )
                   
-            obj.objModel    = objCellModel;
+            obj.objCell    = objCellModel;
             obj.deltat      = DeltaT;
         
             obj.Nx = objCellModel.Nx;
@@ -69,12 +69,12 @@ classdef EnhancedMixAlgorithm < beast.Estimators.Estimator
             obj.xPold   = x0;
             obj.pPold   = p0;
             
-            obj.Lxold   = 1e5*diag( obj.objModel.sxW );
-            obj.Lpold   = 1e5*diag( obj.objModel.sxV );
+            obj.Lxold   = 1e5*diag( obj.objCell.sxW );
+            obj.Lpold   = 1e5*diag( obj.objCell.sxV );
         end
   
         function Step( obj, unew, yXPnew, tnew )
-            MDobj = obj.objModel; % Useful copy
+            MDobj = obj.objCell; % Useful copy
             
             xMnew = MDobj.f0( obj.xPold, obj.pPold, unew, obj.deltat );
 	

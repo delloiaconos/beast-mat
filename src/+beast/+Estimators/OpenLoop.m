@@ -50,7 +50,7 @@ classdef OpenLoop < beast.Estimators.Estimator
 
         % Constructor
         function  obj = OpenLoop( objCellModel, DeltaT )         
-            obj.objModel    = objCellModel;
+            obj.objCell    = objCellModel;
             obj.deltat      = DeltaT;
         
             obj.Nx = objCellModel.Nx;
@@ -69,7 +69,7 @@ classdef OpenLoop < beast.Estimators.Estimator
         end
         
         function Step( obj, unew, yXPnew, tnew )
-                MDobj = obj.objModel; % Useful copy
+                MDobj = obj.objCell; % Useful copy
                 
                 xPnew= MDobj.f0( obj.xPold, obj.pPold, unew, obj.deltat );
                 xPnew = MDobj.CoerceStateCompatibility( xPnew );
