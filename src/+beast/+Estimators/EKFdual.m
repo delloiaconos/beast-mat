@@ -15,7 +15,7 @@
 %
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
-classdef EKFdual < Estimators.Estimator
+classdef EKFdual < beast.Estimators.Estimator
 
     properties (Constant)
         %ExportableVars = { {'ClassVar', 'Size', 'ExportName', 'Save', 'FunctionHandler'} };

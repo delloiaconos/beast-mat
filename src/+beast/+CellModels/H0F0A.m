@@ -18,7 +18,7 @@
 % u(1) <-> i (current oriented outwards on the + terminal, active sign convention)
 
 
-classdef H0F0A < CellModels.CellModel
+classdef H0F0A < beast.CellModels.CellModel
 % x(1) <-> SOC
 % y(1) <-> v
 % p(1) <-> pR0 
@@ -125,7 +125,7 @@ methods(Static)
     % CHECK Parameter Compatibility
     function pp = CoerceParsCompatibility( pp )
         if pp(1)<=0.
-            pp(1) = CellModels.CellModel.zerohere;
+            pp(1) = beast.CellModels.CellModel.zerohere;
             disp 'WARNING: H0F0A parameter p(1)=R0<0. CORRECTED TO ZERO'
         end
     end
@@ -144,15 +144,15 @@ methods(Static)
     
     % CHECK Parameter Dimension Consistency
     function CellModelDimCheck( AA ) 
-        if CellModels.H0F0A.Nx ~= length(AA.x0)
+        if beast.CellModels.H0F0A.Nx ~= length(AA.x0)
             disp 'ERROR in CellModel - 10 Nx'
             pause
         end
-        if CellModels.H0F0A.Np ~= length(AA.p0)
+        if beast.CellModels.H0F0A.Np ~= length(AA.p0)
         	disp 'ERROR in CellModel - 20 Np'
             pause
         end
-        if CellModels.H0F0A.Nu ~= length(AA.u_all(:,1))
+        if beast.CellModels.H0F0A.Nu ~= length(AA.u_all(:,1))
             disp 'ERROR in CellModel - 30 Nu'
             pause
         end

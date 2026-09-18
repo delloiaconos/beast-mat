@@ -65,7 +65,7 @@ classdef CellModel
             
             tf = true;
             
-            fldexist = @(x) CellModels.CellModel.strctfieldexists( CellModelData, x );
+            fldexist = @(x) beast.CellModels.CellModel.strctfieldexists( CellModelData, x );
             tfa = cellfun( fldexist, obj.Required );
             
             if( find( tfa == false, 1, 'first' ) )
@@ -75,7 +75,7 @@ classdef CellModel
                 tf = true;
             end
             
-            fldexist = @(x) CellModels.CellModel.strctfieldexists( COV, x );
+            fldexist = @(x) beast.CellModels.CellModel.strctfieldexists( COV, x );
             tfa = cellfun( fldexist, CovarianceNames );
             
             if( find( tfa == false, 1, 'first' ) )
@@ -88,7 +88,7 @@ classdef CellModel
         
         function tf = CheckRequireds( obj, CellModelData )
             
-            fldexist = @(x) CellModels.CellModel.strctfieldexists( CellModelData, x );
+            fldexist = @(x) beast.CellModels.CellModel.strctfieldexists( CellModelData, x );
             tfa = cellfun( fldexist, obj.Required );
             
             if( find( tfa == false, 1, 'first' ) )
@@ -102,7 +102,7 @@ classdef CellModel
         function ret = CheckCovariances( obj, COV )
           
             ret = true;
-            fldexist = @(x) CellModels.CellModel.strctfieldexists( COV, x );
+            fldexist = @(x) beast.CellModels.CellModel.strctfieldexists( COV, x );
             
             if( fldexist( 'sxV' ) == true )
                 if( sizes( COV.sxV ) == [obj.Nu obj.Nu] )

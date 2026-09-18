@@ -15,7 +15,7 @@
 %
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
-classdef OpenLoop < Estimators.Estimator
+classdef OpenLoop < beast.Estimators.Estimator
     
     properties (Constant)
         %ExportableVars = { {'ClassVar', 'Size', 'ExportName', 'Save', 'FunctionHandler'} };

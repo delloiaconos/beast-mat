@@ -19,7 +19,7 @@
 % u(1) <-> i (current oriented outwards on the + terminal, active sign convention)
 
 
-classdef R0A1B1 < CellModels.CellModel
+classdef R0A1B1 < beast.CellModels.CellModel
     % deltat FIXED
     
 % x(1,1) <-> SOC
@@ -150,18 +150,18 @@ methods(Static)
     % CHECK Parameter Compatibility
     function pp = CoerceParsCompatibility( pp )
         if pp(1,1)<=0.
-            pp(1,1) = CellModels.CellModel.zerohere;
+            pp(1,1) = beast.CellModels.CellModel.zerohere;
             disp 'WARNING: R0A1B1 parameter p(1,1)=R0<=0 CORRECTED TO ZERO'
         end
         if pp(2,1)<=0.
-            pp(2,1) = CellModels.CellModel.zerohere;
+            pp(2,1) = beast.CellModels.CellModel.zerohere;
             disp 'WARNING: R0A1B1 parameter p(2,1)=A1<=0 CORRECTED TO ZERO';
         elseif pp(2,1)>1.
             pp(2,1) = 1.;
             disp 'WARNING: R0A1B1 parameter p(2,1)=A1>1 CORRECTED TO ONE';
         end
         if pp(3,1)>=0.
-            pp(3,1) = -CellModels.CellModel.zerohere;
+            pp(3,1) = -beast.CellModels.CellModel.zerohere;
             disp 'WARNING: R0A1B1 parameter p(3,1)=B1>=0 CORRECTED TO -ZERO'
         end
     end
@@ -182,15 +182,15 @@ methods(Static)
     
     % CHECK Parameter Dimension Consistency
     function CheckCellModelDim( AA );
-        if CellModels.R0A1B1.Nx ~= length(AA.x0)
+        if beast.CellModels.R0A1B1.Nx ~= length(AA.x0)
             disp 'ERROR in CellModel - 10 Nx'
             pause
         end
-        if CellModels.R0A1B1.Np ~= length(AA.p0)
+        if beast.CellModels.R0A1B1.Np ~= length(AA.p0)
         	disp 'ERROR in CellModel - 20 Np'
             pause
         end
-        if CellModels.R0A1B1.Nu ~= length(AA.u_all(:,1))
+        if beast.CellModels.R0A1B1.Nu ~= length(AA.u_all(:,1))
             disp 'ERROR in CellModel - 30 Nu'
             pause
         end

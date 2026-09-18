@@ -18,7 +18,7 @@
 % u(1) <-> i (current oriented outwards on the + terminal, active sign convention)
 
 
-classdef R0R1A1R2A2 < CellModels.CellModel
+classdef R0R1A1R2A2 < beast.CellModels.CellModel
 
 %%
 % x(1,1) <-> SOC
@@ -190,29 +190,29 @@ methods(Static)
     % CHECK Parameter Compatibility
     function pp = CoerceParsCompatibility( pp )
         if pp(1,1)<=0.
-            pp(1,1) = CellModels.CellModel.zerohere;
+            pp(1,1) = beast.CellModels.CellModel.zerohere;
             disp 'WARNING: R0R1A1R2A2 - parameter p(1,1)=R0<=0 CORRECTED TO ZERO'
         end
         if pp(2,1)<=0.
-            pp(2,1) = CellModels.CellModel.zerohere;
+            pp(2,1) = beast.CellModels.CellModel.zerohere;
             disp 'WARNING: R0R1A1R2A2 - parameter p(2,1)=R1<=0 CORRECTED TO ZERO';
         end
         if pp(3,1)<=0.
-            pp(3,1) = CellModels.CellModel.zerohere;
+            pp(3,1) = beast.CellModels.CellModel.zerohere;
             disp 'WARNING: R0R1A1R2A2 - parameter p(3,1)=Alpha1<=0 CORRECTED TO ZERO'
         elseif pp(3,1)>=1.
-            pp(3,1) = 1-CellModels.CellModel.zerohere;
+            pp(3,1) = 1-beast.CellModels.CellModel.zerohere;
             disp 'WARNING: R0R1A1R2A2 - parameter p(3,1)=Alpha1>=1 CORRECTED TO 1-ZERO'
         end
         if pp(4,1)<=0.
-            pp(4,1) = CellModels.CellModel.zerohere;
+            pp(4,1) = beast.CellModels.CellModel.zerohere;
             disp 'WARNING: R0R1A1R2A2 - parameter p(4,1)=R2<=0 CORRECTED TO ZERO';
         end
         if pp(5,1)<=0.
-            pp(5,1) = CellModels.CellModel.zerohere;
+            pp(5,1) = beast.CellModels.CellModel.zerohere;
             disp 'WARNING: R0R1A1R2A2 - parameter p(5,1)=Alpha2<=0 CORRECTED TO ZERO'
         elseif pp(5,1)>=1.
-            pp(5,1) = 1-CellModels.CellModel.zerohere;
+            pp(5,1) = 1-beast.CellModels.CellModel.zerohere;
             disp 'WARNING: R0R1A1R2A2 - parameter p(5,1)=Alpha2>=1 CORRECTED TO 1-ZERO'
         end
     end
@@ -232,15 +232,15 @@ methods(Static)
     
     % CHECK Parameter Dimension Consistency
     function CheckCellModelDim( AA )
-        if CellModels.R0R1A1R2A2.Nx ~= length(AA.x0)
+        if beast.CellModels.R0R1A1R2A2.Nx ~= length(AA.x0)
             disp 'ERROR: R0R1A1R2A2 - 10 Nx'
             pause
         end
-        if CellModels.R0R1A1R2A2.Np ~= length(AA.p0)
+        if beast.CellModels.R0R1A1R2A2.Np ~= length(AA.p0)
         	disp 'ERROR: R0R1A1R2A2 - 20 Np'
             pause
         end
-        if CellModels.R0R1A1R2A2.Nu ~= length(AA.u_all(:,1))
+        if beast.CellModels.R0R1A1R2A2.Nu ~= length(AA.u_all(:,1))
             disp 'ERROR: R0R1A1R2A2 - 30 Nu'
             pause
         end

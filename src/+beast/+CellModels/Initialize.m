@@ -20,7 +20,7 @@ function [ cellmodel ] = Initialize( basepath, cmSelector, prefix )
     cmSelector = strtrim( cmSelector );
     cmSelector = upper( cmSelector );
     
-    pckName    = 'CellModels';
+    pckName    = 'beast.CellModels';
     pckContent = what( pckName );
     pckClasses = pckContent.classes;
 
