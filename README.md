@@ -47,8 +47,16 @@ identical.
 
 ## MATLAB usage
 
-Clone the repository and add the required BEAST directories to the MATLAB path
-before running the desired scripts or simulations.
+Clone the repository and add the `src` directory to the MATLAB path before
+running the desired scripts or simulations:
+
+```matlab
+addpath("/path/to/beast-mat/src")
+```
+
+Framework components are exposed through the `beast` namespace, for example
+`beast.CellModels.R0R1C1`, `beast.Estimators.EKFdual`, and
+`beast.CurrentGenerators.CurrentPulse`.
 
 The exact entry points and required datasets depend on the model or estimator
 being used. Implementation-specific usage notes and examples should be kept in
