@@ -63,7 +63,7 @@ methods
     % Initialization
     function obj = H0F0A( CellModelData, COV, deltat  )
         
-        if( obj.CehckRequireds( CellModelData ) == true )
+        if( obj.CheckRequireds( CellModelData ) == true )
             
             obj.Qnom    = CellModelData.Qn_Ah*3600;
             obj.eta     = CellModelData.eta;
@@ -75,7 +75,7 @@ methods
             obj.CoulombCountingConstant = obj.eta*deltat/obj.Qnom;
         end
         
-        if( obj.CeckCovariances( COV ) == true )
+        if( obj.CheckCovariances( COV ) == true )
             
             obj.sxW = COV.sxW;
             obj.sxV = COV.sxV;
