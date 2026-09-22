@@ -105,7 +105,7 @@ classdef CellModel
             fldexist = @(x) beast.CellModels.CellModel.strctfieldexists( COV, x );
             
             if( fldexist( 'sxV' ) == true )
-                if( sizes( COV.sxV ) == [obj.Nu obj.Nu] )
+                if( size( COV.sxV ) == [obj.Nu obj.Nu] )
                     ret = ret & true;
                 else
                     disp( 'ERROR: Wrong size for Covariances sxV!' );
@@ -117,7 +117,7 @@ classdef CellModel
             end
             
             if( fldexist( 'spE' ) == true )
-                if( sizes( COV.spE ) == [obj.Ny obj.Ny] )
+                if( size( COV.spE ) == [obj.Ny obj.Ny] )
                     ret = ret & true;
                 else
                     disp( 'ERROR: Wrong size for Covariances spE!' );
@@ -129,7 +129,7 @@ classdef CellModel
             end
             
             if( fldexist( 'sxW' ) == true )
-                if( sizes( COV.sxW ) == [obj.Nx obj.Nx] )
+                if( size( COV.sxW ) == [obj.Nx obj.Nx] )
                     ret = ret & true;
                 else
                     disp( 'ERROR: Wrong size for Covariances sxW!' );
@@ -141,7 +141,7 @@ classdef CellModel
             end
             
             if( fldexist( 'spR' ) == true )
-                if( sizes( COV.spR ) == [obj.Np obj.Np] )
+                if( size( COV.spR ) == [obj.Np obj.Np] )
                     ret = ret & true;
                 else
                     disp( 'ERROR: Wrong size for Covariances spR!' );
