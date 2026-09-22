@@ -33,7 +33,7 @@ classdef MixAlgorithm < beast.Estimators.Estimator
     properties (SetAccess = immutable, GetAccess = private)   
         %private   : access by class members only (not from subclasses)
         %immutable : property can be set only in the constructor.  
-        objModel; 
+        objCell; 
         
     end
     

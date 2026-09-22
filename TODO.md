@@ -137,7 +137,7 @@ Most of the required work concerns formalizing interfaces, separating responsibi
   Currently concrete estimators independently declare properties such as:
 
   ```matlab
-  objModel
+  objCell
   ```
 
   The common relationship should instead be defined once by the base class.

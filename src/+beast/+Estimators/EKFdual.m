@@ -38,7 +38,7 @@ classdef EKFdual < beast.Estimators.Estimator
     end
     
     properties( SetAccess = public, GetAccess = public )
-        objModel; 
+        objCell; 
     end
     
     properties (SetAccess = immutable, GetAccess = public )
