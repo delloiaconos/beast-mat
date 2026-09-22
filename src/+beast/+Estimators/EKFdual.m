@@ -105,7 +105,7 @@ classdef EKFdual < beast.Estimators.Estimator
             obj.pPold   = p0;
             %obj.pMold   = p0;
             
-            yMnew       = MDobj.g0( x0, p0, uold );
+            yMnew       = MDobj.g0( x0, p0, uold, obj.deltat );
             obj.yXPold  = yMnew;
             obj.dyold   = yXPold - yMnew;
         end
