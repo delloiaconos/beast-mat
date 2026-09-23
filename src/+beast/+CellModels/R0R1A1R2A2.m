@@ -15,12 +15,10 @@
 %
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
-% u(1) <-> i (current oriented outwards on the + terminal, active sign convention)
-
-
 classdef R0R1A1R2A2 < beast.CellModels.CellModel
 
 %%
+% u(1) <-> i (current oriented outwards on the + terminal, active sign convention)
 % x(1,1) <-> SOC
 % x(2,1) <-> vC
 % y(1,1) <-> v
@@ -69,7 +67,7 @@ end %properties (Access = private)
 methods
 
     % Initialization
-    function obj = R0R1A1R2A2( coefficients, COV, deltat  )
+    function obj = R0R1A1R2A2( coefficients, cov, deltat  )
         
         obj.deltatfix = deltat;
         
@@ -86,12 +84,12 @@ methods
             
         end
         
-		if( obj.checkCovariances( COV ) == true )
+        if( obj.checkCovariances( cov ) == true )
             
-            obj.sxW = COV.sxW;
-            obj.sxV = COV.sxV;
-            obj.spR = COV.spR;
-            obj.spE = COV.spE;
+            obj.sxW = cov.sxW;
+            obj.sxV = cov.sxV;
+            obj.spR = cov.spR;
+            obj.spE = cov.spE;
             
         end
         
@@ -135,7 +133,6 @@ methods
 
     end
 
-    % derivative of f respect to p {Nx, Np} = {3,5}
     function res = f1p( obj, xold, pold, uold, deltat )
         
         alpha1   = pold(3,1);
@@ -166,14 +163,12 @@ methods
     
     end
 
-    % derivative of g respect to x {Ny, Nx} = {1,3}
     function res = g1x( obj, xold, pold, uold, deltat )
         res(1,1) = interp1(obj.lutsoc,obj.lutocv1,xold(1,1));
         res(1,2) = 1.;
         res(1,3) = 1.;
     end
-    
-    % derivative of g respect to p {Ny, Np} = {1,5}
+
     function res = g1p( obj, xold, pold, uold, deltat )
         res(1,1) = -uold(1,1);
         res(1,2) = 0.;
@@ -181,9 +176,8 @@ methods
         res(1,4) = 0.;
         res(1,5) = 0.;
     end
-    
 
-end % methods
+end 
 
 methods(Static)        
     
@@ -247,8 +241,7 @@ methods(Static)
     end
 
 end    
-    
-    
+
 end
 
 

@@ -15,14 +15,14 @@
 %
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
-% u(1) <-> i (current oriented outwards on the + terminal, active sign convention)
 
 
 classdef H0F0A < beast.CellModels.CellModel
+%%
+% u(1) <-> i (current oriented outwards on the + terminal, active sign convention)
 % x(1) <-> SOC
 % y(1) <-> v
 % p(1) <-> pR0 
-
 %%
 
 properties (Constant)

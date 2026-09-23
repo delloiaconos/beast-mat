@@ -16,22 +16,19 @@
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
 
-% u(1) <-> i (current oriented outwards on the + terminal, active sign convention)
-
-
 classdef R0R1C1 < beast.CellModels.CellModel
-    % deltat FIXED
-    
+%%
+% u(1) <-> i (current oriented outwards on the + terminal, active sign convention)
+% deltat FIXED
+% R = B1/(A1-1)
+% tau = -deltat/log(A1)
+% C = R/tau  
 % x(1,1) <-> SOC
 % x(2,1) <-> vC
 % y(1,1) <-> v
 % p(1,1) <-> pR0 
 % p(2,1) <-> pR1 
 % p(3,1) <-> pC1 
-%              R = B1/(A1-1)
-%              tau = -deltat/log(A1)
-%              C = R/tau
-%
 %%
 
 properties (Constant)
@@ -70,7 +67,7 @@ end
 methods
 
     % Initialization
-    function obj = R0R1C1( coefficients, COV, deltat  )
+    function obj = R0R1C1( coefficients, cov, deltat  )
     	
         obj.deltatfix = deltat;
         
@@ -87,12 +84,12 @@ methods
             
         end
         
-        if( obj.checkCovariances( COV ) == true )
+        if( obj.checkCovariances( cov ) == true )
             
-            obj.sxW = COV.sxW;
-            obj.sxV = COV.sxV;
-            obj.spR = COV.spR;
-            obj.spE = COV.spE;
+            obj.sxW = cov.sxW;
+            obj.sxV = cov.sxV;
+            obj.spR = cov.spR;
+            obj.spE = cov.spE;
             
         end
 
@@ -143,7 +140,7 @@ methods
         res(1,3) = 0.;
     end
     
-end % methods
+end
 
 methods(Static)        
     
@@ -189,7 +186,7 @@ methods(Static)
             disp 'ERROR in CellModel - 30 Nu'
             pause
         end
-    end%function    
+    end
     
 end    
     
