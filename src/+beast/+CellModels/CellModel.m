@@ -153,22 +153,22 @@ classdef CellModel
     
     methods( Abstract )
         
-        % state update (f)
+        % state update (f) -> {Nx,1}
         res = f0( obj, xold, pold, uold, deltat );
 
-        % output update (g) 
+        % output update (g) -> {Ny,1}
         res = g0( obj, xold, pold, uold, deltat );
 
-        % derivative of f respect to x
+        % derivative of f respect to x -> {Nx, Nx} 
         res = f1x( obj, xold, pold, uold, deltat );
 
-        % derivative of f respect to p
+        % derivative of f respect to p -> {Nx, Np}
         res = f1p( obj, xold, pold, uold, deltat );
 
-        % derivative of g respect to x
+        % derivative of g respect to x -> {Ny, Nx}
         res = g1x( obj, xold, pold, uold, deltat );
 
-        % derivative of g respect to p 
+        % derivative of g respect to p -> {Ny, Np}
         res = g1p( obj, xold, pold, uold, deltat );
         
     end
