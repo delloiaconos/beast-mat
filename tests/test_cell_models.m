@@ -24,7 +24,7 @@ listCM = beast.CellModels.listCellModels();
 for ii = 1:length( listCM )
     shortName = listCM{ii};
 
-    fprintf( "Initializing class '%s'.\n", shortName );
+    fprintf( "Evaluating class '%s'.\n", shortName );
 
     [cmClass, cmName] = beast.CellModels.selectCellModel(shortName);
     
