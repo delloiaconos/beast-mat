@@ -81,8 +81,8 @@ classdef MixAlgorithm < beast.Estimators.Estimator
             obj.Lxold   = zeros( obj.Nx, obj.Ny );
             
             if( length( diag( obj.objCell.sxW ) ) ~= obj.Nx )
-                disp( 'ESTIMATOR MixAlgorithm ERROR!' );
-                pause;
+                dispError( 'ESTIMATOR MixAlgorithm ERROR!' );
+                pause();
             end
             
             obj.Lxold   = 1e5*diag( obj.objCell.sxW );

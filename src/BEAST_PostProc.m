@@ -15,7 +15,7 @@
 %
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
-disp( 'BEGIN: BEAST 04 - Post Processing...' );
+dispInfo( 'BEGIN: BEAST 04 - Post Processing...' );
 
 close all;
 
@@ -82,7 +82,7 @@ elseif ( BEAST.PostProc.MATEnable == true  && BEAST.PostProc.MATImportWS == true
     load( WSname, 'MAT' );
     clear WSname;
 else
-    disp( 'MAT not loaded!' );
+    dispInfo( 'MAT not loaded!' );
 end
 
 if( BEAST.PostProc.CPPEnable == true )
@@ -158,7 +158,7 @@ clear ScriptName;
 figName     = 'ModelInput';
 figTitle    = 'Model Input Vectors';
 
-    disp( ['-> Plotting: "', figTitle, '"'] );
+    dispInfo( "-> Plotting: '%s'.", figTitle );
     fig = figure( 'Name', figName, 'NumberTitle', 'off' );
     hh  = gca;
     set( hh,   'FontName', PlotCnf.FontName, ...
@@ -194,7 +194,7 @@ figTitle    = 'Model Input Vectors';
 figName     = 'ReferenceSoC';
 figTitle    = 'Reference SoC';
 
-    disp( ['-> Plotting: "', figTitle, '"'] );
+    dispInfo( "-> Plotting: '%s'.", figTitle );
     fig = figure( 'Name', figName, 'NumberTitle', 'off' );
     hh  = gca;
     set( hh,   'FontName', PlotCnf.FontName, ...
@@ -219,7 +219,7 @@ figTitle    = 'Reference SoC';
 figName     = 'SoC';
 figTitle    = 'State of Charge';
 
-    disp( ['-> Plotting: "', figTitle, '"'] );
+    dispInfo( "-> Plotting: '%s'.", figTitle );
     fig = figure( 'Name', figName, 'NumberTitle', 'off' );
     hh  = gca;
     set( hh,   'FontName', PlotCnf.FontName, ...
@@ -261,7 +261,7 @@ figTitle    = 'State of Charge';
 figName     = 'Innovation';
 figTitle    = 'Innovation';
 
-    disp( ['-> Plotting: "', figTitle, '"'] );
+    dispInfo( "-> Plotting: '%s'.", figTitle );
     fig = figure( 'Name', figName, 'NumberTitle', 'off' );
     hh  = gca;
     set( hh,   'FontName', PlotCnf.FontName, ...
@@ -302,7 +302,7 @@ if( BEAST.PostProc.ErrorEnable == true && ...
     figName     = 'SoCerror';
     figTitle    = 'SoC Error Matlab vs Cpp';
 
-    disp( ['-> Plotting: "', figTitle, '"'] );
+    dispInfo( "-> Plotting: '%s'.", figTitle );
     fig = figure( 'Name', figName, 'NumberTitle', 'off' );
     hh  = gca;
     set( hh,   'FontName', PlotCnf.FontName, ...
@@ -331,7 +331,7 @@ nstates = max( [ size(MAT.xP_all, 1) ] );
 figName     = 'States';
 figTitle    = 'All States';
 
-    disp( ['-> Plotting: "', figTitle, '"'] );
+    dispInfo( "-> Plotting: '%s'.", figTitle );
     fig = figure( 'Name', figName, 'NumberTitle', 'off' );
     hh  = gca;
     set( hh,   'FontName', PlotCnf.FontName, ...
@@ -370,7 +370,7 @@ npars = max( [ size(MAT.pP_all, 1) ] );
 figName     = 'Parameters';
 figTitle    = 'All Parameters';
 
-    disp( ['-> Plotting: "', figTitle, '"'] );
+    dispInfo( "-> Plotting: '%s'.", figTitle );
     fig = figure( 'Name', figName, 'NumberTitle', 'off' );
     hh  = gca;
     set( hh,   'FontName', PlotCnf.FontName, ...
@@ -409,7 +409,7 @@ nplot = max( [ size(MAT.sxP_all  , 1) ] );
 figName     = 'State Covariance';
 figTitle    = 'All State Covariance';
 
-    disp( ['-> Plotting: "', figTitle, '"'] );
+    dispInfo( "-> Plotting: '%s'.", figTitle );
     fig = figure( 'Name', figName, 'NumberTitle', 'off' );
     hh  = gca;
     set( hh,   'FontName', PlotCnf.FontName, ...
@@ -442,7 +442,7 @@ nplot = max( [ size(MAT.spP_all  , 1) ] );
 figName     = 'Parameters Covariance';
 figTitle    = 'All Parameters Covariance';
 
-    disp( ['-> Plotting: "', figTitle, '"'] );
+    dispInfo( "-> Plotting: '%s'.", figTitle );
     fig = figure( 'Name', figName, 'NumberTitle', 'off' );
     hh  = gca;
     set( hh,   'FontName', PlotCnf.FontName, ...
@@ -476,7 +476,7 @@ for kk=1:nstates
     figName     = ['StateN' num2str(kk-1) ];
     figTitle    = ['State # ' num2str(kk-1)];
 
-        disp( ['-> Plotting: "', figTitle, '"'] );
+        dispInfo( "-> Plotting: '%s'.", figTitle );
         fig = figure( 'Name', figName, 'NumberTitle', 'off' );
         hh  = gca;
         set( hh,   'FontName', PlotCnf.FontName, ...
@@ -514,7 +514,7 @@ for kk=1:npars
     figName     = ['ParameterN' num2str(kk-1) ];
     figTitle    = ['Parameter # ' num2str(kk-1)];
 
-        disp( ['-> Plotting: "', figTitle, '"'] );
+        dispInfo( "-> Plotting: '%s'.", figTitle );
         fig = figure( 'Name', figName, 'NumberTitle', 'off' );
         hh  = gca;
         set( hh,   'FontName', PlotCnf.FontName, ...
@@ -556,7 +556,6 @@ clear ScriptName;
 
 clear PlotCnf;
 
-%%
 %% Saving Figs
 clear MAT CPP MD XP;
 OutputPath = BEAST.PostProc.OutputPath;
@@ -590,5 +589,5 @@ end
 clear Figs figH figName figPath kk OutputPath;
 
 
-disp( 'END: BEAST 04 - Post Processing...' );
+dispInfo( 'END: BEAST 04 - Post Processing...' );
 

@@ -17,7 +17,6 @@
 
 if( exist('BEAST','var') ~= true )
     dispError( 'Unable to find "BEAST" structure' );
-    keyboard();
     pause();
 end
 
@@ -63,12 +62,12 @@ end
 if fieldexists( 'BEAST', 'Backup' ) && BEAST.Backup.Run == true
     if( iscell( BEAST.Backup.ExternalCommand ) )
         for jj=1:length( BEAST.Backup.ExternalCommand )
-             disp( ['[BEAST] Executing: "' BEAST.Backup.ExternalCommand{jj} '"'] );
-             system( BEAST.Backup.ExternalCommand{jj} );
+            dispInfo( "Executing: '%s'.", BEAST.Backup.ExternalCommand{jj} );
+            system( BEAST.Backup.ExternalCommand{jj} );
         end
         clear jj;
     else
-        disp( ['[BEAST] Executing: "' BEAST.Backup.ExternalCommand '"'] );
+        dispInfo( "Executing: '%s'.", BEAST.Backup.ExternalCommand );
         system( BEAST.Backup.ExternalCommand );
     end
 end

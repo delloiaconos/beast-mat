@@ -23,8 +23,8 @@ exeName     = BEAST.ProcCpp.exeName;
 
 
 if ( exist( InputPath, 'dir' ) ~=7 )
-    disp( 'Input Directory Error!' );
-    break;
+    dispError( 'Input Directory not existing!' );
+    pause();
 end
 
 if ( exist( OutputPath, 'dir' ) ~=7 )
@@ -52,7 +52,7 @@ if isunix() == true
     
     exeFile    = [exePath, exeName];
     if( exist( exeFile, 'file' ) == false )
-        disp( ['ERROR: Executable "', exeFile, '"not found!'] );
+        dispError( "Executable '%s'not found!'", exeFile );
         pause();
     end
     exeCommand = [exeFile  , ...
@@ -63,14 +63,14 @@ if isunix() == true
                     ' -e ' , Cpp.EstimationMethodName ];
 
 
-    disp( ['Executing: "' exeCommand '"' ] );
+    dispInfo( "Executing: '%s'", exeCommand );
     system( exeCommand );
 
 elseif ispc() == true
     
     exeFile    = [exePath, exeName, '.exe'];
     if( exist( exeFile, 'file' ) == false )
-        disp( ['ERROR: Executable "', exeFile, '"not found!'] );
+        dispError( "Executable '%s' not found!", exeFile );
         pause();
     end
     exeCommand = [exeFile  , ...
@@ -81,7 +81,7 @@ elseif ispc() == true
                     ' -e ' , Cpp.EstimationMethodName ];
 
     exeCommand = strrep( exeCommand, '/', '\' );
-    disp( ['Executing: "' exeCommand '"' ] );
+    dispInfo( "Executing: '%s'", exeCommand );
     system( exeCommand );
 end
 clear OutputPath InputPath exePath exeName exeCommand

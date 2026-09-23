@@ -21,7 +21,7 @@ function [ cellmodel ] = initCellModel( cmSelector, basepath, prefix )
     
     if( cmClass == null )
         dispError( "CellModelInit - CellModel '%s' not recognized!", cmSelector );
-        pause;
+        pause();
     end
     
     cmCoefficients = eval( [cmName, '.Coefficients'] );
@@ -32,7 +32,7 @@ function [ cellmodel ] = initCellModel( cmSelector, basepath, prefix )
     	fName = fullfile( basepath, sprintf( "%s_pfix_%s.in", prefix, cmCoefficients{kk} ) );
     	if exist( fName, 'file' ) ~= 2 
     		dispError( "CellModelInit - File '%s' not found!", fName );
-        	pause;
+        	pause();
     	else
     		fr = fopen(fName);
 			[vector,~] = fread(fr,'double');
@@ -49,7 +49,7 @@ function [ cellmodel ] = initCellModel( cmSelector, basepath, prefix )
     fName = fnamebuild( "_COV_spEvec" );
     if exist( fName, 'file' ) ~= 2 
     	dispError( "CellModelInit - File '%s' not found!", fName );
-        pause;
+        pause();
     else
     	fr = fopen(fName);
 		[vector,~] = fread(fr,'double');
@@ -61,7 +61,7 @@ function [ cellmodel ] = initCellModel( cmSelector, basepath, prefix )
     fName = fnamebuild( "_COV_spRvec" );
     if exist( fName, 'file' ) ~= 2 
     	dispError( "CellModelInit - File '%s' not found!", fName );
-        pause;
+        pause();
     else
     	fr = fopen(fName);
 		[vector,~] = fread(fr,'double');
@@ -73,7 +73,7 @@ function [ cellmodel ] = initCellModel( cmSelector, basepath, prefix )
     fName = fnamebuild( "_COV_sxVvec" );
     if exist( fName, 'file' ) ~= 2 
     	dispError( "CellModelInit - File '%s' not found!", fName );
-        pause;
+        pause();
     else
     	fr = fopen(fName);
 		[vector,~] = fread(fr,'double');
@@ -85,7 +85,7 @@ function [ cellmodel ] = initCellModel( cmSelector, basepath, prefix )
     fName = fnamebuild( "_COV_sxWvec" );
     if exist( fName, 'file' ) ~= 2 
     	dispError( "CellModelInit - File '%s' not found!", fName );
-        pause;
+        pause();
     else
     	fr = fopen(fName);
 		[vector,~] = fread(fr,'double');
@@ -98,7 +98,7 @@ function [ cellmodel ] = initCellModel( cmSelector, basepath, prefix )
     fName = fnamebuild( "_deltat" );
     if exist( fName, 'file' ) ~= 2 
     	dispError( "CellModelInit - File '%s' not found!", fName );
-        pause;
+        pause();
     else
     	fr = fopen(fName);
 		[vector,~] = fread(fr,'double');

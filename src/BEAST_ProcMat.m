@@ -16,8 +16,8 @@
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
 if fieldexists( 'BEAST', 'ProcMat' ) == false
-    disp( 'ERROR: [BEAST_ProcMat] Unable to run widout BEAST.ProcMat!' );
-	break;
+    dispError( "BEAST_ProcMat - Unable to run widout BEAST.ProcMat!" );
+	pause();
 end
 
 %%
@@ -28,9 +28,9 @@ end
 if BEAST.ProcMat.LoadBinaries == true
     run( 'BEAST_ProcMat_LoadBinaries' );
 else
-	disp( 'ERROR: [BEAST_ProcMat] Import from Binaries ONLY!' );
-	break;
-end;
+	dispError( "BEAST_ProcMat - Import from Binaries ONLY!" );
+	pause();
+end
     
 %%
 %  ====================================
@@ -48,11 +48,10 @@ for ii=1:length( pckClasses )
         eval( strEval );
         
         if( exist( 'objEstimator', 'var' ) == false || isa( objEstimator, className ) == false )
-            display ( 'ERROR: [BEAST_ProcMat] Problem found in istancing the class' );
-            keyboard();
+            dispError( 'BEAST_ProcMat - Problem found in istancing the class' );
             break; 
         else
-            %display ( 'Class Instancied!' );
+            dispInfo( "Class '%s' Instancied!", className );
         end
         clear className strEval;
         
@@ -62,8 +61,8 @@ end
 clear pckName pckContent pckClasses ii;
 
 if( exist( 'objEstimator', 'var' ) == false )
-    display ( ['ERROR: [BEAST_ProcMat] Unrecognized filter: "' MD.EstimationMethodSel '"!' ] );
-    break;
+    dispError( "BEAST_ProcMat - Unrecognized filter: '%s'!", MD.EstimationMethodSel );
+    pause();
 end
 
 MAT.FilterName = objEstimator.FilterName;
@@ -77,7 +76,7 @@ if( BEAST.ProcMat.PreemptiveStop == true )
     end
 end
 
-disp( ['STARTING FILTER: "', MAT.FilterName , '"'] );
+dispInfo( "STARTING FILTER: '%s'.", MAT.FilterName );
 
 objMembers = properties( objEstimator );
 
@@ -118,7 +117,7 @@ for jj = 1:length( objEstimator.ExportableVars );
             eval( strCreate );
         end
     else
-        display( ['ERROR: [BEAST_ProcMat] Unable to export: "', Var.ClassVar, '"'] );
+        dispError( "BEAST_ProcMat - Unable to export: '%s'.", Var.ClassVar );
     end
 end
 clear strExport strCreate strSize Var iiFunHandler;
@@ -149,9 +148,8 @@ if( BEAST.ProcMat.Plot.Enable == true )
             strSize = strrep( strSize, 'Nu', 'objEstimator.Nu' );
             
             if( eval( strSize ) > 1 )
-                disp( ['WARNING: [BEAST_ProcMat] Unable to plot "', varName, '", size > 1'] );
-                keyboard();
-                break;
+                dispWarning( "BEAST_ProcMat - Unable to plot '%s', size > 1.", varName );
+                pause();
             else
                 strCreate = sprintf( 'rtPlots.vars.%s = zeros( 1, 1 );', varName );
                 eval( strCreate );
@@ -205,7 +203,7 @@ if( BEAST.ProcMat.Plot.Enable == true )
             
             clear strCreate strSize strPlot Var iiFunHandler;
         else
-            disp( ['WARNING: [BEAST_ProcMat] Unable to plot "', varName, '"; variable not available' ] );
+            dispWarning( "BEAST_ProcMat - Unable to plot '%s', variable not available!", varName );
         end
     end
     clear jj varName iVar;   
@@ -275,7 +273,7 @@ clear kk hw tnew unew yXPnew ExportList PlotList rtPlots;
 %  ====================================
 %
 
-disp( 'BEGIN: Result Export' );
+dispInfo( 'BEGIN: Result Export' );
 
 direfileoutput = BEAST.ProcMat.OutputPath;
 extefileoutput = BEAST.ProcMat.BinOutputExt;
@@ -313,7 +311,7 @@ if BEAST.ProcMat.ExportBinaries == true
             strExport = sprintf( 'beast.io.writeDoubleMatrix(''%s'', MAT.%s );', fname, Var{3} );
             eval( strExport );
         else
-            disp( ['ERROR: [BEAST_ProcMat] Unable to export: "', Var{1}, '"'] );
+            dispError( "BEAST_ProcMat - Unable to export: '%s'!", Var{1} );
         end
     end
     
@@ -336,4 +334,4 @@ if BEAST.ProcMat.SaveWorkspace == true
 end
 clear direfileoutput fname extefileoutput;
 
-disp( 'END: Results Export' );
+dispInfo( 'END: Results Export' );
