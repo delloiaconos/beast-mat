@@ -25,54 +25,57 @@ classdef H0F0A < beast.CellModels.CellModel
 % p(1) <-> pR0 
 %%
 
-properties (Constant)
-        Nx = 1; 
-        Np = 1;
-        Nu = 1;
-        Ny = 1;
-        
-        Coefficients = {'Qn_Ah', 'eta', 'soc', 'ocv0', 'ocv1' };
-        
-        Xnames = { 'SoC'};
-        Pnames = { 'R0' };
-        Unames = { 'Icell' };
-        Ynames = { 'Vcell' };
+properties(Constant)
+    Nx = 1; 
+    Np = 1;
+    Nu = 1;
+    Ny = 1;
+
+    Coefficients = { 'Qn_Ah', 'eta', 'soc', 'ocv0', 'ocv1' };
+
+    Xnames = { 'SoC'};
+    Pnames = { 'R0' };
+    Unames = { 'Icell' };
+    Ynames = { 'Vcell' };
 end
 
 
-properties
+properties(Access = public)
+    Qnom;
+    eta;
 
-        Qnom;
-        eta;
+    lutsoc;
+    lutocv0;
+    lutocv1;
 
-        lutsoc;
-        lutocv0;
-        lutocv1;
+    deltatfix;
 
-        sxW;
-        sxV;
-        spR;
-        spE;
-                
-        CoulombCountingConstant;
+    sxW;
+    sxV;
+    spR;
+    spE;
 end
-    
-%%
-methods
+
+properties (Access = private)
+    CoulombCountingConstant;
+end 
+
+methods( Access = public )
 
     % Initialization
     function obj = H0F0A( coefficients, cov, deltat )
-        
+        obj.deltatfix  = deltat;
+
         if( obj.checkCoefficients( coefficients ) == true )
-            
             obj.Qnom    = coefficients.Qn_Ah*3600;
             obj.eta     = coefficients.eta;
         
             obj.lutsoc  = coefficients.soc;
             obj.lutocv0 = coefficients.ocv0;
             obj.lutocv1 = coefficients.ocv1;
-            
-            obj.CoulombCountingConstant = obj.eta*deltat/obj.Qnom;
+
+            % Calculated Coefficients
+            obj.CoulombCountingConstant = obj.eta*obj.deltatfix/obj.Qnom;
         end
         
         if( obj.checkCovariances( cov ) == true )
