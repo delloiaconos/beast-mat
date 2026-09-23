@@ -95,21 +95,18 @@ methods
         end
        
     end
-    
-    % state update (600)
+
     function res = f0( obj, xold, pold, uold, deltat   )
         deltaSOC = obj.CoulombCountingConstant*uold(1,1);
     	res(1,1) = xold(1,1)-deltaSOC;
         res(2,1) = pold(2,1)*xold(2,1)+pold(3,1)*uold;
     end
         
-    % output update (700)
     function res = g0( obj, xold, pold, uold, deltat   )
         ocv0old = interp1(obj.lutsoc,obj.lutocv0,xold(1,1));
         res(1,1) = ocv0old -pold(1,1)*uold(1,1)+xold(2,1);
     end
     
-    % derivative of f respect to x (611)
     function res = f1x( obj, xold, pold, uold, deltat   )
         res(1,1) = 1.;
         res(1,2) = 0.;
@@ -117,7 +114,6 @@ methods
         res(2,2) = pold(2,1);
     end
     
-    % derivative of f respect to p (612)
     function res = f1p( obj, xold, pold, uold, deltat   )
         res(1,1) = 0.;
         res(1,2) = 0.;
@@ -127,21 +123,17 @@ methods
         res(2,3) = uold;
     end
 
-    % derivative of g respect to x (711)
     function res = g1x( obj, xold, pold, uold, deltat   )
         res(1,1) = interp1(obj.lutsoc,obj.lutocv1,xold(1,1));
         res(1,2) = 1.;
     end
-    
-    % derivative of g respect to p (712)
+
     function res = g1p( obj, xold, pold, uold, deltat   )
         res(1,1) = -uold(1,1);
         res(1,2) = 0.;
         res(1,3) = 0.;
     end
-    
 
-    
 end % methods
 
 
@@ -195,11 +187,8 @@ methods(Static)
             pause
         end
     end%function    
-    
 
-    
-end    
-    
+end
     
 end
 

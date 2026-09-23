@@ -97,21 +97,18 @@ methods
         
     end
     
-    % state update (600)
     function res = f0( obj, xold, pold, uold, deltat )
         deltaSOC = obj.CoulombCountingConstant*uold(1,1);
         alphaloc = exp(-obj.deltatfix/pold(3,1));
         res(1,1) = xold(1,1)-deltaSOC;
         res(2,1) = alphaloc*xold(2,1)+pold(2,1)*(alphaloc-1.)*uold(1,1);
     end
-        
-    % output update (700)
+
     function res = g0( obj, xold, pold, uold, deltat )
         ocv0old = interp1(obj.lutsoc,obj.lutocv0,xold(1,1));
         res(1,1) = ocv0old -pold(1,1)*uold(1,1)+xold(2,1);
     end
     
-    % derivative of f respect to x (611)
     function res = f1x( obj, xold, pold, uold, deltat )
         alphaloc = exp(-obj.deltatfix/pold(3,1));
         res(1,1) = 1.;
@@ -120,7 +117,6 @@ methods
         res(2,2) = alphaloc ;
     end
     
-    % derivative of f respect to p (612)
     function res = f1p( obj, xold, pold, uold, deltat )
         alphaloc = exp(-obj.deltatfix/pold(3,1));
         adtrc2 = alphaloc*obj.deltatfix/pold(3,1)/pold(3,1);
@@ -132,13 +128,11 @@ methods
         res(2,3) = adtrc2*(xold(2,1)+pold(2,1)*uold(1,1));
     end
 
-    % derivative of g respect to x (711)
     function res = g1x( obj, xold, pold, uold, deltat )
         res(1,1) = interp1(obj.lutsoc,obj.lutocv1,xold(1,1));
         res(1,2) = 1.;
     end
-    
-    % derivative of g respect to p (712)
+
     function res = g1p( obj, xold, pold, uold, deltat )
         res(1,1) = -uold(1,1);
         res(1,2) = 0.;
@@ -149,7 +143,6 @@ methods
 end % methods
 
 methods(Static)    
-    
     
     % CHECK Parameter Compatibility
     function pp = coerceParameters( pp )
@@ -166,7 +159,6 @@ methods(Static)
             disp 'WARNING: R0R1T1 parameter p(3,1)=TAU1<=0 CORRECTED TO -ZERO'
         end
     end
-    
     
     % CHECK State Compatibility
     function xx = coerceState( xx )
@@ -196,11 +188,8 @@ methods(Static)
         end
     end%function    
     
+end
 
-    
-end    
-    
-    
 end
 
 
