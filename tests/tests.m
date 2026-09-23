@@ -9,22 +9,31 @@ for ii=1:length( beast_paths )
 end
 clear ii;
 
-className = "beast.CellModels.H0F0A";
-
 myCoeffs = struct();
 myCoeffs.Qn_Ah  = 1.0;
 myCoeffs.eta    = 1.0; 
 myCoeffs.soc    = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]; 
 myCoeffs.ocv0   = [2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0];
 myCoeffs.ocv1   = diff( myCoeffs.soc ) ./  diff( myCoeffs.ocv0 ); 
+myCoeffs.deltatfix = 1.0;
 
-cellmodel = str2func(className);
+className = "beast.CellModels.H0F0A";
+cmClass = str2func(className);
 
 coefficients = eval( sprintf( "%s.Coefficients", className ) );
 Nx = eval( sprintf( "%s.Nx", className ) );
 Np = eval( sprintf( "%s.Np", className ) );
 Nu = eval( sprintf( "%s.Nu", className ) );
 Ny = eval( sprintf( "%s.Ny", className ) );
+
+myCov = struct();
+myCov.sxV = eye( Nu, Nu ).*rand( Nu, Nu );
+myCov.sxW = eye( Np, Np ).*rand( Np, Np );
+myCov.spR = eye( Nx, Nx ).*rand( Nx, Nx );
+myCov.spE = eye( Ny, Ny ).*rand( Ny, Ny );
+
+
+objCM = cmClass( myCoeffs, myCov, myCoeffs.deltatfix );
 
 %% Remove BEAST paths
 for ii=1:length( beast_paths )
