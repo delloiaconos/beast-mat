@@ -76,7 +76,7 @@ methods
         
         obj.deltatfix = deltat;
         
-        if( obj.CheckRequireds( CellModelData ) == true )
+        if( obj.checkCoefficients( CellModelData ) == true )
             obj.Qnom_Ah = CellModelData.Qn_Ah;
             obj.Qnom    = CellModelData.Qn_Ah*3600;
             obj.eta     = CellModelData.eta;
@@ -88,7 +88,7 @@ methods
             obj.CoulombCountingConstant = obj.eta*obj.deltatfix/obj.Qnom;
         end
         
-        if( obj.CheckCovariances( COV ) == true )
+        if( obj.checkCovariances( COV ) == true )
             obj.sxW = COV.sxW;
             obj.sxV = COV.sxV;
             obj.spR = COV.spR;

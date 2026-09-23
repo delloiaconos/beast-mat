@@ -59,7 +59,7 @@ classdef CellModel
             end
         end
         
-        function tf = CheckContructor( obj, CellModelData, COV )
+        function tf = checkContructor( obj, CellModelData, COV )
             
             CovarianceNames = { 'sxW', 'sxV', 'spE', 'spR' }; 
             
@@ -86,7 +86,7 @@ classdef CellModel
             end
         end
         
-        function tf = CheckRequireds( obj, CellModelData )
+        function tf = checkCoefficients( obj, CellModelData )
             
             fldexist = @(x) beast.CellModels.CellModel.strctfieldexists( CellModelData, x );
             tfa = cellfun( fldexist, obj.Required );
@@ -99,7 +99,7 @@ classdef CellModel
             end
         end
         
-        function ret = CheckCovariances( obj, COV )
+        function ret = checkCovariances( obj, COV )
           
             ret = true;
             fldexist = @(x) beast.CellModels.CellModel.strctfieldexists( COV, x );
@@ -152,7 +152,7 @@ classdef CellModel
                 ret = false;
             end
             
-        end % function ret = CheckCovariances( obj, COV )
+        end % function ret = checkCovariances( obj, COV )
         
     end % methods
     

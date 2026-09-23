@@ -73,7 +73,7 @@ methods
         
         obj.deltatfix = deltat;
         
-        if( obj.CheckRequireds( CellModelData ) == true )
+        if( obj.checkCoefficients( CellModelData ) == true )
             
             obj.Qnom    = CellModelData.Qn_Ah*3600;
             obj.eta     = CellModelData.eta;
@@ -86,7 +86,7 @@ methods
             
         end
         
-		if( obj.CheckCovariances( COV ) == true )
+		if( obj.checkCovariances( COV ) == true )
             
             obj.sxW = COV.sxW;
             obj.sxV = COV.sxV;
