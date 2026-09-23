@@ -88,8 +88,8 @@ ExportList     = {};
 for jj = 1:length( objEstimator.ExportableVars );
     
     Var = cell2struct( objEstimator.ExportableVars{jj}, ...
-                       beast.Estimators.Estimator.ExportableFields, 2 );
-    iiFunHandler = find( strcmpi(beast.Estimators.Estimator.ExportableFields, 'FunHandler' ) );
+                       beast.Estimators.Estimator.ExportableVarsFields, 2 );
+    iiFunHandler = find( strcmpi(beast.Estimators.Estimator.ExportableVarsFields, 'FunHandler' ) );
     
     ExportableVars{jj} = Var.ExportName;
     
@@ -137,8 +137,8 @@ if( BEAST.ProcMat.Plot.Enable == true )
     
         if( ~isempty( iVar ) ) 
             
-            Var = cell2struct( objEstimator.ExportableVars{iVar}, beast.Estimators.Estimator.ExportableFields, 2 );
-            iiFunHandler = find( strcmpi(beast.Estimators.Estimator.ExportableFields, 'FunHandler' ), 1, 'first' );
+            Var = cell2struct( objEstimator.ExportableVars{iVar}, beast.Estimators.Estimator.ExportableVarsFields, 2 );
+            iiFunHandler = find( strcmpi(beast.Estimators.Estimator.ExportableVarsFields, 'FunHandler' ), 1, 'first' );
            
             % vector collecting results
             strSize = Var.Size;
