@@ -34,8 +34,8 @@ for ii = 1:length( listCM )
     
     myCov = struct();
     myCov.sxV = eye( Nu, Nu ).*rand( Nu, Nu );
-    myCov.sxW = eye( Np, Np ).*rand( Np, Np );
-    myCov.spR = eye( Nx, Nx ).*rand( Nx, Nx );
+    myCov.sxW = eye( Nx, Nx ).*rand( Nx, Nx );
+    myCov.spR = eye( Np, Np ).*rand( Np, Np );
     myCov.spE = eye( Ny, Ny ).*rand( Ny, Ny );
         
     objCM = cmClass( myCoeffs, myCov, myCoeffs.deltatfix );
