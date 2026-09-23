@@ -30,40 +30,43 @@ classdef R0R1T1 < beast.CellModels.CellModel
 % p(3,1) <-> ptau1 
 %%
 
-properties (Constant)
-        Nx = 2; % soc, vc1
-        Np = 3; % R0, R1, C1
-        Nu = 1;
-        Ny = 1;
-        
-        Coefficients = {'Qn_Ah', 'eta', 'soc', 'ocv0', 'ocv1' };
-        
-        Xnames = { 'SoC', 'V1' };
-        Pnames = { 'R0', 'R1', 'tau1' };
-        Unames = { 'Icell' };
-        Ynames = { 'Vcell' };
+properties(Constant)
+    Nx = 2; % soc, vc1
+    Np = 3; % R0, R1, C1
+    Nu = 1;
+    Ny = 1;
+    
+    Coefficients = {'Qn_Ah', 'eta', 'soc', 'ocv0', 'ocv1' };
+    
+    Xnames = { 'SoC', 'V1' };
+    Pnames = { 'R0', 'R1', 'tau1' };
+    Unames = { 'Icell' };
+    Ynames = { 'Vcell' };
+end
+
+properties(Access=public)
+    Qnom_Ah;
+    Qnom;
+    eta;
+
+    lutsoc;
+    lutocv0;
+    lutocv1;
+
+    sxW;
+    sxV;
+    spR;
+    spE;
+    
+    deltatfix;
+end
+
+properties(Access=private)
+    CoulombCountingConstant;
 end
 
 
-properties
-        Qnom_Ah;
-        Qnom;
-        eta;
-
-        lutsoc;
-        lutocv0;
-        lutocv1;
-
-        sxW;
-        sxV;
-        spR;
-        spE;
-        
-        deltatfix;
-        CoulombCountingConstant;     
-end
-
-methods
+methods(Access=public)
     
     function obj = R0R1T1( coefficients, cov, deltat )
         

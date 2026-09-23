@@ -21,8 +21,8 @@ classdef R0R1C1R2C2 < beast.CellModels.CellModel
 %%
 % u(1) <-> i (current oriented outwards on the + terminal, active sign convention)
 % x(1,1) <-> SOC
-% x(2,1) <-> vC
-% y(1,1) <-> v
+% x(2,1) <-> Vc1
+% y(1,1) <-> Vc2
 % p(1,1) <-> pR0 
 % p(2,1) <-> pR1 
 % p(3,1) <-> pC1 
@@ -30,42 +30,41 @@ classdef R0R1C1R2C2 < beast.CellModels.CellModel
 % p(5,1) <-> pC2 
 %%
 
-properties (Constant)
-        Nx = 3; % soc, vc1, vc2
-        Np = 5; % R0, R1, C1, R2, C2
-        Nu = 1;
-        Ny = 1;
-        
-        Coefficients = {'Qn_Ah', 'eta', 'soc', 'ocv0', 'ocv1'};
-        
-        Xnames = { 'SoC', 'Vc1', 'Vc2' };
-        Pnames = { 'R0', 'R1', 'C1', 'R2', 'C2' };
-        Unames = { 'Icell' };
-        Ynames = { 'Vcell' };
-end %properties (Constant)
+properties(Constant)
+    Nx = 3;
+    Np = 5; 
+    Nu = 1;
+    Ny = 1;
+    
+    Coefficients = {'Qn_Ah', 'eta', 'soc', 'ocv0', 'ocv1'};
+    
+    Xnames = { 'SoC', 'Vc1', 'Vc2' };
+    Pnames = { 'R0', 'R1', 'C1', 'R2', 'C2' };
+    Unames = { 'Icell' };
+    Ynames = { 'Vcell' };
+end
 
-properties
-        Qnom;
-        eta;
+properties(Access=public)
+    Qnom;
+    eta;
 
-        lutsoc;
-        lutocv0;
-        lutocv1;
+    lutsoc;
+    lutocv0;
+    lutocv1;
 
-        sxW;
-        sxV;
-        spR;
-        spE;
-        
-        deltatfix;
-end %properties
+    sxW;
+    sxV;
+    spR;
+    spE;
+    
+    deltatfix;
+end
 
-properties (Access = private)
-        CoulombCountingConstant;
-end %properties (Access = private)
+properties(Access=private)
+    CoulombCountingConstant;
+end
 
-%%
-methods
+methods(Access=public)
 
     % Initialization
     function obj = R0R1C1R2C2( coefficients, cov, deltat  )

@@ -31,48 +31,48 @@ classdef R0R1C1 < beast.CellModels.CellModel
 % p(3,1) <-> pC1 
 %%
 
-properties (Constant)
-        Nx = 2; % soc, vc1
-        Np = 3; % R0, R1, C1
-        Nu = 1;
-        Ny = 1;
-        
-        Coefficients = {'Qn_Ah', 'eta', 'soc', 'ocv0', 'ocv1'};
-        
-        Xnames = { 'SoC', 'Vc1' };
-        Pnames = { 'R0', 'R1', 'C1' };
-        Unames = { 'Icell' };
-        Ynames = { 'Vcell' };
-        
+properties(Constant)
+    Nx = 2; % soc, vc1
+    Np = 3; % R0, R1, C1
+    Nu = 1;
+    Ny = 1;
+    
+    Coefficients = {'Qn_Ah', 'eta', 'soc', 'ocv0', 'ocv1'};
+    
+    Xnames = { 'SoC', 'Vc1' };
+    Pnames = { 'R0', 'R1', 'C1' };
+    Unames = { 'Icell' };
+    Ynames = { 'Vcell' };
 end
 
-properties
-        Qnom;
-        eta;
+properties(Access=public)
+    Qnom;
+    eta;
 
-        lutsoc;
-        lutocv0;
-        lutocv1;
+    lutsoc;
+    lutocv0;
+    lutocv1;
 
-        sxW;
-        sxV;
-        spR;
-        spE;
-        
-        deltatfix;
-        CoulombCountingConstant;
+    sxW;
+    sxV;
+    spR;
+    spE;
+    
+    deltatfix;
 end
 
+properties(Access=private)
+    CoulombCountingConstant;
+end
 
-methods
+methods(Access=public)
 
     % Initialization
-    function obj = R0R1C1( coefficients, cov, deltat  )
+    function obj = R0R1C1( coefficients, cov, deltat )
     	
         obj.deltatfix = deltat;
         
         if( obj.checkCoefficients( coefficients ) == true )
-            
             obj.Qnom    = coefficients.Qn_Ah*3600;
             obj.eta     = coefficients.eta;
         
@@ -81,11 +81,9 @@ methods
             obj.lutocv1 = coefficients.ocv1;
             
             obj.CoulombCountingConstant = obj.eta*obj.deltatfix/obj.Qnom;
-            
         end
         
         if( obj.checkCovariances( cov ) == true )
-            
             obj.sxW = cov.sxW;
             obj.sxV = cov.sxV;
             obj.spR = cov.spR;

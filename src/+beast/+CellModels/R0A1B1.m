@@ -23,54 +23,55 @@ classdef R0A1B1 < beast.CellModels.CellModel
 % tau = -deltat/log(A1)
 % C = R/tau
 % x(1,1) <-> SOC
-% x(2,1) <-> vC
-% y(1,1) <-> v
+% x(2,1) <-> Vc1
+% y(1,1) <-> Vcell
 % p(1,1) <-> pR0 
 % p(2,1) <-> pA1 
 % p(3,1) <-> pB1 
 %%
 
-properties (Constant)
-        Nx = 2; % soc, vc1
-        Np = 3; % R0, A1, B1
-        Nu = 1;
-        Ny = 1;
-        
-        Coefficients = {'Qn_Ah', 'eta', 'soc', 'ocv0', 'ocv1'};
-        
-        Xnames = { 'SoC', 'V1' };
-        Pnames = { 'R0', 'A1', 'B1' };
-        Unames = { 'Icell' };
-        Ynames = { 'Vcell' };
-end
-
-properties
-        Qnom;
-        eta;
-
-        lutsoc;
-        lutocv0;
-        lutocv1;
-
-        sxW;
-        sxV;
-        spR;
-        spE;
-        
-        deltatfix;
-        CoulombCountingConstant;
-end
+properties(Constant)
+    Nx = 2;
+    Np = 3;
+    Nu = 1;
+    Ny = 1;
     
-%%
+    Coefficients = {'Qn_Ah', 'eta', 'soc', 'ocv0', 'ocv1'};
+    
+    Xnames = { 'SoC', 'V1' };
+    Pnames = { 'R0', 'A1', 'B1' };
+    Unames = { 'Icell' };
+    Ynames = { 'Vcell' };
+end
+
+properties(Access=public)
+    Qnom;
+    eta;
+
+    lutsoc;
+    lutocv0;
+    lutocv1;
+
+    sxW;
+    sxV;
+    spR;
+    spE;
+
+    deltatfix;
+end
+
+properties(Access=private)
+    CoulombCountingConstant;
+end 
+
 methods
 
     % Initialization
     function obj = R0A1B1( coefficients, cov, deltat )
         
         obj.deltatfix = deltat;
-        
+
         if( obj.checkCoefficients( coefficients ) == true )
-    	
             obj.Qnom    = coefficients.Qn_Ah*3600;
             obj.eta     = coefficients.eta;
         
@@ -78,11 +79,11 @@ methods
             obj.lutocv0 = coefficients.ocv0;
             obj.lutocv1 = coefficients.ocv1;
             
+            % Calculated Coefficients
             obj.CoulombCountingConstant = obj.eta*obj.deltatfix /obj.Qnom;
         end
         
         if( obj.checkCovariances( cov ) == true )
-            
             obj.sxW = cov.sxW;
             obj.sxV = cov.sxV;
             obj.spR = cov.spR;
@@ -129,7 +130,7 @@ methods
         res(1,3) = 0.;
     end
 
-end % methods
+end
 
 
 methods(Static)    
