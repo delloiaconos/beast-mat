@@ -31,16 +31,15 @@ properties(Constant)
     Nu = 1;
     Ny = 1;
 
-    Coefficients = { "Qn_Ah", "eta", "soc", "ocv0", "ocv1" };
-
-    Xnames = { "SoC"};
-    Pnames = { "R0" };
-    Unames = { "Icell" };
-    Ynames = { "Vcell" };
+    coeffNames = { "Qn_Ah", "eta", "soc", "ocv0", "ocv1" };
+    xNames = { "SoC"};
+    pNames = { "R0" };
+    uNames = { "Icell" };
+    yNames = { "Vcell" };
 end
 
 
-properties(Access = public)
+properties( SetAccess=immutable, GetAccess=public )
     Qnom;
     eta;
 
@@ -56,7 +55,7 @@ properties(Access = public)
     spE;
 end
 
-properties (Access = private)
+properties( Access = private)
     CoulombCountingConstant;
 end 
 

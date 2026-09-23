@@ -26,7 +26,7 @@ for ii = 1:length( listCM )
 
     [cmClass, cmName] = beast.CellModels.selectCellModel(shortName);
     
-    coefficients = eval( sprintf( "%s.Coefficients", cmName ) );
+    coefficients = eval( sprintf( "%s.coeffNames", cmName ) );
     Nx = eval( sprintf( "%s.Nx", cmName ) );
     Np = eval( sprintf( "%s.Np", cmName ) );
     Nu = eval( sprintf( "%s.Nu", cmName ) );
@@ -37,7 +37,7 @@ for ii = 1:length( listCM )
     myCov.sxW = eye( Np, Np ).*rand( Np, Np );
     myCov.spR = eye( Nx, Nx ).*rand( Nx, Nx );
     myCov.spE = eye( Ny, Ny ).*rand( Ny, Ny );
-    
+        
     objCM = cmClass( myCoeffs, myCov, myCoeffs.deltatfix );
 end
 

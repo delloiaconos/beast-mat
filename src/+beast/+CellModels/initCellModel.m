@@ -24,7 +24,7 @@ function [ cellmodel ] = initCellModel( cmSelector, basepath, prefix )
         pause();
     end
     
-    cmCoefficients = eval( [cmName, '.Coefficients'] );
+    cmCoefficients = eval( [cmName, '.coeffNames'] );
     
     coeffs = struct();
     

@@ -35,12 +35,12 @@ properties(Constant)
     Nu = 1;
     Ny = 1;
 
-    Coefficients = {"Qn_Ah", "eta", "soc", "ocv0", "ocv1"};
+    coeffNames = {"Qn_Ah", "eta", "soc", "ocv0", "ocv1"};
 
-    Xnames = { "SoC", "V1", 'V2' };
-    Pnames = { "R0", "R1", "A1", "R2", "A2" };
-    Unames = { "Icell" };
-    Ynames = { "Vcell" };
+    xNames = { "SoC", "V1", 'V2' };
+    pNames = { "R0", "R1", "A1", "R2", "A2" };
+    uNames = { "Icell" };
+    yNames = { "Vcell" };
 end
 
 properties(Access=public)
@@ -78,7 +78,7 @@ methods(Access=public)
             obj.lutocv0 = coefficients.ocv0;
             obj.lutocv1 = coefficients.ocv1;
             
-            % Calculated Coefficients
+            % Calculated coeffNames
             obj.CoulombCountingConstant = obj.eta*obj.deltatfix/obj.Qnom;
         end
         

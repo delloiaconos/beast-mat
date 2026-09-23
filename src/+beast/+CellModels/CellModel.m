@@ -28,12 +28,11 @@ classdef CellModel
         Nu;
         Ny;
         
-        Coefficients;
-
-        Xnames;
-        Pnames;
-        Unames;
-        Ynames;
+        coeffNames;
+        xNames;
+        pNames;
+        uNames;
+        yNames;
     end
     
     properties(Constant)
@@ -45,19 +44,19 @@ classdef CellModel
         function obj = CellModel( )
             
             %Check cell model consistency!
-            if obj.Nx ~= length( obj.Xnames )
+            if obj.Nx ~= length( obj.xNames )
                 dispError( 'X names error!' );
             end
             
-            if obj.Np ~= length( obj.Pnames )
+            if obj.Np ~= length( obj.pNames )
                 dispError( 'P names error!' );
             end
             
-            if obj.Nu ~= length( obj.Unames )
+            if obj.Nu ~= length( obj.uNames )
                 dispError( 'U names error!' );
             end
             
-            if obj.Ny ~= length( obj.Ynames )
+            if obj.Ny ~= length( obj.yNames )
                 dispError( 'Y names error!' );
             end
         end
@@ -69,10 +68,10 @@ classdef CellModel
             end
 
             fldexist = @(field) isfield( coeffs, field );
-            tfa = cellfun( fldexist, obj.Coefficients );
+            tfa = cellfun( fldexist, obj.coeffNames );
             
             if( ~all(tfa) )
-                dispError( "Required coefficients '%s' not FOUND!", strjoin( [obj.Coefficients{~tfa}], " ," ) );
+                dispError( "Required coefficients '%s' not FOUND!", strjoin( [obj.coeffNames{~tfa}], " ," ) );
                 tf = false;
             else
                 tf = true;
@@ -92,10 +91,10 @@ classdef CellModel
         function tf = checkCoefficients( obj, coeffs )
             
             fldexist = @(field) isfield( coeffs, field );
-            tfa = cellfun( fldexist, obj.Coefficients );
+            tfa = cellfun( fldexist, obj.coeffNames );
             
             if( ~all(tfa) )
-                dispError( "Required coefficients '%s' not FOUND!\n", strjoin( [obj.Coefficients{~tfa}], " ," ) );
+                dispError( "Required coefficients '%s' not FOUND!\n", strjoin( [obj.coeffNames{~tfa}], " ," ) );
                 tf = false;
             else
                 tf = true;
