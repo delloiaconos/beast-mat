@@ -25,6 +25,7 @@ classdef CellModel
         Ny;
         
         Coefficients;
+
         Xnames;
         Pnames;
         Unames;
@@ -35,60 +36,64 @@ classdef CellModel
         zerohere = 1.e-9;
     end
     
-    methods(Access = public)
+    methods(Access=protected)
         
         function obj = CellModel( )
             
             %Check cell model consistency!
             if obj.Nx ~= length( obj.Xnames )
-                disp( 'ERROR: X names error!' );
+                dispError( 'X names error!' );
             end
             
             if obj.Np ~= length( obj.Pnames )
-                disp( 'ERROR: P names error!' );
+                dispError( 'P names error!' );
             end
             
             if obj.Nu ~= length( obj.Unames )
-                disp( 'ERROR: U names error!' );
+                dispError( 'U names error!' );
             end
             
             if obj.Ny ~= length( obj.Ynames )
-                disp( 'ERROR: Y names error!' );
+                dispError( 'Y names error!' );
             end
         end
         
-        function tf = checkContructor( obj, coefficients, cov )
+        function tf = checkContructor( obj, coeffs, cov, deltat )
             
             CovarianceNames = { 'sxW', 'sxV', 'spE', 'spR' }; 
-            
-            fldexist = @(field) isfield( coefficients, field );
+
+            if( deltat <= 0 )
+                dispError( 'deltat must be > 0.0!' );
+            end
+
+            fldexist = @(field) isfield( coeffs, field );
             tfa = cellfun( fldexist, obj.Coefficients );
             
-            if( find( tfa == false, 1, 'first' ) )
-                disp( 'ERROR: Required coefficients not FOUND!' );
+            if( ~all(tfa) )
+                dispError( "Required coefficients '%s' not FOUND!", strjoin( [obj.Coefficients{~tfa}], " ," ) );
                 tf = false;
             else
                 tf = true;
             end
             
-            fldexist = @(field) isfield( cov, x );
+            fldexist = @(field) isfield( cov, field );
             tfa = cellfun( fldexist, CovarianceNames );
             
-            if( find( tfa == false, 1, 'first' ) )
-                disp( 'ERROR: Required Covariances not FOUND!' );
+            if( ~all(tfa) )
+                dispError( "Required Covariances '%s' not FOUND!", strjoin( [CovarianceNames{~tfa}], " ," ) );
                 tf = false;
             else
                 tf = tf & true;
             end
         end
         
-        function tf = checkCoefficients( obj, coefficients )
+        function tf = checkCoefficients( obj, coeffs )
             
-            fldexist = @(field) isfield( coefficients, field );
+            fldexist = @(field) isfield( coeffs, field );
             tfa = cellfun( fldexist, obj.Coefficients );
             
-            if( find( tfa == false, 1, 'first' ) )
-                disp( 'ERROR: Required coefficients not FOUND!' );
+            if( ~all(tfa) )
+                dispError( "Required coefficients '%s' not FOUND!\n", strjoin( [obj.Coefficients{~tfa}], " ," ) );
                 tf = false;
             else
                 tf = true;
@@ -101,57 +106,57 @@ classdef CellModel
             fldexist = @(field) isfield( cov, field );
             
             if( fldexist( 'sxV' ) == true )
-                if( size( cov.sxV ) == [obj.Nu obj.Nu] )
+                if( isequal( size( cov.sxV ), [obj.Nu obj.Nu] ) )
                     ret = ret & true;
                 else
-                    disp( 'ERROR: Wrong size for Covariances sxV!' );
+                    dispError( 'Wrong size for Covariances sxV!' );
                     ret = false;
                 end
             else
-                disp( 'ERROR: Covariances sxV not FOUND!' );
+                dispError( 'Covariances sxV not FOUND!' );
                 ret = false;
             end
             
             if( fldexist( 'spE' ) == true )
-                if( size( cov.spE ) == [obj.Ny obj.Ny] )
+                if( isequal( size( cov.spE ), [obj.Ny obj.Ny] ) )
                     ret = ret & true;
                 else
-                    disp( 'ERROR: Wrong size for Covariances spE!' );
+                    dispError( 'Wrong size for Covariances spE!' );
                     ret = false;
                 end
             else
-                disp( 'ERROR: Covariances spE not FOUND!' );
+                dispError( 'Covariances spE not FOUND!' );
                 ret = false;
             end
             
             if( fldexist( 'sxW' ) == true )
-                if( size( cov.sxW ) == [obj.Nx obj.Nx] )
+                if( isequal( size( cov.sxW ), [obj.Nx obj.Nx] ) )
                     ret = ret & true;
                 else
-                    disp( 'ERROR: Wrong size for Covariances sxW!' );
+                    dispError( 'Wrong size for Covariances sxW!' );
                     ret = false;
                 end
             else
-                disp( 'ERROR: Covariances sxW not FOUND!' );
+                dispError( 'Covariances sxW not FOUND!' );
                 ret = false;
             end
             
             if( fldexist( 'spR' ) == true )
-                if( size( cov.spR ) == [obj.Np obj.Np] )
+                if( isequal( size( cov.spR ), [obj.Np obj.Np] ) )
                     ret = ret & true;
                 else
-                    disp( 'ERROR: Wrong size for Covariances spR!' );
+                    dispError( 'Wrong size for Covariances spR!' );
                     ret = false;
                 end
             else
-                disp( 'ERROR: Covariances spR not FOUND!' );
+                dispError( 'Covariances spR not FOUND!' );
                 ret = false;
             end
-        
         end
+
     end
     
-    methods( Abstract )
+    methods(Abstract)
         
         % state update (f) -> {Nx,1}
         res = f0( obj, xold, pold, uold, deltat );
