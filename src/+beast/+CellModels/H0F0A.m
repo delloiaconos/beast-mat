@@ -31,12 +31,12 @@ properties(Constant)
     Nu = 1;
     Ny = 1;
 
-    Coefficients = { 'Qn_Ah', 'eta', 'soc', 'ocv0', 'ocv1' };
+    Coefficients = { "Qn_Ah", "eta", "soc", "ocv0", "ocv1" };
 
-    Xnames = { 'SoC'};
-    Pnames = { 'R0' };
-    Unames = { 'Icell' };
-    Ynames = { 'Vcell' };
+    Xnames = { "SoC"};
+    Pnames = { "R0" };
+    Unames = { "Icell" };
+    Ynames = { "Vcell" };
 end
 
 
@@ -64,6 +64,9 @@ methods( Access = public )
 
     % Initialization
     function obj = H0F0A( coefficients, cov, deltat )
+
+        obj.checkContructor( coefficients, cov, deltat );
+
         obj.deltatfix  = deltat;
 
         if( obj.checkCoefficients( coefficients ) == true )

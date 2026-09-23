@@ -35,12 +35,12 @@ properties(Constant)
     Nu = 1;
     Ny = 1;
 
-    Coefficients = {'Qn_Ah', 'eta', 'soc', 'ocv0', 'ocv1'};
+    Coefficients = {"Qn_Ah", "eta", "soc", "ocv0", "ocv1"};
 
-    Xnames = { 'SoC', 'V1', 'V2' };
-    Pnames = { 'R0', 'R1', 'A1', 'R2', 'A2' };
-    Unames = { 'Icell' };
-    Ynames = { 'Vcell' };
+    Xnames = { "SoC", "V1", 'V2' };
+    Pnames = { "R0", "R1", "A1", "R2", "A2" };
+    Unames = { "Icell" };
+    Ynames = { "Vcell" };
 end
 
 properties(Access=public)

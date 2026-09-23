@@ -24,25 +24,25 @@ classdef R0R1C1 < beast.CellModels.CellModel
 % tau = -deltat/log(A1)
 % C = R/tau  
 % x(1,1) <-> SOC
-% x(2,1) <-> vC
-% y(1,1) <-> v
+% x(2,1) <-> Vc1
+% y(1,1) <-> V
 % p(1,1) <-> pR0 
 % p(2,1) <-> pR1 
 % p(3,1) <-> pC1 
 %%
 
 properties(Constant)
-    Nx = 2; % soc, vc1
-    Np = 3; % R0, R1, C1
+    Nx = 2;
+    Np = 3; 
     Nu = 1;
     Ny = 1;
     
-    Coefficients = {'Qn_Ah', 'eta', 'soc', 'ocv0', 'ocv1'};
+    Coefficients = {"Qn_Ah", "eta", "soc", "ocv0", "ocv1"};
     
-    Xnames = { 'SoC', 'Vc1' };
-    Pnames = { 'R0', 'R1', 'C1' };
-    Unames = { 'Icell' };
-    Ynames = { 'Vcell' };
+    Xnames = { "SoC", "Vc1" };
+    Pnames = { "R0", "R1", "C1" };
+    Unames = { "Icell" };
+    Ynames = { "Vcell" };
 end
 
 properties(Access=public)
