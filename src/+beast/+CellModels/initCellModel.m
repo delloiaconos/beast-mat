@@ -15,115 +15,96 @@
 %
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
-function [ cellmodel ] = initCellModel( basepath, cmSelector, prefix )
+function [ cellmodel ] = initCellModel( cmSelector, basepath, prefix )
 	   
-    cmSelector = strtrim( cmSelector );
-    cmSelector = upper( cmSelector );
+    [cmClass, cmName] = beast.CellModels.selectCellModel( cmSelector );
     
-    pckName    = 'beast.CellModels';
-    pckContent = what( pckName );
-    pckClasses = pckContent.classes;
-
-    cmName   = '';
-    
-    for ii=1:length( pckClasses )
-        if strcmpi( cmSelector, pckClasses{ii} ) == true
-            cmName = sprintf( '%s.%s', pckName, pckClasses{ii} );
-            break;
-        end
-    end
-    clear pckName pckContent pckClasses ii;
-    
-    if( strcmpi( cmName, '' ) ~= false )
-        disp( 'ERROR: CellModelInit - CellModel not recognized!\n' );
-        keyboard();
+    if( cmClass == null )
+        dispError( "CellModelInit - CellModel not recognized!" );
         pause;
     end
     
     cmCoefficients = eval( [cmName, '.Coefficients'] );
     
-    pfix = struct();
+    coeffs = struct();
     
     for kk=1:length(cmCoefficients)
     	fname = [basepath, '/', prefix , '_pfix_', cmCoefficients{kk}, '.in'];
     	if exist( fname, 'file' ) ~= 2 
-    		disp( ['ERROR: CellModelInit - File "', fname, '"Not Found!\n'] );
+    		dispError( "CellModelInit - File '%s' not found!", fname );
         	pause;
     	else
     		fr = fopen(fname);
-			[vector,n] = fread(fr,'double');
+			[vector,~] = fread(fr,'double');
             fclose(fr);
             
-            %dispDebug( ['pfix.', cmCoefficients{kk}, ' = vector;' ] );
-            %dispDebug( vector );
-            
-            eval( ['pfix.', cmCoefficients{kk}, ' = vector;' ] );
+            coeffs.(cmCoefficients{kk}) = vector;
     	end
     end
     
-    COV = struct();
+    cov = struct();
     
     fname = [basepath, '/', prefix , '_COV_spEvec', '.in'];
     if exist( fname, 'file' ) ~= 2 
-    	disp( ['ERROR: CellModelInit - File "', fname, '"Not Found!\n'] );
+    	dispError( "ERROR: CellModelInit - File '%s' not found!", fname );
         pause;
     else
     	fr = fopen(fname);
-		[vector,n] = fread(fr,'double');
+		[vector,~] = fread(fr,'double');
         fclose(fr);
     	
-    	COV.spE = diag(vector);     
+    	cov.spE = diag(vector);     
     end
 
     fname = [basepath, '/', prefix , '_COV_spRvec', '.in'];
     if exist( fname, 'file' ) ~= 2 
-    	disp( ['ERROR: CellModelInit - File "', fname, '"Not Found!\n'] );
+    	dispError( "ERROR: CellModelInit - File '%s' not found!", fname );
         pause;
     else
     	fr = fopen(fname);
-		[vector,n] = fread(fr,'double');
+		[vector,~] = fread(fr,'double');
         fclose(fr);
     	
-    	COV.spR = diag(vector);     
+    	cov.spR = diag(vector);     
     end    
     
     fname = [basepath, '/', prefix , '_COV_sxVvec', '.in'];
     if exist( fname, 'file' ) ~= 2 
-    	disp( ['ERROR: CellModelInit - File "', fname, '"Not Found!\n'] );
+    	dispError( "ERROR: CellModelInit - File '%s' not found!", fname );
         pause;
     else
     	fr = fopen(fname);
-		[vector,n] = fread(fr,'double');
+		[vector,~] = fread(fr,'double');
         fclose(fr);
     	
-    	COV.sxV = diag(vector);     
+    	cov.sxV = diag(vector);     
     end
     
     fname = [basepath, '/', prefix , '_COV_sxWvec', '.in'];
     if exist( fname, 'file' ) ~= 2 
-    	disp( ['ERROR: CellModelInit - File "', fname, '"Not Found!\n'] );
+    	dispError( "ERROR: CellModelInit - File '%s' not found!", fname );
         pause;
     else
     	fr = fopen(fname);
-		[vector,n] = fread(fr,'double');
+		[vector,~] = fread(fr,'double');
         fclose(fr);
     	
-    	COV.sxW = diag(vector);     
+    	cov.sxW = diag(vector);     
     end
     
     deltat = 0.0;
     fname = [basepath, '/', prefix , '_deltat', '.in'];
     if exist( fname, 'file' ) ~= 2 
-    	disp( ['ERROR: CellModelInit - File "', fname, '"Not Found!\n'] );
+    	dispError( "ERROR: CellModelInit - File '%s' not found!", fname );
         pause;
     else
     	fr = fopen(fname);
-		[vector,n] = fread(fr,'double');
+		[vector,~] = fread(fr,'double');
         fclose(fr);
     	
     	deltat = vector(1);     
     end
-    %dispDebug( pfix ) ;
-    cellmodel = eval( [cmName, '( pfix, COV, deltat );' ] );
+    
+    cellmodel = cmClass( coeffs, cov, deltat );
 end
     
