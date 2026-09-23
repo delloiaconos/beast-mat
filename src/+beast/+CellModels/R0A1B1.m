@@ -167,7 +167,7 @@ methods(Static)
     end
     
     % CHECK Parameter Dimension Consistency
-    function checkCellModelDim( AA );
+    function checkCellModelDim( AA )
         if beast.CellModels.R0A1B1.Nx ~= length(AA.x0)
             disp 'ERROR in CellModel - 10 Nx'
             pause
