@@ -15,18 +15,21 @@
 %
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
-function [cmClass] = selectCellModel( shortName )
+function [cmClass, cmName] = selectCellModel( shortName )
 %SELECTCELLMODEL Select a specific model from its short name.
 %   Detailed explanation goes here
+    shortName = strtrim( shortName );
+    shortName = upper( shortName );
 
     parts = strsplit( shortName, "." );
     listCellModels = beast.CellModels.listCellModels();
 
     if( any( strcmp(listCellModels, parts(end) ) ) )
-        className = sprintf( "beast.CellModels.%s", string( parts(end) ) );
-        cmClass = str2func(className);
+        cmName = sprintf( "beast.CellModels.%s", string( parts(end) ) );
+        cmClass = str2func(cmName);
     else
         dispError( "Cell Mode '%s' not found!", shortName );
+        cmName = "";
         cmClass = null;
     end
 

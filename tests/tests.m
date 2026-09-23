@@ -9,6 +9,8 @@ for ii=1:length( beast_paths )
 end
 clear ii;
 
+listCM = beast.CellModels.listCellModels();
+
 myCoeffs = struct();
 myCoeffs.Qn_Ah  = 1.0;
 myCoeffs.eta    = 1.0; 
@@ -17,23 +19,27 @@ myCoeffs.ocv0   = [2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0];
 myCoeffs.ocv1   = diff( myCoeffs.soc ) ./  diff( myCoeffs.ocv0 ); 
 myCoeffs.deltatfix = 1.0;
 
-className = "beast.CellModels.H0F0A";
-cmClass = str2func(className);
+for ii = 1:length( listCM )
+    shortName = listCM{ii};
 
-coefficients = eval( sprintf( "%s.Coefficients", className ) );
-Nx = eval( sprintf( "%s.Nx", className ) );
-Np = eval( sprintf( "%s.Np", className ) );
-Nu = eval( sprintf( "%s.Nu", className ) );
-Ny = eval( sprintf( "%s.Ny", className ) );
+    fprintf( "Evaluating class '%s'.\n", shortName );
 
-myCov = struct();
-myCov.sxV = eye( Nu, Nu ).*rand( Nu, Nu );
-myCov.sxW = eye( Np, Np ).*rand( Np, Np );
-myCov.spR = eye( Nx, Nx ).*rand( Nx, Nx );
-myCov.spE = eye( Ny, Ny ).*rand( Ny, Ny );
-
-
-objCM = cmClass( myCoeffs, myCov, myCoeffs.deltatfix );
+    [cmClass, cmName] = beast.CellModels.selectCellModel(shortName);
+    
+    coefficients = eval( sprintf( "%s.Coefficients", cmName ) );
+    Nx = eval( sprintf( "%s.Nx", cmName ) );
+    Np = eval( sprintf( "%s.Np", cmName ) );
+    Nu = eval( sprintf( "%s.Nu", cmName ) );
+    Ny = eval( sprintf( "%s.Ny", cmName ) );
+    
+    myCov = struct();
+    myCov.sxV = eye( Nu, Nu ).*rand( Nu, Nu );
+    myCov.sxW = eye( Np, Np ).*rand( Np, Np );
+    myCov.spR = eye( Nx, Nx ).*rand( Nx, Nx );
+    myCov.spE = eye( Ny, Ny ).*rand( Ny, Ny );
+    
+    objCM = cmClass( myCoeffs, myCov, myCoeffs.deltatfix );
+end
 
 %% Remove BEAST paths
 for ii=1:length( beast_paths )
