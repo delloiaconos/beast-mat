@@ -18,6 +18,10 @@
 classdef CellModel
     %CELLMODEL Super Class fot all cell model class implementations.
     
+    properties(Constant, Access=public)
+        Covariances = { "sxW", "sxV", "spE", "spR" }; 
+    end
+
     properties(Constant, Abstract)
         Nx;
         Np;
@@ -59,8 +63,6 @@ classdef CellModel
         end
         
         function tf = checkContructor( obj, coeffs, cov, deltat )
-            
-            CovarianceNames = { 'sxW', 'sxV', 'spE', 'spR' }; 
 
             if( deltat <= 0 )
                 dispError( 'deltat must be > 0.0!' );
@@ -77,10 +79,10 @@ classdef CellModel
             end
             
             fldexist = @(field) isfield( cov, field );
-            tfa = cellfun( fldexist, CovarianceNames );
+            tfa = cellfun( fldexist, obj.Covariances );
             
             if( ~all(tfa) )
-                dispError( "Required Covariances '%s' not FOUND!", strjoin( [CovarianceNames{~tfa}], " ," ) );
+                dispError( "Required Covariances '%s' not FOUND!", strjoin( [obj.Covariances{~tfa}], " ," ) );
                 tf = false;
             else
                 tf = tf & true;
