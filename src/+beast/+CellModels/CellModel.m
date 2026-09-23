@@ -38,10 +38,9 @@ classdef CellModel
     
     methods
         
-        function obj = CellModel( obj )
+        function obj = CellModel( )
             
             %Check cell model consistency!
-            
             if obj.Nx ~= length( obj.Xnames )
                 disp( 'ERROR: X names error!' );
             end
@@ -59,7 +58,7 @@ classdef CellModel
             end
         end
         
-        function tf = checkContructor( obj, coefficients, COV )
+        function tf = checkContructor( obj, coefficients, cov )
             
             CovarianceNames = { 'sxW', 'sxV', 'spE', 'spR' }; 
             
@@ -75,7 +74,7 @@ classdef CellModel
                 tf = true;
             end
             
-            fldexist = @(x) beast.CellModels.CellModel.strctfieldexists( COV, x );
+            fldexist = @(x) beast.CellModels.CellModel.strctfieldexists( cov, x );
             tfa = cellfun( fldexist, CovarianceNames );
             
             if( find( tfa == false, 1, 'first' ) )
@@ -99,13 +98,13 @@ classdef CellModel
             end
         end
         
-        function ret = checkCovariances( obj, COV )
+        function ret = checkCovariances( obj, cov )
           
             ret = true;
-            fldexist = @(x) beast.CellModels.CellModel.strctfieldexists( COV, x );
+            fldexist = @(x) beast.CellModels.CellModel.strctfieldexists( cov, x );
             
             if( fldexist( 'sxV' ) == true )
-                if( size( COV.sxV ) == [obj.Nu obj.Nu] )
+                if( size( cov.sxV ) == [obj.Nu obj.Nu] )
                     ret = ret & true;
                 else
                     disp( 'ERROR: Wrong size for Covariances sxV!' );
@@ -117,7 +116,7 @@ classdef CellModel
             end
             
             if( fldexist( 'spE' ) == true )
-                if( size( COV.spE ) == [obj.Ny obj.Ny] )
+                if( size( cov.spE ) == [obj.Ny obj.Ny] )
                     ret = ret & true;
                 else
                     disp( 'ERROR: Wrong size for Covariances spE!' );
@@ -129,7 +128,7 @@ classdef CellModel
             end
             
             if( fldexist( 'sxW' ) == true )
-                if( size( COV.sxW ) == [obj.Nx obj.Nx] )
+                if( size( cov.sxW ) == [obj.Nx obj.Nx] )
                     ret = ret & true;
                 else
                     disp( 'ERROR: Wrong size for Covariances sxW!' );
@@ -141,7 +140,7 @@ classdef CellModel
             end
             
             if( fldexist( 'spR' ) == true )
-                if( size( COV.spR ) == [obj.Np obj.Np] )
+                if( size( cov.spR ) == [obj.Np obj.Np] )
                     ret = ret & true;
                 else
                     disp( 'ERROR: Wrong size for Covariances spR!' );
@@ -152,22 +151,23 @@ classdef CellModel
                 ret = false;
             end
             
-        end % function ret = checkCovariances( obj, COV )
-        
-    end % methods
+        end
+    end 
     
     methods( Access = private, Static )
         
         function fexists = strctfieldexists(thestruct, thefield)
             if isstr(thestruct)
                 todo = sprintf('getfield(%s,''%s'');', thestruct, thefield);
-                fexists = 1; evalin('caller', todo, 'fexists=0;');
+                fexists = 1; 
+                evalin('caller', todo, 'fexists=0;');
             else
                 fexists = any( strcmp(fieldnames(thestruct), thefield) );
-                fexists = 1; eval('getfield(thestruct, thefield);', 'fexists=0;'); 
-            end;
+                fexists = 1;
+                eval('getfield(thestruct, thefield);', 'fexists=0;');
+            end
         end
-        
+
     end
     
     methods( Abstract )
