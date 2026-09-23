@@ -26,8 +26,8 @@ classdef H0F0A < beast.CellModels.CellModel
 %%
 
 properties (Constant)
-        Nx = 1; % soc
-        Np = 1; % pR0
+        Nx = 1; 
+        Np = 1;
         Nu = 1;
         Ny = 1;
         
@@ -61,7 +61,7 @@ end
 methods
 
     % Initialization
-    function obj = H0F0A( coefficients, COV, deltat  )
+    function obj = H0F0A( coefficients, cov, deltat )
         
         if( obj.checkCoefficients( coefficients ) == true )
             
@@ -75,44 +75,41 @@ methods
             obj.CoulombCountingConstant = obj.eta*deltat/obj.Qnom;
         end
         
-        if( obj.checkCovariances( COV ) == true )
-            
-            obj.sxW = COV.sxW;
-            obj.sxV = COV.sxV;
-            obj.spR = COV.spR;
-            obj.spE = COV.spE;
-            
+        if( obj.checkCovariances( cov ) == true )
+            obj.sxW = cov.sxW;
+            obj.sxV = cov.sxV;
+            obj.spR = cov.spR;
+            obj.spE = cov.spE;
         end
-        
     end
     
-    function res = f0( obj, xold, pold, uold, deltat  )
+    function res = f0( obj, xold, pold, uold, deltat )
         deltaSOC = obj.CoulombCountingConstant*uold(1,1);
     	res = xold-deltaSOC;
     end
         
-    function res = g0( obj, xold, pold, uold, deltat  )
+    function res = g0( obj, xold, pold, uold, deltat )
         ocv0old = interp1(obj.lutsoc,obj.lutocv0,xold(1));
         res = ocv0old -pold(1)*uold(1);
     end
     
-    function res = f1x( obj, xold, pold, uold, deltat   )
+    function res = f1x( obj, xold, pold, uold, deltat )
         res = 1.;
     end
 
-    function res = f1p( obj, xold, pold, uold, deltat   )
+    function res = f1p( obj, xold, pold, uold, deltat )
         res = 0.;
     end
 
-    function res = g1x( obj, xold, pold, uold, deltat   )
+    function res = g1x( obj, xold, pold, uold, deltat )
         res = interp1(obj.lutsoc,obj.lutocv1,xold(1));
     end
     
-    function res = g1p( obj, xold, pold, uold, deltat   )
+    function res = g1p( obj, xold, pold, uold, deltat )
         res = -uold(1);
     end
     
-end % methods
+end
 
 methods(Static)    
     
@@ -150,12 +147,12 @@ methods(Static)
             disp 'ERROR in CellModel - 30 Nu'
             pause
         end
-    end%function    
+    end    
 
-end %methods( Static )
-    
-    
 end
+
+end
+
 
 
 
