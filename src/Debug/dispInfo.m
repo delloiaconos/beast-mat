@@ -15,13 +15,10 @@
 %
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
-function  dispInfo( str )
-%DISPERROR Summary of this function goes here
+function  dispInfo( formatSpec, varargin )
+%DISPERROR Function dedicate to display infos on standard output
 %   Detailed explanation goes here
 
-    %BEAST = evalin('base','BEAST');
-    disp( ['INFO - ', str] );
-    %[AA, BB] = dbstack('-completenames');
+    fprintf( 1, sprintf( "[INFO] %s\n", formatSpec), varargin{:} );
 
 end
-

@@ -15,12 +15,9 @@
 %
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
-function dispWarning( str )
-%DISPWARNING Summary of this function goes here
+function dispWarning( formatSpec, varargin )
+%DISPWARNING Function dedicate to display warnings on standard output
 %   Detailed explanation goes here
 
-    %BEAST = evalin('base','BEAST');
-    disp( ['WARNING - ', str] );
-    %[AA, BB] = dbstack('-completenames');
+    fprintf( 1, sprintf( "[WARNING] %s\n", formatSpec), varargin{:} );
 end
-

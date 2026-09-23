@@ -15,13 +15,10 @@
 %
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
-function  dispDebug( str )
-%DISPERROR Summary of this function goes here
+function  dispDebug( formatSpec, varargin )
+%DISPERROR Function dedicate to display debug messages on standard error output
 %   Detailed explanation goes here
 
-    %BEAST = evalin('base','BEAST');
-    disp( ['DEBUG - ', str] );
-    %[AA, BB] = dbstack('-completenames');
+    fprintf( 1, sprintf( "[DEBUG] %s\n", formatSpec), varargin{:} );
 
 end
-
