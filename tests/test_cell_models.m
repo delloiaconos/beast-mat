@@ -9,6 +9,7 @@ for ii=1:length( beast_paths )
 end
 clear ii;
 
+%% TESTS
 listCM = beast.CellModels.listCellModels();
 
 myCoeffs = struct();
@@ -22,7 +23,7 @@ myCoeffs.deltatfix = 1.0;
 for ii = 1:length( listCM )
     shortName = listCM{ii};
 
-    fprintf( "Evaluating class '%s'.\n", shortName );
+    fprintf( "Initializing class '%s'.\n", shortName );
 
     [cmClass, cmName] = beast.CellModels.selectCellModel(shortName);
     
