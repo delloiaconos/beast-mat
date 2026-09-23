@@ -15,13 +15,11 @@
 %
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
-function  dispError( str )
-%DISPERROR Summary of this function goes here
+function  dispError( formatSpec, varargin )
+%DISPERROR Function dedicate to display errors on standard error output
 %   Detailed explanation goes here
 
-    %BEAST = evalin('base','BEAST');
-    disp( ['ERROR - ', str] );
-    %[AA, BB] = dbstack('-completenames');
+    fprintf( 2, sprintf( "[ERROR] %s\n", formatSpec), varargin{:});
 
 end
 
