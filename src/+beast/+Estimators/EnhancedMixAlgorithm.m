@@ -17,8 +17,7 @@
 
 classdef EnhancedMixAlgorithm < beast.Estimators.Estimator
 
-    properties (Constant)
-        %ExportableVars = { {'ClassVar', 'Size', 'ExportName', 'Save', 'FunctionHandler'} };
+    properties(Constant)
         ExportableVars = {
                 {  'xPold', 'Nx', 'xP_all', true, '' }, ...
                 {  'pPold', 'Np', 'pP_all', true, '' }, ...
@@ -27,28 +26,26 @@ classdef EnhancedMixAlgorithm < beast.Estimators.Estimator
     end
 
 
-    properties (SetAccess = immutable, GetAccess = private)   
-        %private   : access by class members only (not from subclasses)
-        %immutable : property can be set only in the constructor.  
+    properties(SetAccess=immutable, GetAccess=private)   
         objCell; 
-        
         deltat;
     end
     
-    
-    properties (SetAccess = private, GetAccess = public)
-        
-        Nx, Np, Nu, Ny;
-        
+    properties(SetAccess=immutable, GetAccess=public)
+        Nx; Np; Nu; Ny;
+    end
+
+    properties(SetAccess=private, GetAccess=public)
         told;
 
-        xPold, pPold;
+        xPold; 
+        pPold;
         
-        Lxold, Lpold;
-        
+        Lxold; 
+        Lpold;
     end
     
-    methods
+    methods(Access=public)
 
         % Constructor
         function  obj = EnhancedMixAlgorithm( objCellModel, DeltaT )

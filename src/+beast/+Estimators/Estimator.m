@@ -19,16 +19,20 @@ classdef Estimator < handle
     %ESTIMATOR Super Class fot all estimator class implementation.
     %   
     
-    properties( Constant, Abstract )
+    properties(Constant, Abstract)
         ExportableVars;
         FilterName;
     end
-    
-    properties( Constant, GetAccess = public )
+
+    properties(SetAccess=immutable, GetAccess=public, Abstract)
+        Nx; Np; Nu; Ny;
+    end
+
+    properties(Constant, GetAccess=public)
         ExportableVarsFields = {'ClassVar', 'Size', 'ExportName', 'Export', 'FunHandler'};
     end
     
-    methods( Abstract )
+    methods(Access=public, Abstract)
         initialize( obj, x0, p0, uold, yXPold, told );
         step( obj, unew, yXPnew, tnew );
     end

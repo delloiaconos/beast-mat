@@ -17,8 +17,7 @@
 
 classdef EKFdual < beast.Estimators.Estimator
 
-    properties (Constant)
-        %ExportableVars = { {'ClassVar', 'Size', 'ExportName', 'Save', 'FunctionHandler'} };
+    properties(Constant)
         ExportableVars = {
                 { 'xPold'  , 'Nx', 'xP_all' , true, '' }, ...
                 { 'pPold'  , 'Np', 'pP_all' , true, '' }, ...
@@ -33,19 +32,19 @@ classdef EKFdual < beast.Estimators.Estimator
         FilterName = 'Enhanced Dual Kalman Filter';
     end
 
-    properties (SetAccess = immutable, GetAccess = protected)   
-        eyeNp, eyeNx;
+    properties(SetAccess=immutable, GetAccess=protected)   
+        eyeNp; eyeNx;
     end
     
-    properties( SetAccess = public, GetAccess = public )
+    properties(SetAccess=immutable, GetAccess=public)
         objCell; 
     end
     
-    properties (SetAccess = immutable, GetAccess = public )
-        Nx, Np, Nu, Ny;
+    properties(SetAccess=immutable, GetAccess=public)
+        Nx; Np; Nu; Ny;
     end
     
-    properties (SetAccess = protected, GetAccess = public)
+    properties(SetAccess=protected, GetAccess=public)
         deltat;
 
         told;
@@ -53,11 +52,14 @@ classdef EKFdual < beast.Estimators.Estimator
         
         yXPold;
 
-        xPold, pPold;
+        xPold;
+        pPold;
         
-        sxPold, spPold;
+        sxPold;
+        spPold;
         
-        Lxold, Lpold;
+        Lxold;
+        Lpold;
         
         dxMdpold;
         dgdpold;
@@ -65,7 +67,7 @@ classdef EKFdual < beast.Estimators.Estimator
     end
     
     
-    methods     
+    methods(Access=public) 
         % Constructor
         function  obj = EKFdual( objCellModel, DeltaT )
             
@@ -113,31 +115,28 @@ classdef EKFdual < beast.Estimators.Estimator
         function step( obj, unew, yXPnew, tnew )
             MDobj = obj.objCell; % Useful copy
             
-            %% (1/XX) PARAMETER - estimate time update
-            pMnew = obj.pPold;                
-            
-            
-            %% (2/XX) PARAMETER - error covariance time update     
-            spMnew  = obj.spPold + MDobj.spR;          
-            
+            % (1/XX) PARAMETER - estimate time update
+            pMnew = obj.pPold; 
+
+            % (2/XX) PARAMETER - error covariance time update     
+            spMnew  = obj.spPold + MDobj.spR;
     
-            %% (3/XX) STATE - estimate time update
+            % (3/XX) STATE - estimate time update
             xMnew = MDobj.f0( obj.xPold, pMnew, obj.uold, obj.deltat );
             xMnew = MDobj.coerceState( xMnew );
-          
-        
-            %% (4/XX) STATE - error covariance time update
+
+            % (4/XX) STATE - error covariance time update
             f1xold = MDobj.f1x( obj.xPold, pMnew, obj.uold, obj.deltat ); % matrix A(k-1)
             sxMnew  = f1xold* obj.sxPold *f1xold.' + MDobj.sxW;          
             
-            %% (5/XX) STATE - Kalman gain computation
+            % (5/XX) STATE - Kalman gain computation
             g1xnew = MDobj.g1x( xMnew, pMnew, unew, obj.deltat ); % matrix Cx(k)
             tmp1  = g1xnew*sxMnew*g1xnew.';
             tmp2  = tmp1 + MDobj.sxV;                        
             Lxnew = sxMnew*(g1xnew.')/tmp2; %Kalman gain matrix    
             %Lx_all(:,kk) = Lxnew; (posso sostituire con Lxold)
     
-            %% (6/XX) STATE - estimate measurement update
+            % (6/XX) STATE - estimate measurement update
             g0new = MDobj.g0( xMnew, pMnew, unew, obj.deltat ); 
             dynew = yXPnew - g0new;
             xcorr = Lxnew*dynew;
@@ -145,10 +144,9 @@ classdef EKFdual < beast.Estimators.Estimator
             xPnew = xMnew + xcorr;
             xPnew = MDobj.coerceState( xPnew );
     
-            %% (7/XX) STATE - error covariance measurement update
+            % (7/XX) STATE - error covariance measurement update
             sxPnew = (obj.eyeNx - Lxnew*g1xnew)*sxMnew;                   %
             
-
             %% (8/XX) PARAMETER - Kalman gain computation
             g1pnew = MDobj.g1p( xMnew, pMnew, unew, obj.deltat ); 
             f1pold = MDobj.f1p( obj.xPold, pMnew, obj.uold, obj.deltat );
@@ -160,8 +158,7 @@ classdef EKFdual < beast.Estimators.Estimator
             tmp2  = tmp1 + MDobj.spE;                        
             Lpnew = spMnew*(dgdpnew.')/tmp2;    
             
-    
-            %% (9/XX) PARAMETER - estimate measurement update
+            % (9/XX) PARAMETER - estimate measurement update
             % g0new GIA' CALCOLATO. Ma non si deve usare il seguente?
             % g0new = MDobj.g0( xPnew, pMnew, unew );
             pcorr = Lpnew*dynew;
@@ -170,10 +167,10 @@ classdef EKFdual < beast.Estimators.Estimator
             % correction to avoid negative parameters
             pPnew = MDobj.coerceParameters( pPnew );                                  
 
-            %% (10/XX) PARAMETERS - error covariance measurement update
+            % (10/XX) PARAMETERS - error covariance measurement update
             spPnew = ( obj.eyeNp - Lpnew*dgdpnew )*spMnew;                   %
     
-            %% PREPARING FOR NEXT STEP
+            % PREPARING FOR NEXT STEP
             obj.told   = tnew;
             obj.uold   = unew;
             obj.yXPold = yXPnew;

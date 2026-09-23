@@ -17,8 +17,7 @@
 
 classdef OpenLoop < beast.Estimators.Estimator
     
-    properties (Constant)
-        %ExportableVars = { {'ClassVar', 'Size', 'ExportName', 'Save', 'FunctionHandler'} };
+    properties(Constant)
         ExportableVars = {
                 {  'xPold', 'Nx', 'xP_all', true, '' }, ...
                 {  'pPold', 'Np', 'pP_all', true, '' }, ...
@@ -27,17 +26,17 @@ classdef OpenLoop < beast.Estimators.Estimator
     end
 
 
-    properties (SetAccess = immutable, GetAccess = private)   
+    properties(SetAccess = immutable, GetAccess = private)   
         %private   : access by class members only (not from subclasses)
         %immutable : property can be set only in the constructor.  
         objCell;         
     end
     
-    properties (SetAccess = immutable, GetAccess = public )
-        Nx, Np, Nu, Ny;
+    properties(SetAccess=immutable, GetAccess=public )
+        Nx; Np; Nu; Ny;
     end
     
-    properties (SetAccess = private, GetAccess = public)    
+    properties(SetAccess = private, GetAccess = public)    
         deltat;
         
         told;
@@ -46,7 +45,7 @@ classdef OpenLoop < beast.Estimators.Estimator
         
     end
     
-    methods
+    methods(Access=public)
 
         % Constructor
         function  obj = OpenLoop( objCellModel, DeltaT )         
