@@ -17,9 +17,8 @@
 
 classdef CellModel
     %CELLMODEL Super Class fot all cell model class implementations.
-    %   Detailed explanation goes here
     
-    properties (Constant, Abstract)
+    properties(Constant, Abstract)
         Nx;
         Np;
         Nu;
@@ -32,11 +31,11 @@ classdef CellModel
         Ynames;
     end
     
-    properties( Constant )
+    properties(Constant)
         zerohere = 1.e-9;
     end
     
-    methods
+    methods(Access = public)
         
         function obj = CellModel( )
             
@@ -62,9 +61,7 @@ classdef CellModel
             
             CovarianceNames = { 'sxW', 'sxV', 'spE', 'spR' }; 
             
-            tf = true;
-            
-            fldexist = @(x) beast.CellModels.CellModel.strctfieldexists( coefficients, x );
+            fldexist = @(field) isfield( coefficients, field );
             tfa = cellfun( fldexist, obj.Coefficients );
             
             if( find( tfa == false, 1, 'first' ) )
@@ -74,7 +71,7 @@ classdef CellModel
                 tf = true;
             end
             
-            fldexist = @(x) beast.CellModels.CellModel.strctfieldexists( cov, x );
+            fldexist = @(field) isfield( cov, x );
             tfa = cellfun( fldexist, CovarianceNames );
             
             if( find( tfa == false, 1, 'first' ) )
@@ -87,7 +84,7 @@ classdef CellModel
         
         function tf = checkCoefficients( obj, coefficients )
             
-            fldexist = @(x) beast.CellModels.CellModel.strctfieldexists( coefficients, x );
+            fldexist = @(field) isfield( coefficients, field );
             tfa = cellfun( fldexist, obj.Coefficients );
             
             if( find( tfa == false, 1, 'first' ) )
@@ -101,7 +98,7 @@ classdef CellModel
         function ret = checkCovariances( obj, cov )
           
             ret = true;
-            fldexist = @(x) beast.CellModels.CellModel.strctfieldexists( cov, x );
+            fldexist = @(field) isfield( cov, field );
             
             if( fldexist( 'sxV' ) == true )
                 if( size( cov.sxV ) == [obj.Nu obj.Nu] )
@@ -150,24 +147,8 @@ classdef CellModel
                 disp( 'ERROR: Covariances spR not FOUND!' );
                 ret = false;
             end
-            
-        end
-    end 
-    
-    methods( Access = private, Static )
         
-        function fexists = strctfieldexists(thestruct, thefield)
-            if isstr(thestruct)
-                todo = sprintf('getfield(%s,''%s'');', thestruct, thefield);
-                fexists = 1; 
-                evalin('caller', todo, 'fexists=0;');
-            else
-                fexists = any( strcmp(fieldnames(thestruct), thefield) );
-                fexists = 1;
-                eval('getfield(thestruct, thefield);', 'fexists=0;');
-            end
         end
-
     end
     
     methods( Abstract )
