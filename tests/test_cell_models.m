@@ -9,9 +9,7 @@ for ii=1:length( beast_paths )
 end
 clear ii;
 
-%% TESTS
-listCM = beast.CellModels.listCellModels();
-
+%% CONSTANTS
 myCoeffs = struct();
 myCoeffs.Qn_Ah  = 1.0;
 myCoeffs.eta    = 1.0; 
@@ -19,6 +17,9 @@ myCoeffs.soc    = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0];
 myCoeffs.ocv0   = [2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0];
 myCoeffs.ocv1   = diff( myCoeffs.soc ) ./  diff( myCoeffs.ocv0 ); 
 myCoeffs.deltatfix = 1.0;
+
+%% TESTS
+listCM = beast.CellModels.listCellModels();
 
 for ii = 1:length( listCM )
     shortName = listCM{ii};
