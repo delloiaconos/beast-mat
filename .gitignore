@@ -22,3 +22,4 @@ datafiles/*
  
 # Ignore temporary files
 *~
+*.asv
