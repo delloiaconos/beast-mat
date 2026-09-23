@@ -16,7 +16,7 @@
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
 classdef CellModel
-    %CELLMODEL Summary of this class goes here
+    %CELLMODEL Super Class fot all cell model class implementations.
     %   Detailed explanation goes here
     
     properties (Constant, Abstract)

@@ -16,7 +16,7 @@
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
 classdef Estimator < handle
-    %ESTIMATOR Super Class fot all estimator methods
+    %ESTIMATOR Super Class fot all estimator class implementation.
     %   
     
     properties( Constant, Abstract )
