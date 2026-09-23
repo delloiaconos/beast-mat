@@ -230,7 +230,7 @@ kk = 1;
     x0     = MD.x0;
     p0     = MD.p0;
 
-    objEstimator.Initialize( x0, p0, uold, yXPold, told );
+    objEstimator.initialize( x0, p0, uold, yXPold, told );
     
     % SAVE VARIABLES
     cellfun( @eval, ExportList );
@@ -253,7 +253,7 @@ for kk=2:kkStop
     unew   = MD.u_all( kk );
     yXPnew = MD.yXP_all( kk );
 
-    objEstimator.Step( unew, yXPnew, tnew );
+    objEstimator.step( unew, yXPnew, tnew );
 
     % SAVE VARIABLES
     cellfun( @eval, ExportList );

@@ -123,7 +123,7 @@ end % methods
 methods(Static)    
     
     % CHECK Parameter Compatibility
-    function pp = CoerceParsCompatibility( pp )
+    function pp = coerceParameters( pp )
         if pp(1)<=0.
             pp(1) = beast.CellModels.CellModel.zerohere;
             disp 'WARNING: H0F0A parameter p(1)=R0<0. CORRECTED TO ZERO'
@@ -131,7 +131,7 @@ methods(Static)
     end
     
     % CHECK State Compatibility
-    function xx = CoerceStateCompatibility( xx )
+    function xx = coerceState( xx )
         % TODO_020: Check State Consistency
         if xx(1,1)>1
             xx(1,1) = 1.;

@@ -113,8 +113,8 @@ MD.name  = 'CellModel';
 MD.title = 'MODEL';
 MD.pfix = pfixBattery;
 
-MDobj.CheckCellModelDim(MD);
-MD.p0 = MDobj.CoerceParsCompatibility( MD.p0 );
+MDobj.checkCellModelDim(MD);
+MD.p0 = MDobj.coerceParameters( MD.p0 );
 
     
 %% GammaCheck and SIMULATION OF THE MODEL.

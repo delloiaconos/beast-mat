@@ -73,8 +73,8 @@ elseif strcmp( XPCellModelSel, 'R0R1C1R2C2' )
 end
 
 % Dimensional and consistency check
-XPobj.CheckCellModelDim(XP);
-XP.p0 = XPobj.CoerceParsCompatibility( XP.p0 );
+XPobj.checkCellModelDim(XP);
+XP.p0 = XPobj.coerceParameters( XP.p0 );
 
 
 % GammaCheck and SIMULATION OF THE MODEL.

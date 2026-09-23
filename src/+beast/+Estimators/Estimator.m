@@ -29,8 +29,8 @@ classdef Estimator < handle
     end
     
     methods( Abstract )
-        Initialize( obj, x0, p0, uold, yXPold, told );
-        Step( obj, unew, yXPnew, tnew );
+        initialize( obj, x0, p0, uold, yXPold, told );
+        step( obj, unew, yXPnew, tnew );
     end
     
 end

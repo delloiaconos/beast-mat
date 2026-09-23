@@ -86,6 +86,6 @@ end
 
 
 % Dimensional and consistency check
-XP.obj.CheckCellModelDim(XP);
-XP.p0 = XP.obj.CoerceParsCompatibility( XP.p0 );
-XP.x0 = XP.obj.CoerceStateCompatibility( XP.x0 );
+XP.obj.checkCellModelDim(XP);
+XP.p0 = XP.obj.coerceParameters( XP.p0 );
+XP.x0 = XP.obj.coerceState( XP.x0 );

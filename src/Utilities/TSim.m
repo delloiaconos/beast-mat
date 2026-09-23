@@ -30,7 +30,7 @@ for kk = 1:AA.Nt
     waitbar(kk/AA.Nt,hw);
     uuold        = AA.u_all(kk);
     xxnew        = AAobj.f0(xxold, ppold, uuold, AA.deltat  );
-    xxnew        = AAobj.CoerceStateCompatibility( xxnew );
+    xxnew        = AAobj.coerceState( xxnew );
     yyold        = AAobj.g0(xxold, ppold, uuold, AA.deltat  );
     xx_all(:,kk) = xxold;
     yy_all(:,kk) = yyold;

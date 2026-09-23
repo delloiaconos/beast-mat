@@ -15,7 +15,7 @@
 %
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
-function [ cellmodel ] = Initialize( basepath, cmSelector, prefix )
+function [ cellmodel ] = initialize( basepath, cmSelector, prefix )
 	   
     cmSelector = strtrim( cmSelector );
     cmSelector = upper( cmSelector );

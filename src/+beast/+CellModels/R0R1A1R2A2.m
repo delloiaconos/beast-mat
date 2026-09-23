@@ -188,7 +188,7 @@ end % methods
 methods(Static)        
     
     % CHECK Parameter Compatibility
-    function pp = CoerceParsCompatibility( pp )
+    function pp = coerceParameters( pp )
         if pp(1,1)<=0.
             pp(1,1) = beast.CellModels.CellModel.zerohere;
             disp 'WARNING: R0R1A1R2A2 - parameter p(1,1)=R0<=0 CORRECTED TO ZERO'
@@ -219,7 +219,7 @@ methods(Static)
     
     
     % CHECK State Compatibility
-    function xx = CoerceStateCompatibility( xx )
+    function xx = coerceState( xx )
         % TODO_020: Check State Consistency
         if xx(1,1)>1
             xx(1,1) = 1.;
@@ -231,7 +231,7 @@ methods(Static)
     end
     
     % CHECK Parameter Dimension Consistency
-    function CheckCellModelDim( AA )
+    function checkCellModelDim( AA )
         if beast.CellModels.R0R1A1R2A2.Nx ~= length(AA.x0)
             disp 'ERROR: R0R1A1R2A2 - 10 Nx'
             pause

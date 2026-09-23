@@ -70,7 +70,7 @@ classdef MixAlgorithm < beast.Estimators.Estimator
             obj.Ny = objCellModel.Ny;
         end
         
-        function Initialize( obj, x0, p0, uold, yXPold, told )
+        function initialize( obj, x0, p0, uold, yXPold, told )
             obj.told    = told;
             %obj.uold    = uold;
             
@@ -88,7 +88,7 @@ classdef MixAlgorithm < beast.Estimators.Estimator
             obj.Lxold   = 1e5*diag( obj.objCell.sxW );
         end
         
-        function Step( obj, unew, yXPnew, tnew )
+        function step( obj, unew, yXPnew, tnew )
                 MDobj = obj.objCell; % Useful copy
                 
                 xMnew = MDobj.f0( obj.xPold, obj.pPold, unew, obj.deltat );
@@ -100,7 +100,7 @@ classdef MixAlgorithm < beast.Estimators.Estimator
                 xcorr = Lxnew*(yXPnew - g0new);
     
                 xPnew = xMnew + xcorr;
-                xPnew = MDobj.CoerceStateCompatibility( xPnew );
+                xPnew = MDobj.coerceState( xPnew );
     
                 obj.xPold   = xPnew;
                 obj.told    = tnew;

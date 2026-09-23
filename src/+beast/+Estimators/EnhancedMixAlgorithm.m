@@ -63,7 +63,7 @@ classdef EnhancedMixAlgorithm < beast.Estimators.Estimator
      
         end
         
-        function Initialize( obj, x0, p0, uold, yXPold, told )
+        function initialize( obj, x0, p0, uold, yXPold, told )
             obj.told    = told;            
             
             obj.xPold   = x0;
@@ -73,7 +73,7 @@ classdef EnhancedMixAlgorithm < beast.Estimators.Estimator
             obj.Lpold   = 1e5*diag( obj.objCell.sxV );
         end
   
-        function Step( obj, unew, yXPnew, tnew )
+        function step( obj, unew, yXPnew, tnew )
             MDobj = obj.objCell; % Useful copy
             
             xMnew = MDobj.f0( obj.xPold, obj.pPold, unew, obj.deltat );
@@ -83,11 +83,11 @@ classdef EnhancedMixAlgorithm < beast.Estimators.Estimator
             err = yXPnew - g0new;
     
             xPnew = xMnew + obj.Lxold*err;
-            xPnew = MDobj.CoerceStateCompatibility( xPnew );
+            xPnew = MDobj.coerceState( xPnew );
     
             % ATTENZIONE!!! Non e' generico, migliorare il calcolo del guadagno!
             pPnew = obj.pPold + obj.Lpold*err*sign( unew );
-            pPnew = MDobj.CoerceParsCompatibility( pPnew );
+            pPnew = MDobj.coerceParameters( pPnew );
     
             obj.told    = tnew;
             obj.pPold   = pPnew;

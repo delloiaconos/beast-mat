@@ -92,7 +92,7 @@ classdef EKFdual < beast.Estimators.Estimator
             obj.Lxold   = zeros( obj.Nx, obj.Ny ); 
         end
         
-        function Initialize( obj, x0, p0, uold, yXPold, told )
+        function initialize( obj, x0, p0, uold, yXPold, told )
             MDobj = obj.objCell; % Useful copy
             
             obj.told    = told;
@@ -110,7 +110,7 @@ classdef EKFdual < beast.Estimators.Estimator
             obj.dyold   = yXPold - yMnew;
         end
         
-        function Step( obj, unew, yXPnew, tnew )
+        function step( obj, unew, yXPnew, tnew )
             MDobj = obj.objCell; % Useful copy
             
             %% (1/XX) PARAMETER - estimate time update
@@ -123,7 +123,7 @@ classdef EKFdual < beast.Estimators.Estimator
     
             %% (3/XX) STATE - estimate time update
             xMnew = MDobj.f0( obj.xPold, pMnew, obj.uold, obj.deltat );
-            xMnew = MDobj.CoerceStateCompatibility( xMnew );
+            xMnew = MDobj.coerceState( xMnew );
           
         
             %% (4/XX) STATE - error covariance time update
@@ -143,7 +143,7 @@ classdef EKFdual < beast.Estimators.Estimator
             xcorr = Lxnew*dynew;
             
             xPnew = xMnew + xcorr;
-            xPnew = MDobj.CoerceStateCompatibility( xPnew );
+            xPnew = MDobj.coerceState( xPnew );
     
             %% (7/XX) STATE - error covariance measurement update
             sxPnew = (obj.eyeNx - Lxnew*g1xnew)*sxMnew;                   %
@@ -168,7 +168,7 @@ classdef EKFdual < beast.Estimators.Estimator
             pPnew = pMnew + pcorr;
     
             % correction to avoid negative parameters
-            pPnew = MDobj.CoerceParsCompatibility( pPnew );                                  
+            pPnew = MDobj.coerceParameters( pPnew );                                  
 
             %% (10/XX) PARAMETERS - error covariance measurement update
             spPnew = ( obj.eyeNp - Lpnew*dgdpnew )*spMnew;                   %
