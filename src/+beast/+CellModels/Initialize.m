@@ -40,12 +40,12 @@ function [ cellmodel ] = initialize( basepath, cmSelector, prefix )
         pause;
     end
     
-    cmRequired = eval( [cmName, '.Required'] );
+    cmCoefficients = eval( [cmName, '.Coefficients'] );
     
     pfix = struct();
     
-    for kk=1:length(cmRequired)
-    	fname = [basepath, '/', prefix , '_pfix_', cmRequired{kk}, '.in'];
+    for kk=1:length(cmCoefficients)
+    	fname = [basepath, '/', prefix , '_pfix_', cmCoefficients{kk}, '.in'];
     	if exist( fname, 'file' ) ~= 2 
     		disp( ['ERROR: CellModelInit - File "', fname, '"Not Found!\n'] );
         	pause;
@@ -54,10 +54,10 @@ function [ cellmodel ] = initialize( basepath, cmSelector, prefix )
 			[vector,n] = fread(fr,'double');
             fclose(fr);
             
-            %dispDebug( ['pfix.', cmRequired{kk}, ' = vector;' ] );
+            %dispDebug( ['pfix.', cmCoefficients{kk}, ' = vector;' ] );
             %dispDebug( vector );
             
-            eval( ['pfix.', cmRequired{kk}, ' = vector;' ] );
+            eval( ['pfix.', cmCoefficients{kk}, ' = vector;' ] );
     	end
     end
     

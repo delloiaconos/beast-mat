@@ -25,7 +25,7 @@ classdef CellModel
         Nu;
         Ny;
         
-        Required;
+        Coefficients;
         Xnames;
         Pnames;
         Unames;
@@ -59,17 +59,17 @@ classdef CellModel
             end
         end
         
-        function tf = checkContructor( obj, CellModelData, COV )
+        function tf = checkContructor( obj, coefficients, COV )
             
             CovarianceNames = { 'sxW', 'sxV', 'spE', 'spR' }; 
             
             tf = true;
             
-            fldexist = @(x) beast.CellModels.CellModel.strctfieldexists( CellModelData, x );
-            tfa = cellfun( fldexist, obj.Required );
+            fldexist = @(x) beast.CellModels.CellModel.strctfieldexists( coefficients, x );
+            tfa = cellfun( fldexist, obj.Coefficients );
             
             if( find( tfa == false, 1, 'first' ) )
-                disp( 'ERROR: Required CellModelData not FOUND!' );
+                disp( 'ERROR: Required coefficients not FOUND!' );
                 tf = false;
             else
                 tf = true;
@@ -86,13 +86,13 @@ classdef CellModel
             end
         end
         
-        function tf = checkCoefficients( obj, CellModelData )
+        function tf = checkCoefficients( obj, coefficients )
             
-            fldexist = @(x) beast.CellModels.CellModel.strctfieldexists( CellModelData, x );
-            tfa = cellfun( fldexist, obj.Required );
+            fldexist = @(x) beast.CellModels.CellModel.strctfieldexists( coefficients, x );
+            tfa = cellfun( fldexist, obj.Coefficients );
             
             if( find( tfa == false, 1, 'first' ) )
-                disp( 'ERROR: Required CellModelData not FOUND!' );
+                disp( 'ERROR: Required coefficients not FOUND!' );
                 tf = false;
             else
                 tf = true;

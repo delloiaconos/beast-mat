@@ -37,7 +37,7 @@ properties (Constant)
         Nu = 1;
         Ny = 1;
         
-        Required = {'Qn_Ah', 'eta', 'soc', 'ocv0', 'ocv1'};
+        Coefficients = {'Qn_Ah', 'eta', 'soc', 'ocv0', 'ocv1'};
         
         Xnames = { 'SoC', 'Vc1', 'Vc2' };
         Pnames = { 'R0', 'R1', 'C1', 'R2', 'C2' };
@@ -69,18 +69,18 @@ end %properties (Access = private)
 methods
 
     % Initialization
-    function obj = R0R1C1R2C2( CellModelData, COV, deltat  )
+    function obj = R0R1C1R2C2( coefficients, COV, deltat  )
         
         obj.deltatfix = deltat;
         
-        if( obj.checkCoefficients( CellModelData ) )
+        if( obj.checkCoefficients( coefficients ) )
             
-            obj.Qnom    = CellModelData.Qn_Ah*3600;
-            obj.eta     = CellModelData.eta;
+            obj.Qnom    = coefficients.Qn_Ah*3600;
+            obj.eta     = coefficients.eta;
         
-            obj.lutsoc  = CellModelData.soc;
-            obj.lutocv0 = CellModelData.ocv0;
-            obj.lutocv1 = CellModelData.ocv1;
+            obj.lutsoc  = coefficients.soc;
+            obj.lutocv0 = coefficients.ocv0;
+            obj.lutocv1 = coefficients.ocv1;
             
             obj.CoulombCountingConstant = obj.eta*obj.deltatfix/obj.Qnom;
             
