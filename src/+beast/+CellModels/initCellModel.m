@@ -20,7 +20,7 @@ function [ cellmodel ] = initCellModel( cmSelector, basepath, prefix )
     [cmClass, cmName] = beast.CellModels.selectCellModel( cmSelector );
     
     if( cmClass == null )
-        dispError( "CellModelInit - CellModel not recognized!" );
+        dispError( "CellModelInit - CellModel '%s' not recognized!", cmSelector );
         pause;
     end
     
@@ -46,7 +46,7 @@ function [ cellmodel ] = initCellModel( cmSelector, basepath, prefix )
     
     fname = [basepath, '/', prefix , '_COV_spEvec', '.in'];
     if exist( fname, 'file' ) ~= 2 
-    	dispError( "ERROR: CellModelInit - File '%s' not found!", fname );
+    	dispError( "CellModelInit - File '%s' not found!", fname );
         pause;
     else
     	fr = fopen(fname);
@@ -58,7 +58,7 @@ function [ cellmodel ] = initCellModel( cmSelector, basepath, prefix )
 
     fname = [basepath, '/', prefix , '_COV_spRvec', '.in'];
     if exist( fname, 'file' ) ~= 2 
-    	dispError( "ERROR: CellModelInit - File '%s' not found!", fname );
+    	dispError( "CellModelInit - File '%s' not found!", fname );
         pause;
     else
     	fr = fopen(fname);
@@ -70,7 +70,7 @@ function [ cellmodel ] = initCellModel( cmSelector, basepath, prefix )
     
     fname = [basepath, '/', prefix , '_COV_sxVvec', '.in'];
     if exist( fname, 'file' ) ~= 2 
-    	dispError( "ERROR: CellModelInit - File '%s' not found!", fname );
+    	dispError( "CellModelInit - File '%s' not found!", fname );
         pause;
     else
     	fr = fopen(fname);
@@ -82,7 +82,7 @@ function [ cellmodel ] = initCellModel( cmSelector, basepath, prefix )
     
     fname = [basepath, '/', prefix , '_COV_sxWvec', '.in'];
     if exist( fname, 'file' ) ~= 2 
-    	dispError( "ERROR: CellModelInit - File '%s' not found!", fname );
+    	dispError( "CellModelInit - File '%s' not found!", fname );
         pause;
     else
     	fr = fopen(fname);
@@ -95,7 +95,7 @@ function [ cellmodel ] = initCellModel( cmSelector, basepath, prefix )
     deltat = 0.0;
     fname = [basepath, '/', prefix , '_deltat', '.in'];
     if exist( fname, 'file' ) ~= 2 
-    	dispError( "ERROR: CellModelInit - File '%s' not found!", fname );
+    	dispError( "CellModelInit - File '%s' not found!", fname );
         pause;
     else
     	fr = fopen(fname);
