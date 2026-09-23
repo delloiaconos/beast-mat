@@ -109,6 +109,6 @@ classdef MixAlgorithm < beast.Estimators.Estimator
                 %% PREPARING FOR NEXT STEP
                 obj.Lxold = Lxnew; %NO change!
         end
-    end %methods
+    end 
 
-end %classdef Estimator_MixAlgorithm
+end

@@ -193,8 +193,9 @@ classdef EKFdual < beast.Estimators.Estimator
             obj.dyold    = dynew;
         end
         
-    end %methods
+    end 
     
-end %classdef
+end
+
 
     

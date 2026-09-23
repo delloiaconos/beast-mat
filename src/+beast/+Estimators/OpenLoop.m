@@ -78,6 +78,7 @@ classdef OpenLoop < beast.Estimators.Estimator
                 obj.told    = tnew;
 
         end
-    end %methods
+    end 
 
-end %classdef Estimator_OpenLoop
+end
+
