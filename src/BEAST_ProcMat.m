@@ -85,7 +85,7 @@ objMembers = properties( objEstimator );
 ExportableVars = cell( 1, 1 );
 ExportList     = {};
 
-for jj = 1:length( objEstimator.ExportableVars );
+for jj = 1:length( objEstimator.ExportableVars )
     
     Var = cell2struct( objEstimator.ExportableVars{jj}, ...
                        beast.Estimators.Estimator.ExportableVarsFields, 2 );
@@ -304,7 +304,7 @@ if BEAST.ProcMat.ExportBinaries == true
     for jj = 1:Nexports
         Var = objEstimator.ExportableVars{jj};
 
-        %ExportableVars = { {'ClassVar', 'Size', 'ExportName', 'FunctionHandlerToApply'} };
+        %ExportableVars = { {"ClassVar", "Size", "ExportName", "FunctionHandlerToApply"} };
         if any( ismember( objMembers, Var{1} ) )
             fname = [direfileoutput, Var{3}, extefileoutput];
             
