@@ -48,8 +48,29 @@ classdef Estimator < handle
     methods(Access=protected)
         % Constructor
         function  obj = Estimator( objCellModel, deltat )
-            obj.objCell = objCellModel;
-            obj.deltat = deltat;
+            % Check objCellModel
+            if( ~isempty( objCellModel ) && isobject( objCellModel ) )
+                 classInfo = metaclass( objCellModel );
+                 if( ~classInfo.Abstract && ...
+                     strcmp( classInfo.SuperclassList.Name, 'beast.CellModels.CellModel' ) )
+                    obj.objCell = objCellModel;
+                 else
+                     dispError( "Expected a 'beast.CellModels.CellModel' derivate class" );
+                 end
+            else
+                dispError( "Expected an object" );
+            end
+
+            % Check deltat
+            if isa( deltat, 'duration' )
+                deltat = seconds( deltat );
+            end
+            if( isreal( deltat ) && ~isnan( deltat ) && ...
+                ( deltat > 0 ) && ~isinf( deltat ) )
+                obj.deltat = deltat;
+            else
+                dispError( "Expected to have a time duration in [s]." )
+            end
         end
     end
 end
