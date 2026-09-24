@@ -37,7 +37,7 @@ classdef Estimator < handle
     end
 
     properties(Constant, GetAccess=public)
-        ExportableVarsFields = {'ClassVar', 'Size', 'ExportName', 'Export', 'FunHandler'};
+        ExportableVarsFields = {"ClassVar", "Size", "ExportName", "Export", "FunHandler"};
     end
     
     methods(Access=public, Abstract)

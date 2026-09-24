@@ -37,7 +37,7 @@ properties(Constant)
 
     coeffNames = {"Qn_Ah", "eta", "soc", "ocv0", "ocv1"};
 
-    xNames = { "SoC", "V1", 'V2' };
+    xNames = { "SoC", "V1", "V2" };
     pNames = { "R0", "R1", "A1", "R2", "A2" };
     uNames = { "Icell" };
     yNames = { "Vcell" };

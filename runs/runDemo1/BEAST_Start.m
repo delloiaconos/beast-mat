@@ -83,7 +83,7 @@ BEAST.ProcMat.LoadWorkspace   = false;       % Load from matlab workspace file ?
 BEAST.ProcMat.InputWorkspace  = 'model.mat'; % Matlab input workspace (this file shuld be in the input path)
 
 BEAST.ProcMat.Plot.Enable     = true;
-BEAST.ProcMat.Plot.Vars       = { 'SoC' };
+BEAST.ProcMat.Plot.Vars       = { "SoC" };
 BEAST.ProcMat.Plot.Rate       = 1;
 
 % If Not LoadFromBins and Not LoadWorkspace then the data will be in the current workspace
