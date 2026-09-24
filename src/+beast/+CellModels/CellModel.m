@@ -18,11 +18,15 @@
 classdef CellModel
     %CELLMODEL Super Class fot all cell model class implementations.
     
-    properties(Constant, Access=public)
+    properties(Constant)
+        zerohere = 1.e-9;
+    end
+
+    properties(Constant,GetAccess=public)
         covNames = { "sxW", "sxV", "spE", "spR" }; 
     end
 
-    properties(Constant, Abstract)
+    properties(Constant,GetAccess=public,Abstract)
         Nx;
         Np;
         Nu;
@@ -34,11 +38,7 @@ classdef CellModel
         uNames;
         yNames;
     end
-    
-    properties(Constant)
-        zerohere = 1.e-9;
-    end
-    
+
     properties(SetAccess=immutable,GetAccess=public)
         deltatfix
     end
@@ -142,7 +142,7 @@ classdef CellModel
 
     end
     
-    methods(Abstract)
+    methods(Access=public,Abstract)
         
         % state update (f) -> {Nx,1}
         res = f0( obj, xold, pold, uold, deltat );
