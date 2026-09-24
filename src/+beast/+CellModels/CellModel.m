@@ -39,6 +39,17 @@ classdef CellModel
         zerohere = 1.e-9;
     end
     
+    properties(SetAccess=immutable,GetAccess=public)
+        deltatfix
+    end
+
+    properties(SetAccess=protected,GetAccess=public)
+        sxW;
+        sxV;
+        spR;
+        spE;
+    end
+
     methods(Access=protected)
 
         function obj = CellModel( coeffs, cov, deltat )
@@ -48,14 +59,14 @@ classdef CellModel
             end
             if( isreal( deltat ) && ~isnan( deltat ) && ...
                 ( deltat > 0 ) && ~isinf( deltat ) )
-                %obj.deltat = deltat;
+                obj.deltatfix = deltat;
             else
                 ex = MException( "CellModel:deltat", ...
                                  "Expected to be a time duration (real/duration).");
                 throw(ex);
             end
             
-            % Check Coefficients...
+            % Check Coefficients
             fldexist = @(field) isfield( coeffs, field );
             tfa = cellfun( fldexist, obj.coeffNames );
             
@@ -66,7 +77,7 @@ classdef CellModel
                 throw(ex);
             end
             
-            % Check covariances
+            % Check Covariances
             fldexist = @(field) isfield( cov, field );
             tfa = cellfun( fldexist, obj.covNames );
             

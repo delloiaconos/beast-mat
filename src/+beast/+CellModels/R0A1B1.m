@@ -51,13 +51,6 @@ properties(Access=public)
     lutsoc;
     lutocv0;
     lutocv1;
-
-    sxW;
-    sxV;
-    spR;
-    spE;
-
-    deltatfix;
 end
 
 properties(Access=private)
@@ -69,8 +62,6 @@ methods
     % Constructor
     function obj = R0A1B1( coeffs, cov, deltat )
         obj@beast.CellModels.CellModel( coeffs, cov, deltat );
-
-        obj.deltatfix = deltat;
 
         if( obj.checkCoefficients( coeffs ) == true )
             obj.Qnom    = coeffs.Qn_Ah*3600;
