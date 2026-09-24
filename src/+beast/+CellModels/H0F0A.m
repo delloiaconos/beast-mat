@@ -62,19 +62,18 @@ end
 methods( Access = public )
 
     % Constructor
-    function obj = H0F0A( coefficients, cov, deltat )
-
-        obj.checkContructor( coefficients, cov, deltat );
+    function obj = H0F0A( coeffs, cov, deltat )
+        obj@beast.CellModels.CellModel( coeffs, cov, deltat );
 
         obj.deltatfix  = deltat;
 
-        if( obj.checkCoefficients( coefficients ) == true )
-            obj.Qnom    = coefficients.Qn_Ah*3600;
-            obj.eta     = coefficients.eta;
+        if( obj.checkCoefficients( coeffs ) == true )
+            obj.Qnom    = coeffs.Qn_Ah*3600;
+            obj.eta     = coeffs.eta;
         
-            obj.lutsoc  = coefficients.soc;
-            obj.lutocv0 = coefficients.ocv0;
-            obj.lutocv1 = coefficients.ocv1;
+            obj.lutsoc  = coeffs.soc;
+            obj.lutocv0 = coeffs.ocv0;
+            obj.lutocv1 = coeffs.ocv1;
 
             % Calculated Coefficients
             obj.CoulombCountingConstant = obj.eta*obj.deltatfix/obj.Qnom;

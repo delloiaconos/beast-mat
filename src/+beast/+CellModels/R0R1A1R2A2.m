@@ -66,17 +66,18 @@ end
 methods(Access=public)
 
     % Constructor
-    function obj = R0R1A1R2A2( coefficients, cov, deltat )
-        
+    function obj = R0R1A1R2A2( coeffs, cov, deltat )
+        obj@beast.CellModels.CellModel( coeffs, cov, deltat );
+
         obj.deltatfix = deltat;
         
-        if( obj.checkCoefficients( coefficients ) == true )
-            obj.Qnom    = coefficients.Qn_Ah*3600;
-            obj.eta     = coefficients.eta;
+        if( obj.checkCoefficients( coeffs ) == true )
+            obj.Qnom    = coeffs.Qn_Ah*3600;
+            obj.eta     = coeffs.eta;
         
-            obj.lutsoc  = coefficients.soc;
-            obj.lutocv0 = coefficients.ocv0;
-            obj.lutocv1 = coefficients.ocv1;
+            obj.lutsoc  = coeffs.soc;
+            obj.lutocv0 = coeffs.ocv0;
+            obj.lutocv1 = coeffs.ocv1;
             
             % Calculated coeffNames
             obj.CoulombCountingConstant = obj.eta*obj.deltatfix/obj.Qnom;
