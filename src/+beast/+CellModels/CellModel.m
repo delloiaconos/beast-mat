@@ -19,7 +19,7 @@ classdef CellModel
     %CELLMODEL Super Class fot all cell model class implementations.
     
     properties(Constant, Access=public)
-        Covariances = { "sxW", "sxV", "spE", "spR" }; 
+        covNames = { "sxW", "sxV", "spE", "spR" }; 
     end
 
     properties(Constant, Abstract)
@@ -68,12 +68,12 @@ classdef CellModel
             
             % Check covariances
             fldexist = @(field) isfield( cov, field );
-            tfa = cellfun( fldexist, obj.Covariances );
+            tfa = cellfun( fldexist, obj.covNames );
             
             if( ~all(tfa) )
                 ex = MException( "CellModel:cov", ...
                                  "Required Covariances '%s' not FOUND!", ...
-                                 strjoin( [obj.Covariances{~tfa}], " ," ) );
+                                 strjoin( [obj.covNames{~tfa}], " ," ) );
                 throw(ex);
             end
 
@@ -102,7 +102,7 @@ classdef CellModel
                 throw(ex);
             end
         end
-        
+
         function tf = checkCoefficients( obj, coeffs )
             
             fldexist = @(field) isfield( coeffs, field );
@@ -119,10 +119,10 @@ classdef CellModel
         function ret = checkCovariances( obj, cov )
             
             fldexist = @(field) isfield( cov, field );
-            tfa = cellfun( fldexist, obj.Covariances );
+            tfa = cellfun( fldexist, obj.covNames );
             
             if( ~all(tfa) )
-                dispError( "Required Covariances '%s' not FOUND!", strjoin( [obj.Covariances{~tfa}], " ," ) );
+                dispError( "Required Covariances '%s' not FOUND!", strjoin( [obj.covNames{~tfa}], " ," ) );
                 ret = false;
             else
                 ret = true;
