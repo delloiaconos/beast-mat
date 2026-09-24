@@ -48,10 +48,13 @@ for ii = 1:numel( listES )
         myCov.spE = eye( Ny, Ny ).*rand( Ny, Ny );
             
         objCM = cmClass( myCoeffs, myCov, myCoeffs.deltatfix );
-    
         objEST = esClass( objCM, myCoeffs.deltatfix );
+
+        clear objEST objCM;
     end
 end
+clear ii jj;
+
 %% Remove BEAST paths
 for ii=1:length( beast_paths )
 	rmpath( fullfile( base_path, beast_paths{ii}) );
