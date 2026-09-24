@@ -1,62 +1,62 @@
-close all; clear all; clc;
+function results = test_estimators( results )
 
-%% Include BEAST paths
-base_path = '../';
-beast_paths = { 'src/', 'src/Utilities/', 'src/Debug/' };
-                  
-for ii=1:length( beast_paths )
-	addpath( fullfile( base_path, beast_paths{ii}) );
-end
-clear ii;
-
-%% CONSTANTS
-myCoeffs = struct();
-myCoeffs.Qn_Ah  = 1.0;
-myCoeffs.eta    = 1.0; 
-myCoeffs.soc    = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]; 
-myCoeffs.ocv0   = [2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0];
-myCoeffs.ocv1   = diff( myCoeffs.soc ) ./  diff( myCoeffs.ocv0 ); 
-myCoeffs.deltatfix = 1.0;
-
-%% TESTS
-listCM = beast.CellModels.listCellModels();
-listES = beast.Estimators.listEstimators();
-
-for ii = 1:numel( listES )
-    shortES = listES{ii};
-
-    fprintf( "Evaluating class '%s'.\n", shortES );
-    [esClass, esName] = beast.Estimators.selectEstimator(shortES);
-
-    for jj = 1:numel( listCM )
-        shortCM = listCM{jj};
+    % CONSTANTS
+    myCoeffs = struct();
+    myCoeffs.Qn_Ah  = 1.0;
+    myCoeffs.eta    = 1.0; 
+    myCoeffs.soc    = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]; 
+    myCoeffs.ocv0   = [2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0];
+    myCoeffs.ocv1   = diff( myCoeffs.soc ) ./  diff( myCoeffs.ocv0 ); 
+    myCoeffs.deltatfix = 1.0;
     
-        fprintf( "Initializing class '%s'.\n", shortCM );
+    % TESTS
+    listCM = beast.CellModels.listCellModels();
+    listES = beast.Estimators.listEstimators();
     
-        [cmClass, cmName] = beast.CellModels.selectCellModel(shortCM);
+    for ii = 1:numel( listES )
+        shortES = listES{ii};
+    
+        fprintf( "Evaluating class '%s'.\n", shortES );
+        [esClass, esName] = beast.Estimators.selectEstimator(shortES);
+    
+        for jj = 1:numel( listCM )
+            shortCM = listCM{jj};
         
-        coefficients = eval( sprintf( "%s.coeffNames", cmName ) );
-        Nx = eval( sprintf( "%s.Nx", cmName ) );
-        Np = eval( sprintf( "%s.Np", cmName ) );
-        Nu = eval( sprintf( "%s.Nu", cmName ) );
-        Ny = eval( sprintf( "%s.Ny", cmName ) );
+            fprintf( "Initializing class '%s'.\n", shortCM );
         
-        myCov = struct();
-        myCov.sxV = eye( Nu, Nu ).*rand( Nu, Nu );
-        myCov.sxW = eye( Nx, Nx ).*rand( Nx, Nx );
-        myCov.spR = eye( Np, Np ).*rand( Np, Np );
-        myCov.spE = eye( Ny, Ny ).*rand( Ny, Ny );
+            [cmClass, cmName] = beast.CellModels.selectCellModel(shortCM);
             
-        objCM = cmClass( myCoeffs, myCov, myCoeffs.deltatfix );
-        objEST = esClass( objCM, myCoeffs.deltatfix );
+            coefficients = eval( sprintf( "%s.coeffNames", cmName ) );
+            Nx = eval( sprintf( "%s.Nx", cmName ) );
+            Np = eval( sprintf( "%s.Np", cmName ) );
+            Nu = eval( sprintf( "%s.Nu", cmName ) );
+            Ny = eval( sprintf( "%s.Ny", cmName ) );
+            
+            myCov = struct();
+            myCov.sxV = eye( Nu, Nu ).*rand( Nu, Nu );
+            myCov.sxW = eye( Nx, Nx ).*rand( Nx, Nx );
+            myCov.spR = eye( Np, Np ).*rand( Np, Np );
+            myCov.spE = eye( Ny, Ny ).*rand( Ny, Ny );
+                
+            objCM = cmClass( myCoeffs, myCov, myCoeffs.deltatfix );
+            
+            
+            try
+                objEST = esClass( objCM, myCoeffs.deltatfix );
+                clear objEST objCM;
+                
+                results(end + 1) = recordTestResult( ...
+                    esName, 'PASSED', ...
+                    sprintf( "Constructor initialized successfully with '%s'", cmName ) );
+            catch exception
+                results(end + 1) = recordTestResult( ...
+                    cmName, 'FAILED', ...
+                    exception.message);
+                    continue;
+            end
 
-        clear objEST objCM;
+        end
     end
-end
-clear ii jj;
 
-%% Remove BEAST paths
-for ii=1:length( beast_paths )
-	rmpath( fullfile( base_path, beast_paths{ii}) );
 end
-clear ii;
+
