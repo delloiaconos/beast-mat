@@ -25,33 +25,22 @@ classdef OpenLoop < beast.Estimators.Estimator
         FilterName = 'OpenLoop';
     end
 
-
-    properties(SetAccess = immutable, GetAccess = private)   
-        %private   : access by class members only (not from subclasses)
-        %immutable : property can be set only in the constructor.  
-        objCell;         
-    end
-    
-    properties(SetAccess=immutable, GetAccess=public )
+    properties(SetAccess=immutable, GetAccess=public)
         Nx; Np; Nu; Ny;
     end
-    
-    properties(SetAccess = private, GetAccess = public)    
-        deltat;
-        
+
+    properties(SetAccess = private, GetAccess = public)
         told;
 
-        xPold, pPold;
-        
+        xPold; 
+        pPold;  
     end
     
-    methods(Access=public)
-
+    methods(Access = public)
         % Constructor
-        function  obj = OpenLoop( objCellModel, DeltaT )         
-            obj.objCell    = objCellModel;
-            obj.deltat      = DeltaT;
-        
+        function  obj = OpenLoop( objCellModel, deltat )
+            obj@beast.Estimators.Estimator( objCellModel, deltat );
+
             obj.Nx = objCellModel.Nx;
             obj.Np = objCellModel.Np;
             obj.Nu = objCellModel.Nu;
@@ -63,19 +52,16 @@ classdef OpenLoop < beast.Estimators.Estimator
 
             obj.xPold   = x0;
             obj.pPold   = p0;
-            
-            
         end
         
         function step( obj, unew, yXPnew, tnew )
-                MDobj = obj.objCell; % Useful copy
-                
-                xPnew= MDobj.f0( obj.xPold, obj.pPold, unew, obj.deltat );
-                xPnew = MDobj.coerceState( xPnew );
-    
-                obj.xPold   = xPnew;
-                obj.told    = tnew;
+            MDobj = obj.objCell; % Useful copy
+            
+            xPnew= MDobj.f0( obj.xPold, obj.pPold, unew, obj.deltat );
+            xPnew = MDobj.coerceState( xPnew );
 
+            obj.xPold   = xPnew;
+            obj.told    = tnew;
         end
     end 
 

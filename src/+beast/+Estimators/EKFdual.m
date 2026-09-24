@@ -37,16 +37,10 @@ classdef EKFdual < beast.Estimators.Estimator
     end
     
     properties(SetAccess=immutable, GetAccess=public)
-        objCell; 
-    end
-    
-    properties(SetAccess=immutable, GetAccess=public)
         Nx; Np; Nu; Ny;
     end
     
     properties(SetAccess=protected, GetAccess=public)
-        deltat;
-
         told;
         uold;
         
@@ -69,10 +63,8 @@ classdef EKFdual < beast.Estimators.Estimator
     
     methods(Access=public) 
         % Constructor
-        function  obj = EKFdual( objCellModel, DeltaT )
-            
-            obj.objCell    = objCellModel;
-            obj.deltat      = DeltaT;
+        function  obj = EKFdual( objCellModel, deltat )
+            obj@beast.Estimators.Estimator( objCellModel, deltat );
         
             obj.Nx = objCellModel.Nx;
             obj.Np = objCellModel.Np;

@@ -24,6 +24,14 @@ classdef Estimator < handle
         FilterName;
     end
 
+    properties(SetAccess=immutable, GetAccess=protected)   
+        objCell;         
+    end
+    
+    properties(SetAccess=protected, GetAccess=protected)   
+        deltat;         
+    end
+    
     properties(SetAccess=immutable, GetAccess=public, Abstract)
         Nx; Np; Nu; Ny;
     end
@@ -37,5 +45,12 @@ classdef Estimator < handle
         step( obj, unew, yXPnew, tnew );
     end
     
+    methods(Access=protected)
+        % Constructor
+        function  obj = Estimator( objCellModel, deltat )
+            obj.objCell = objCellModel;
+            obj.deltat = deltat;
+        end
+    end
 end
 

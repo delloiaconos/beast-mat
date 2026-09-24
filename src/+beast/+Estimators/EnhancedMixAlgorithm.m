@@ -24,12 +24,6 @@ classdef EnhancedMixAlgorithm < beast.Estimators.Estimator
             };
         FilterName = 'Enhanced Mix Algorithm';
     end
-
-
-    properties(SetAccess=immutable, GetAccess=private)   
-        objCell; 
-        deltat;
-    end
     
     properties(SetAccess=immutable, GetAccess=public)
         Nx; Np; Nu; Ny;
@@ -48,11 +42,9 @@ classdef EnhancedMixAlgorithm < beast.Estimators.Estimator
     methods(Access=public)
 
         % Constructor
-        function  obj = EnhancedMixAlgorithm( objCellModel, DeltaT )
-                  
-            obj.objCell    = objCellModel;
-            obj.deltat      = DeltaT;
-        
+        function  obj = EnhancedMixAlgorithm( objCellModel, deltat )            
+            obj@beast.Estimators.Estimator( objCellModel, deltat );
+
             obj.Nx = objCellModel.Nx;
             obj.Np = objCellModel.Np;
             obj.Nu = objCellModel.Nu;
