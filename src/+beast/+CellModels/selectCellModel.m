@@ -16,7 +16,7 @@
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
 function [cmClass, cmName] = selectCellModel( shortName )
-%SELECTCELLMODEL Select a specific model from its short name.
+%SELECTCELLMODEL Select a specific CellModel from its short name.
 %   Detailed explanation goes here
     shortName = strtrim( shortName );
     shortName = upper( shortName );
@@ -28,7 +28,7 @@ function [cmClass, cmName] = selectCellModel( shortName )
         cmName = sprintf( "beast.CellModels.%s", string( parts(end) ) );
         cmClass = str2func(cmName);
     else
-        dispError( "Cell Mode '%s' not found!", shortName );
+        dispError( "Cell Model '%s' not found!", shortName );
         cmName = "";
         cmClass = null;
     end

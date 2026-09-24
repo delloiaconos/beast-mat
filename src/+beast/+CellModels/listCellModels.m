@@ -27,10 +27,6 @@ function [classNames] = listCellModels()
     for index = 1:numel(files)
         fileName = files(index).name;
 
-        if strcmp(fileName, 'CellModel.m')
-            continue
-        end
-
         shortName = erase(fileName, '.m');
         fullName = ['beast.CellModels.' shortName];
 
