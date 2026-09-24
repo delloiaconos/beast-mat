@@ -23,3 +23,5 @@ datafiles/*
 # Ignore temporary files
 *~
 *.asv
+*.bck
+*.bak
