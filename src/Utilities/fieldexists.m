@@ -27,4 +27,4 @@ function fexists = fieldexists(thestruct, thefield)
 
         fexists = 1; 
         eval('getfield(thestruct, thefield);', 'fexists=0;'); 
-    end;
+    end
