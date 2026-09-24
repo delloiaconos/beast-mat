@@ -20,7 +20,7 @@ function [ cellmodel ] = createCellModel( cmSelector, coeffs, cov, deltat )
     [cmClass, ~] = beast.CellModels.selectCellModel( cmSelector );
     
     if( cmClass == null )
-        dispError( "CellModelInit - CellModel '%s' not recognized!", cmSelector );
+        dispError( "Create Cell Model - CellModel '%s' not recognized!", cmSelector );
         pause();
     end
     
