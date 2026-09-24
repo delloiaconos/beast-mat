@@ -66,7 +66,7 @@ end
 
 methods(Access=public)
 
-    % Initialization
+    % Constructor
     function obj = R0R1C1R2C2( coefficients, cov, deltat  )
         
         obj.deltatfix = deltat;

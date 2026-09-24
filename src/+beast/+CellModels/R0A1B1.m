@@ -66,7 +66,7 @@ end
 
 methods
 
-    % Initialization
+    % Constructor
     function obj = R0A1B1( coefficients, cov, deltat )
         
         obj.deltatfix = deltat;

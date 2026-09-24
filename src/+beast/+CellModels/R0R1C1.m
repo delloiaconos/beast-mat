@@ -67,7 +67,7 @@ end
 
 methods(Access=public)
 
-    % Initialization
+    % Constructor
     function obj = R0R1C1( coefficients, cov, deltat )
     	
         obj.deltatfix = deltat;
@@ -88,7 +88,6 @@ methods(Access=public)
             obj.sxV = cov.sxV;
             obj.spR = cov.spR;
             obj.spE = cov.spE;
-            
         end
 
     end

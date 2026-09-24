@@ -61,7 +61,7 @@ end
 
 methods( Access = public )
 
-    % Initialization
+    % Constructor
     function obj = H0F0A( coefficients, cov, deltat )
 
         obj.checkContructor( coefficients, cov, deltat );
