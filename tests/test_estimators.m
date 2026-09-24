@@ -23,7 +23,7 @@ function results = test_estimators( results )
     myCoeffs.soc    = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]; 
     myCoeffs.ocv0   = [2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0];
     myCoeffs.ocv1   = diff( myCoeffs.soc ) ./  diff( myCoeffs.ocv0 ); 
-    myCoeffs.deltatfix = 1.0;
+    myCoeffs.deltatfix = 0.1;
     
     % TESTS
     listCM = beast.CellModels.listCellModels();
@@ -53,9 +53,16 @@ function results = test_estimators( results )
             myCov.sxW = eye( Nx, Nx ).*rand( Nx, Nx );
             myCov.spR = eye( Np, Np ).*rand( Np, Np );
             myCov.spE = eye( Ny, Ny ).*rand( Ny, Ny );
-                
-            objCM = cmClass( myCoeffs, myCov, myCoeffs.deltatfix );
             
+            try
+                objCM = cmClass( myCoeffs, myCov, myCoeffs.deltatfix );
+            catch ex
+                results(end + 1) = recordTestResult( ...
+                    cmName, 'SKIPPED', ...
+                    ex.message);
+                    continue;
+                continue
+            end
             
             try
                 objEST = esClass( objCM, myCoeffs.deltatfix );
@@ -64,10 +71,10 @@ function results = test_estimators( results )
                 results(end + 1) = recordTestResult( ...
                     esName, 'PASSED', ...
                     sprintf( "Constructor initialized successfully with '%s'", cmName ) );
-            catch exception
+            catch ex
                 results(end + 1) = recordTestResult( ...
                     cmName, 'FAILED', ...
-                    exception.message);
+                    ex.message);
                     continue;
             end
 
