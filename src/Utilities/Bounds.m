@@ -33,7 +33,7 @@ classdef Bounds
             end
 
             % Check Lower Bound
-            if ~isnan( obj.lb ) && isreal( obj.lb )
+            if isreal( obj.lb ) && ~isnan( obj.lb ) 
                 if obj.strictLB
                     validLB = (val > obj.lb);
                 else
@@ -44,7 +44,7 @@ classdef Bounds
             end
             
             % Check Upper Bound
-            if ~isnan( obj.ub ) && isreal( obj.ub )
+            if isreal( obj.ub ) && ~isnan( obj.ub ) 
                 if obj.strictUB
                     validUB = (val < obj.ub);
                 else
