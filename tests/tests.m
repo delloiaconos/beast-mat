@@ -28,10 +28,11 @@ clear ii;
 
 results = struct('name', {}, 'status', {}, 'message', {});
 
+results = test_bounds( results );
 results = test_cell_models( results ); 
 results = test_estimators( results );
 
-printTestResults( results );
+printTestResults( results, false );
 
 %% Remove BEAST paths
 for ii=1:length( beast_paths )
