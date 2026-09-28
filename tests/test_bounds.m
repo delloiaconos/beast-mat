@@ -16,7 +16,7 @@
 function results = test_bounds(results)
     % Exercise every combination of lower bound, upper bound, and value.
     % The heterogeneous inputs intentionally include values which are not
-    % accepted by the Bounds scalar-double interface.
+    % accepted by the Bounds scalar-numeric interface.
     inputs = { ...
         0.0, ...
         1.0 + 2.0i, ...
@@ -37,9 +37,10 @@ function results = test_bounds(results)
             lb = inputs{iLB};
             ub = inputs{iUB};
 
-            % Bounds' typed scalar properties reject non-double bounds.
-            boundsAccepted = isa(lb, 'double') && isscalar(lb) && ...
-                isa(ub, 'double') && isscalar(ub);
+            % Bounds accepts scalar numeric bounds, but not logical, text,
+            % empty, vector, or struct inputs.
+            boundsAccepted = isnumeric(lb) && isscalar(lb) && ...
+                isnumeric(ub) && isscalar(ub);
 
             for iValue = 1:numel(inputs)
                 value = inputs{iValue};
@@ -55,7 +56,7 @@ function results = test_bounds(results)
                             'bound class %s and upper bound class %s.'], ...
                             class(lb), class(ub)));
                     catch ex
-                        % Expected: the scalar-double property validator rejects it.
+                        % Expected: the constructor rejects invalid bounds.
                         results(end+1) = recordTestResult( ...
                             testName, 'PASSED', ...
                             sprintf(['Rejected invalid bounds (lb class %s, ub class %s): ' ...
@@ -93,6 +94,37 @@ function results = test_bounds(results)
                     end
                 end
             end
+        end
+    end
+
+    % Verify that strict-bound arguments accept logical values only.
+    strictInputs = {0, 1, "", "STRING", 'string', int32(1), [], [true, false]};
+    for iStrict = 1:numel(strictInputs)
+        strictValue = strictInputs{iStrict};
+        testName = sprintf('Bounds(strict=%d)', iStrict);
+
+        try
+            Bounds(0, 1, strictValue, false);
+            results(end+1) = recordTestResult( ...
+                testName, 'FAILED', ...
+                sprintf('Accepted invalid strictLB class %s.', class(strictValue)));
+        catch ex
+            results(end+1) = recordTestResult( ...
+                testName, 'PASSED', ...
+                sprintf('Rejected invalid strictLB class %s: %s', ...
+                class(strictValue), ex.message));
+        end
+
+        try
+            Bounds(0, 1, false, strictValue);
+            results(end+1) = recordTestResult( ...
+                testName, 'FAILED', ...
+                sprintf('Accepted invalid strictUB class %s.', class(strictValue)));
+        catch ex
+            results(end+1) = recordTestResult( ...
+                testName, 'PASSED', ...
+                sprintf('Rejected invalid strictUB class %s: %s', ...
+                class(strictValue), ex.message));
         end
     end
 end
