@@ -42,7 +42,6 @@ function results = test_estimators( results )
         
             [cmClass, cmName] = beast.CellModels.selectCellModel(shortCM);
             
-            coefficients = eval( sprintf( "%s.coeffNames", cmName ) );
             Nx = eval( sprintf( "%s.Nx", cmName ) );
             Np = eval( sprintf( "%s.Np", cmName ) );
             Nu = eval( sprintf( "%s.Nu", cmName ) );

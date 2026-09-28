@@ -33,7 +33,6 @@ function results = test_cell_models( results )
 
         [cmClass, cmName] = beast.CellModels.selectCellModel(cmName);
         
-        coeffs = eval( sprintf( "%s.coeffNames", cmName ) );
         Nx = eval( sprintf( "%s.Nx", cmName ) );
         Np = eval( sprintf( "%s.Np", cmName ) );
         Nu = eval( sprintf( "%s.Nu", cmName ) );
