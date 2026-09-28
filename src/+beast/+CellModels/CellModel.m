@@ -50,10 +50,44 @@ classdef CellModel
         spE;
     end
 
+    methods(Access=private)
+        function obj = checkStandardObjType( obj, myName, myObj )
+
+            % Every concrete cell model must provide a non-empty dictionary whose values are Bounds objects.
+            if ~isa(myObj, 'dictionary') || isempty(myObj)
+                ex = MException( "CellModel:checkStandardObjType", ...
+                    sprintf( "Variable '%s' must be a non-empty dictionary of Bounds objects.", myName ) );
+                throw(ex);
+            end
+
+            objValues = values(myObj);
+            if iscell(objValues)
+                containsBounds = all(cellfun( ...
+                    @(value) isa(value, 'Bounds') && isscalar(value), ...
+                    objValues));
+            else
+                containsBounds = isa(objValues, 'Bounds') && ...
+                    all(arrayfun(@(value) isscalar(value), objValues));
+            end
+
+            if ~containsBounds
+                ex = MException( "CellModel:checkStandardObjType", ...
+                    sprintf( "Every '%s' dictionary value must be a scalar Bounds object.", myName ) );
+                throw(ex);
+            end
+
+        end
+    end
+    
     methods(Access=protected)
 
         function obj = CellModel( coeffs, cov, deltat )
+            % Check CellModel Class specifications for Abstract properties.
 
+            % Check `Coefficients` property.
+            obj.checkStandardObjType( "Coefficients", obj.Coefficients );
+
+            % Check constructur specifications
             if isa( deltat, 'duration' )
                 deltat = seconds( deltat );
             end
@@ -67,14 +101,15 @@ classdef CellModel
                 throw(ex);
             end
             
-            % Check Coefficients
+            % Check supplied coefficient values.
+            k = keys(obj.Coefficients);
             fldexist = @(field) isfield( coeffs, field );
-            tfa = cellfun( fldexist, obj.Coefficients );
+            tfa = cellfun( fldexist, k );
             
             if( ~all(tfa) )
                 ex = MException( "CellModel:coeffs", ...
                                  "Required coefficients '%s' not FOUND!", ...
-                                 strjoin( [obj.Coefficients{~tfa}], " ," ) );
+                                 strjoin( k(~tfa), " ," ) );
                 throw(ex);
             end
             
@@ -117,15 +152,17 @@ classdef CellModel
 
         function tf = checkCoefficients( obj, coeffs )
             
-            fldexist = @(field) isfield( coeffs, field );
-            tfa = cellfun( fldexist, obj.Coefficients );
+            %fldexist = @(field) isfield( coeffs, field );
+            %tfa = cellfun( fldexist, obj.Coefficients );
+            %
+            %if( ~all(tfa) )
+            %    dispError( "Required coefficients '%s' not FOUND!\n", strjoin( [obj.Coefficients{~tfa}], " ," ) );
+            %    tf = false;
+            %else
+            %    tf = true;
+            %end
+            tf = false;
             
-            if( ~all(tfa) )
-                dispError( "Required coefficients '%s' not FOUND!\n", strjoin( [obj.Coefficients{~tfa}], " ," ) );
-                tf = false;
-            else
-                tf = true;
-            end
         end
         
         function ret = checkCovariances( obj, cov )
