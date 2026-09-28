@@ -32,12 +32,12 @@ classdef R0R1A1R2A2 < beast.CellModels.CellModel
         Nu = 1;
         Ny = 1;
 
-        coeffNames = {"Qn_Ah", "eta", "soc", "ocv0", "ocv1"};
+        Coefficients = {"Qn_Ah", "eta", "soc", "ocv0", "ocv1"};
 
-        xNames = { "SoC", "V1", "V2" };
-        pNames = { "R0", "R1", "A1", "R2", "A2" };
-        uNames = { "Icell" };
-        yNames = { "Vcell" };
+        States = { "SoC", "V1", "V2" };
+        Parameters = { "R0", "R1", "A1", "R2", "A2" };
+        Inputs = { "Icell" };
+        Outputs = { "Vcell" };
     end
 
     properties(Access=public)
@@ -67,7 +67,7 @@ classdef R0R1A1R2A2 < beast.CellModels.CellModel
                 obj.lutocv0 = coeffs.ocv0;
                 obj.lutocv1 = coeffs.ocv1;
                 
-                % Calculated coeffNames
+                % Calculated Coefficients
                 obj.CoulombCountingConstant = obj.eta*obj.deltatfix/obj.Qnom;
             end
             

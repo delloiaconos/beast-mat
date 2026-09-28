@@ -23,7 +23,7 @@ classdef CellModel
     end
 
     properties(Constant,GetAccess=public)
-        covNames = { "sxW", "sxV", "spE", "spR" }; 
+        Covariances = { "sxW", "sxV", "spE", "spR" }; 
     end
 
     properties(Constant,GetAccess=public,Abstract)
@@ -32,11 +32,11 @@ classdef CellModel
         Nu;
         Ny;
         
-        coeffNames;
-        xNames;
-        pNames;
-        uNames;
-        yNames;
+        Coefficients;
+        States;
+        Parameters;
+        Inputs;
+        Outputs;
     end
 
     properties(SetAccess=immutable,GetAccess=public)
@@ -57,6 +57,7 @@ classdef CellModel
             if isa( deltat, 'duration' )
                 deltat = seconds( deltat );
             end
+
             if( isreal( deltat ) && ~isnan( deltat ) && ...
                 ( deltat > 0 ) && ~isinf( deltat ) )
                 obj.deltatfix = deltat;
@@ -68,47 +69,47 @@ classdef CellModel
             
             % Check Coefficients
             fldexist = @(field) isfield( coeffs, field );
-            tfa = cellfun( fldexist, obj.coeffNames );
+            tfa = cellfun( fldexist, obj.Coefficients );
             
             if( ~all(tfa) )
                 ex = MException( "CellModel:coeffs", ...
                                  "Required coefficients '%s' not FOUND!", ...
-                                 strjoin( [obj.coeffNames{~tfa}], " ," ) );
+                                 strjoin( [obj.Coefficients{~tfa}], " ," ) );
                 throw(ex);
             end
             
             % Check Covariances
             fldexist = @(field) isfield( cov, field );
-            tfa = cellfun( fldexist, obj.covNames );
+            tfa = cellfun( fldexist, obj.Covariances );
             
             if( ~all(tfa) )
                 ex = MException( "CellModel:cov", ...
                                  "Required Covariances '%s' not FOUND!", ...
-                                 strjoin( [obj.covNames{~tfa}], " ," ) );
+                                 strjoin( [obj.Covariances{~tfa}], " ," ) );
                 throw(ex);
             end
 
             %Check cell model consistency!
-            if obj.Nx ~= length( obj.xNames )
-                ex = MException( "CellModel:xNames", ...
+            if obj.Nx ~= length( obj.States )
+                ex = MException( "CellModel:States", ...
                                  "Wrong class implementaion." );
                 throw(ex);
             end
             
-            if obj.Np ~= length( obj.pNames )
-                ex = MException( "CellModel:pNames", ...
+            if obj.Np ~= length( obj.Parameters )
+                ex = MException( "CellModel:Parameters", ...
                                  "Wrong class implementaion." );
                 throw(ex);
             end
             
-            if obj.Nu ~= length( obj.uNames )
-                ex = MException( "CellModel:uNames", ...
+            if obj.Nu ~= length( obj.Inputs )
+                ex = MException( "CellModel:Inputs", ...
                                  "Wrong class implementaion." );
                 throw(ex);
             end
             
-            if obj.Ny ~= length( obj.yNames )
-                ex = MException( "CellModel:yNames", ...
+            if obj.Ny ~= length( obj.Outputs )
+                ex = MException( "CellModel:Outputs", ...
                                  "Wrong class implementaion." );
                 throw(ex);
             end
@@ -117,10 +118,10 @@ classdef CellModel
         function tf = checkCoefficients( obj, coeffs )
             
             fldexist = @(field) isfield( coeffs, field );
-            tfa = cellfun( fldexist, obj.coeffNames );
+            tfa = cellfun( fldexist, obj.Coefficients );
             
             if( ~all(tfa) )
-                dispError( "Required coefficients '%s' not FOUND!\n", strjoin( [obj.coeffNames{~tfa}], " ," ) );
+                dispError( "Required coefficients '%s' not FOUND!\n", strjoin( [obj.Coefficients{~tfa}], " ," ) );
                 tf = false;
             else
                 tf = true;
@@ -130,10 +131,10 @@ classdef CellModel
         function ret = checkCovariances( obj, cov )
             
             fldexist = @(field) isfield( cov, field );
-            tfa = cellfun( fldexist, obj.covNames );
+            tfa = cellfun( fldexist, obj.Covariances );
             
             if( ~all(tfa) )
-                dispError( "Required Covariances '%s' not FOUND!", strjoin( [obj.covNames{~tfa}], " ," ) );
+                dispError( "Required Covariances '%s' not FOUND!", strjoin( [obj.Covariances{~tfa}], " ," ) );
                 ret = false;
             else
                 ret = true;

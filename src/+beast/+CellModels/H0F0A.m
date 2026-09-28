@@ -29,11 +29,12 @@ classdef H0F0A < beast.CellModels.CellModel
         Nu = 1;
         Ny = 1;
 
-        coeffNames = { "Qn_Ah", "eta", "soc", "ocv0", "ocv1" };
-        xNames = { "SoC"};
-        pNames = { "R0" };
-        uNames = { "Icell" };
-        yNames = { "Vcell" };
+        Coefficients = { "Qn_Ah", "eta", "soc", "ocv0", "ocv1" };
+        
+        States = { "SoC"};
+        Parameters = { "R0" };
+        Inputs = { "Icell" };  
+        Outputs = { "Vcell" };
     end
 
 

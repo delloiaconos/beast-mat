@@ -34,12 +34,12 @@ classdef R0R1T1 < beast.CellModels.CellModel
         Nu = 1;
         Ny = 1;
         
-        coeffNames = {"Qn_Ah", "eta", "soc", "ocv0", "ocv1" };
+        Coefficients = {"Qn_Ah", "eta", "soc", "ocv0", "ocv1" };
         
-        xNames = { "SoC", "V1" };
-        pNames = { "R0", "R1", "tau1" };
-        uNames = { "Icell" };
-        yNames = { "Vcell" };
+        States = { "SoC", "V1" };
+        Parameters = { "R0", "R1", "tau1" };
+        Inputs = { "Icell" };
+        Outputs = { "Vcell" };
     end
 
     properties(Access=public)
