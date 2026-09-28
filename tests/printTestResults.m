@@ -15,9 +15,15 @@
 %
 % NOTE: Detailed file documentation is to be added as the implementation matures.
 
-function printTestResults(results)
-%PRINTTESTRESULTS Prints all the test results.
-%   Detailed explanation goes here
+function printTestResults(results, printPassed)
+%PRINTTESTRESULTS Prints the test results.
+%   PRINTTESTRESULTS(RESULTS) prints the summary and every test result.
+%   PRINTTESTRESULTS(RESULTS, PRINTPASSED) suppresses individual PASSED
+%   entries when PRINTPASSED is false.  The summary is always printed.
+    if nargin < 2
+        printPassed = true;
+    end
+
     statuses = {results.status};
 
     fprintf('\nCellModel test summary: %d passed, %d skipped, %d failed\n', ...
@@ -26,6 +32,10 @@ function printTestResults(results)
         sum(strcmp(statuses, 'FAILED')));
     
     for index = 1:numel(results)
+        if ~printPassed && strcmp(results(index).status, 'PASSED')
+            continue;
+        end
+
         fprintf('[%s] %s: %s\n', ...
             upper(results(index).status), ...
             results(index).name, ...
