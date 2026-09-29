@@ -101,15 +101,9 @@ classdef CellModel
                 throw(ex);
             end
             
-            % Check supplied coefficient values.
-            k = keys(obj.Coefficients);
-            fldexist = @(field) isfield( coeffs, field );
-            tfa = cellfun( fldexist, k );
-            
-            if( ~all(tfa) )
+            if( ~obj.checkCoefficients( coeffs ) )
                 ex = MException( "CellModel:coeffs", ...
-                                 "Required coefficients '%s' not FOUND!", ...
-                                 strjoin( k(~tfa), " ," ) );
+                                 "Required coefficients not FOUND!"  );
                 throw(ex);
             end
             
@@ -150,21 +144,6 @@ classdef CellModel
             end
         end
 
-        function tf = checkCoefficients( obj, coeffs )
-            
-            %fldexist = @(field) isfield( coeffs, field );
-            %tfa = cellfun( fldexist, obj.Coefficients );
-            %
-            %if( ~all(tfa) )
-            %    dispError( "Required coefficients '%s' not FOUND!\n", strjoin( [obj.Coefficients{~tfa}], " ," ) );
-            %    tf = false;
-            %else
-            %    tf = true;
-            %end
-            tf = false;
-            
-        end
-        
         function ret = checkCovariances( obj, cov )
             
             fldexist = @(field) isfield( cov, field );
@@ -202,5 +181,28 @@ classdef CellModel
         
     end
     
+    methods(Access=public)
+
+        function tf = checkCoefficients( obj, coeffs )
+            
+            % Check supplied coefficient exists.
+            k = keys(obj.Coefficients);
+            fldexist = @(field) isfield( coeffs, field );
+            tf = all( cellfun( fldexist, k ) );
+            
+        end
+
+        function valid = validateCoefficients( obj, coeffs ) 
+            % Check supplied coefficient boundaries.
+            c = struct2dict( coeffs );
+            k = c.keys();
+            
+            tf = arrayfun( @(key) obj.Coefficients( key ).validate( c{key} ), ...
+                k( isKey( obj.Coefficients, k ) ) );
+
+            valid = all( tf );
+        end
+        
+    end
 end
 
