@@ -67,8 +67,12 @@ classdef Bounds
             if ~isnumeric(val) || ~isscalar(val) || ...
                 ~isreal( val ) || isnan( val )
                 valid = false;
-                return;
+                return
             end
+
+            % Compare using the same floating-point representation as the
+            % stored bounds. This also supports integer numeric inputs.
+            val = double(val);
 
             % Check Lower Bound
             if isreal( obj.lb ) && ~isnan( obj.lb ) 

@@ -130,10 +130,19 @@ function results = test_bounds(results)
 end
 
 function expected = expectedValidation(lb, ub, value, strictLB, strictUB)
+    if isnumeric(value) && isvector(value) && ~isscalar(value)
+        expected = all(arrayfun( ...
+            @(element) expectedValidation(lb, ub, element, strictLB, strictUB), ...
+            value));
+        return;
+    end
+
     if ~isnumeric(value) || ~isscalar(value) || ~isreal(value) || isnan(value)
         expected = false;
         return;
     end
+
+    value = double(value);
 
     if isnan(lb) || ~isreal(lb)
         validLB = true;
