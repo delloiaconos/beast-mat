@@ -57,6 +57,12 @@ classdef Bounds
         
         function valid = validate(obj, val)
             
+            if isvector( val ) && ~isscalar( val )
+                tf = arrayfun( @(v) obj.validate( v ), val );
+                valid = all( tf );
+                return
+            end
+
             % Check Value
             if ~isnumeric(val) || ~isscalar(val) || ...
                 ~isreal( val ) || isnan( val )
