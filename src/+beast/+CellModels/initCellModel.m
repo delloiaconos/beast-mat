@@ -24,12 +24,12 @@ function [ cellmodel ] = initCellModel( cmSelector, basepath, prefix )
         pause();
     end
     
-    cmCoefficients = eval( [cmName, '.Coefficients'] );
+    cmCoefficients = eval( [cmName, '.coefficients'] );
     
     coeffs = struct();
     
     for kk=1:length(cmCoefficients)
-        coefficientName = char(cmCoefficients(kk).Name);
+        coefficientName = char(cmCoefficients{kk});
 	 fName = fullfile( basepath, sprintf( "%s_pfix_%s.in", prefix, coefficientName ) );
     	if exist( fName, 'file' ) ~= 2 
     		dispError( "CellModelInit - File '%s' not found!", fName );

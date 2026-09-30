@@ -32,11 +32,15 @@ classdef CellModel
         Nu;
         Ny;
         
-        Coefficients;
+        coefficients;
         States;
         Parameters;
         Inputs;
         Outputs;
+    end
+
+    properties(Constant,Access=protected,Abstract)
+        coefficientsBound;
     end
 
     properties(SetAccess=immutable,GetAccess=public)
@@ -53,33 +57,31 @@ classdef CellModel
     methods(Access=private)
         function obj = checkStandardObjType( obj, myName, myObj )
 
-            % Every concrete cell model must provide a non-empty ordered
-            % struct array with Name and Bounds fields.
-            if ~isstruct(myObj) || isempty(myObj) || ~isvector(myObj) || ...
-                    ~all(isfield(myObj, {'name', 'bounds'}))
-                ex = MException( "CellModel:checkStandardObjType", ...
-                    sprintf( "Variable '%s' must be a non-empty ordered struct array with Name and Bounds fields.", myName ) );
-                throw(ex);
-            end
+            if strcmp(myName, "coefficients")
+                if iscell(myObj)
+                    names = string(myObj);
+                    isValid = all(cellfun( ...
+                        @(name) (ischar(name) && isrow(name)) || ...
+                        (isstring(name) && isscalar(name)), myObj));
+                elseif isstring(myObj)
+                    names = myObj;
+                    isValid = all(isscalar(myObj) | isstring(myObj));
+                else
+                    names = strings(0, 1);
+                    isValid = false;
+                end
 
-            objValues = {myObj.Bounds};
-            containsBounds = all(cellfun( ...
-                @(value) isa(value, 'bounds') && isscalar(value), ...
-                objValues));
-
-            objNames = {myObj.Name};
-            containsNames = all(cellfun( ...
-                @(name) (ischar(name) || isstring(name)) && isscalar(string(name)), ...
-                objNames));
-            if containsNames
-                names = string(objNames);
-                containsNames = all(strlength(names) > 0) && ...
+                isValid = isValid && ~isempty(names) && isvector(names) && ...
+                    all(strlength(names) > 0) && ...
                     numel(unique(names)) == numel(names);
+            else
+                isValid = iscell(myObj) && ~isempty(myObj) && ...
+                    all(cellfun(@(value) isa(value, 'Bounds') && isscalar(value), myObj));
             end
 
-            if ~containsBounds || ~containsNames
+            if ~isValid
                 ex = MException( "CellModel:checkStandardObjType", ...
-                    sprintf( "Every '%s' entry must have a unique name and a scalar Bounds object.", myName ) );
+                    sprintf( "Variable '%s' has an invalid type or contents.", myName ) );
                 throw(ex);
             end
 
@@ -91,8 +93,14 @@ classdef CellModel
         function obj = CellModel( coeffs, cov, deltat )
             % Check CellModel Class specifications for Abstract properties.
 
-            % Check `Coefficients` property.
-            obj.checkStandardObjType( "Coefficients", obj.Coefficients );
+            % Check coefficient names, bounds, and their ordering.
+            obj.checkStandardObjType( "coefficients", obj.coefficients );
+            obj.checkStandardObjType( "coefficientsBound", obj.coefficientsBound );
+            if numel(obj.coefficients) ~= numel(obj.coefficientsBound)
+                ex = MException( "CellModel:coefficients", ...
+                    "coefficients and coefficientsBound must have the same length." );
+                throw(ex);
+            end
 
             % Check constructur specifications
             if isa( deltat, 'duration' )
@@ -192,7 +200,7 @@ classdef CellModel
 
         function tf = checkCoefficients( obj, coeffs )
             % Check supplied coefficient exists.
-            k = string({obj.Coefficients.Name});
+            k = string(obj.coefficients);
 
             fldexist = @(field) isfield( coeffs, char(field) );
             tf = all( arrayfun( fldexist, k ) );
@@ -200,13 +208,13 @@ classdef CellModel
 
         function valid = validateCoefficients( obj, coeffs ) 
             % Check supplied coefficient boundaries.
-            k = string({obj.Coefficients.Name});
+            k = string(obj.coefficients);
             tf = false(size(k));
 
             for ii = 1:numel(k)
                 field = char(k(ii));
                 if isfield(coeffs, field)
-                    tf(ii) = obj.Coefficients(ii).Bounds.validate(coeffs.(field));
+                    tf(ii) = obj.coefficientsBound{ii}.validate(coeffs.(field));
                 end
             end
 

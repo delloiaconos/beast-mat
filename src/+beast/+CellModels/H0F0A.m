@@ -29,14 +29,12 @@ classdef H0F0A < beast.CellModels.CellModel
         Nu = 1;
         Ny = 1;
 
-        Coefficients = struct( ...
-            'name',  {"Qn_Ah", "eta", "soc", "ocv0", "ocv1"}, ...
-            'bounds', {Bounds( 0.0, NaN, true, false ), ...
-                       Bounds( -1.0, 1.0, false, false ), ...
-                       Bounds( 0.0, 1.0, false, false ), ...
-                       Bounds( NaN, NaN, false, false ), ...
-                       Bounds( NaN, NaN, false, false )} ...
-        );
+        coefficients = {"Qn_Ah", "eta", "soc", "ocv0", "ocv1"};
+        coefficientsBound = {Bounds( 0.0, NaN, true, false ), ...
+                            Bounds( -1.0, 1.0, false, false ), ...
+                            Bounds( 0.0, 1.0, false, false ), ...
+                            Bounds( NaN, NaN, false, false ), ...
+                            Bounds( NaN, NaN, false, false )};
         
         States = { "SoC" };
         Parameters = { "R0" };
@@ -45,7 +43,7 @@ classdef H0F0A < beast.CellModels.CellModel
     end
 
 
-    properties( SetAccess=immutable, GetAccess=public )
+    properties(SetAccess=immutable,GetAccess=public)
         Qnom;
         eta;
 
@@ -153,7 +151,6 @@ classdef H0F0A < beast.CellModels.CellModel
     end
 
 end
-
 
 
 
