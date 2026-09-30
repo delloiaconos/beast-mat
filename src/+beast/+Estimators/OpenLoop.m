@@ -58,7 +58,7 @@ classdef OpenLoop < beast.Estimators.Estimator
             MDobj = obj.objCell; % Useful copy
             
             xPnew= MDobj.f0( obj.xPold, obj.pPold, unew, obj.deltat );
-            xPnew = MDobj.coerceState( xPnew );
+            xPnew = MDobj.coerceStates( xPnew );
 
             obj.xPold   = xPnew;
             obj.told    = tnew;

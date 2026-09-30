@@ -115,7 +115,7 @@ classdef EKFdual < beast.Estimators.Estimator
     
             % (3/XX) STATE - estimate time update
             xMnew = MDobj.f0( obj.xPold, pMnew, obj.uold, obj.deltat );
-            xMnew = MDobj.coerceState( xMnew );
+            xMnew = MDobj.coerceStates( xMnew );
 
             % (4/XX) STATE - error covariance time update
             f1xold = MDobj.f1x( obj.xPold, pMnew, obj.uold, obj.deltat ); % matrix A(k-1)
@@ -134,7 +134,7 @@ classdef EKFdual < beast.Estimators.Estimator
             xcorr = Lxnew*dynew;
             
             xPnew = xMnew + xcorr;
-            xPnew = MDobj.coerceState( xPnew );
+            xPnew = MDobj.coerceStates( xPnew );
     
             % (7/XX) STATE - error covariance measurement update
             sxPnew = (obj.eyeNx - Lxnew*g1xnew)*sxMnew;                   %

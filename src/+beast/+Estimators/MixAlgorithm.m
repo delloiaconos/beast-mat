@@ -86,7 +86,7 @@ classdef MixAlgorithm < beast.Estimators.Estimator
             xcorr = Lxnew*(yXPnew - g0new);
 
             xPnew = xMnew + xcorr;
-            xPnew = MDobj.coerceState( xPnew );
+            xPnew = MDobj.coerceStates( xPnew );
 
             obj.xPold   = xPnew;
             obj.told    = tnew;

@@ -72,7 +72,7 @@ classdef EnhancedMixAlgorithm < beast.Estimators.Estimator
             err = yXPnew - g0new;
     
             xPnew = xMnew + obj.Lxold*err;
-            xPnew = MDobj.coerceState( xPnew );
+            xPnew = MDobj.coerceStates( xPnew );
     
             % ATTENZIONE!!! Non e' generico, migliorare il calcolo del guadagno!
             pPnew = obj.pPold + obj.Lpold*err*sign( unew );
