@@ -140,58 +140,6 @@ classdef R0A1B1 < beast.CellModels.CellModel
         end
 
     end
-
-
-    methods(Static)    
-
-        % CHECK Parameter Compatibility
-        function pp = coerceParameters( pp )
-            if pp(1,1)<=0.
-                pp(1,1) = beast.CellModels.CellModel.zerohere;
-                disp 'WARNING: R0A1B1 parameter p(1,1)=R0<=0 CORRECTED TO ZERO'
-            end
-            if pp(2,1)<=0.
-                pp(2,1) = beast.CellModels.CellModel.zerohere;
-                disp 'WARNING: R0A1B1 parameter p(2,1)=A1<=0 CORRECTED TO ZERO';
-            elseif pp(2,1)>1.
-                pp(2,1) = 1.;
-                disp 'WARNING: R0A1B1 parameter p(2,1)=A1>1 CORRECTED TO ONE';
-            end
-            if pp(3,1)>=0.
-                pp(3,1) = -beast.CellModels.CellModel.zerohere;
-                disp 'WARNING: R0A1B1 parameter p(3,1)=B1>=0 CORRECTED TO -ZERO'
-            end
-        end
-
-        % CHECK State Compatibility
-        function xx = coerceState( xx )
-            % TODO_020: Check State Consistency
-            if xx(1,1)>1
-                xx(1,1) = 1.;
-                disp 'WARNING: R0A1B1 parameter x(1,1)=SOC>1. CORRECTED TO 1'
-            elseif xx(1,1)<0
-                xx(1,1) = 0.;
-                disp 'WARNING: R0A1B1 parameter x(1,1)=SOC<0. CORRECTED TO 0'
-            end
-        end
-        
-        % CHECK Parameter Dimension Consistency
-        function checkCellModelDim( AA )
-            if beast.CellModels.R0A1B1.Nx ~= length(AA.x0)
-                disp 'ERROR in CellModel - 10 Nx'
-                pause
-            end
-            if beast.CellModels.R0A1B1.Np ~= length(AA.p0)
-                disp 'ERROR in CellModel - 20 Np'
-                pause
-            end
-            if beast.CellModels.R0A1B1.Nu ~= length(AA.u_all(:,1))
-                disp 'ERROR in CellModel - 30 Nu'
-                pause
-            end
-        end
-
-    end
     
 end
 

@@ -121,46 +121,5 @@ classdef H0F0A < beast.CellModels.CellModel
         
     end
 
-    methods(Static)    
-        
-        % CHECK Parameter Compatibility
-        function pp = coerceParameters( pp )
-            if pp(1)<=0.
-                pp(1) = beast.CellModels.CellModel.zerohere;
-                disp 'WARNING: H0F0A parameter p(1)=R0<0. CORRECTED TO ZERO'
-            end
-        end
-        
-        % CHECK State Compatibility
-        function xx = coerceState( xx )
-            % TODO_020: Check State Consistency
-            if xx(1,1)>1
-                xx(1,1) = 1.;
-                disp 'WARNING: H0F0A parameter x(1,1)=SOC>1. CORRECTED TO 1'
-            elseif xx(1,1)<0
-                xx(1,1) = 0.;
-                disp 'WARNING: H0F0A parameter x(1,1)=SOC<0. CORRECTED TO 0'
-            end
-        end
-        
-        % CHECK Parameter Dimension Consistency
-        function CellModelDimCheck( AA ) 
-            if beast.CellModels.H0F0A.Nx ~= length(AA.x0)
-                disp 'ERROR in CellModel - 10 Nx'
-                pause
-            end
-            if beast.CellModels.H0F0A.Np ~= length(AA.p0)
-                disp 'ERROR in CellModel - 20 Np'
-                pause
-            end
-            if beast.CellModels.H0F0A.Nu ~= length(AA.u_all(:,1))
-                disp 'ERROR in CellModel - 30 Nu'
-                pause
-            end
-        end    
-
-    end
-
 end
-
 

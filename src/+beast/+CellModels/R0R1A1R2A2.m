@@ -33,11 +33,6 @@ classdef R0R1A1R2A2 < beast.CellModels.CellModel
         Ny = 1;
         
         coefficients = {"Qn_Ah", "eta", "soc", "ocv0", "ocv1"};
-        coefficientsBound = {Bounds( 0.0, NaN, true, false ), ...
-                            Bounds( -1.0, 1.0, false, false ), ...
-                            Bounds( 0.0, 1.0, false, false ), ...
-                            Bounds( NaN, NaN, false, false ), ...
-                            Bounds( NaN, NaN, false, false )};
 
         states = { "SoC", "V1", "V2" };
         parameters = { "R0", "R1", "A1", "R2", "A2" };
@@ -46,8 +41,25 @@ classdef R0R1A1R2A2 < beast.CellModels.CellModel
     end
 
     properties(Constant,GetAccess=protected)
-        statesBound = {Bounds(0.0, 1.0, false, false), Bounds(NaN, NaN, false, false), Bounds(NaN, NaN, false, false)};
-        parametersBound = {Bounds(NaN, NaN, false, false), Bounds(NaN, NaN, false, false), Bounds(NaN, NaN, false, false), Bounds(NaN, NaN, false, false), Bounds(NaN, NaN, false, false)};
+        coefficientsBound   = { ...
+                            Bounds( 0.0, NaN, true, false ), ...
+                            Bounds( -1.0, 1.0, false, false ), ...
+                            Bounds( 0.0, 1.0, false, false ), ...
+                            Bounds( NaN, NaN, false, false ), ...
+                            Bounds( NaN, NaN, false, false ) ...
+                        };
+        statesBound         = { ...
+                            Bounds(0.0, 1.0, false, false), ... 
+                            Bounds(NaN, NaN, false, false), ...
+                            Bounds(NaN, NaN, false, false) ...
+                        };
+        parametersBound     = { 
+                            Bounds(NaN, NaN, false, false), ...
+                            Bounds(NaN, NaN, false, false), ...
+                            Bounds(NaN, NaN, false, false), ...
+                            Bounds(NaN, NaN, false, false), ...
+                            Bounds(NaN, NaN, false, false) ...
+                        };
     end
 
     properties(Access=public)
@@ -167,71 +179,8 @@ classdef R0R1A1R2A2 < beast.CellModels.CellModel
             res(1,5) = 0.;
         end
 
-    end 
-
-    methods(Static)        
-        
-        % CHECK Parameter Compatibility
-        function pp = coerceParameters( pp )
-            if pp(1,1)<=0.
-                pp(1,1) = beast.CellModels.CellModel.zerohere;
-                disp 'WARNING: R0R1A1R2A2 - parameter p(1,1)=R0<=0 CORRECTED TO ZERO'
-            end
-            if pp(2,1)<=0.
-                pp(2,1) = beast.CellModels.CellModel.zerohere;
-                disp 'WARNING: R0R1A1R2A2 - parameter p(2,1)=R1<=0 CORRECTED TO ZERO';
-            end
-            if pp(3,1)<=0.
-                pp(3,1) = beast.CellModels.CellModel.zerohere;
-                disp 'WARNING: R0R1A1R2A2 - parameter p(3,1)=Alpha1<=0 CORRECTED TO ZERO'
-            elseif pp(3,1)>=1.
-                pp(3,1) = 1-beast.CellModels.CellModel.zerohere;
-                disp 'WARNING: R0R1A1R2A2 - parameter p(3,1)=Alpha1>=1 CORRECTED TO 1-ZERO'
-            end
-            if pp(4,1)<=0.
-                pp(4,1) = beast.CellModels.CellModel.zerohere;
-                disp 'WARNING: R0R1A1R2A2 - parameter p(4,1)=R2<=0 CORRECTED TO ZERO';
-            end
-            if pp(5,1)<=0.
-                pp(5,1) = beast.CellModels.CellModel.zerohere;
-                disp 'WARNING: R0R1A1R2A2 - parameter p(5,1)=Alpha2<=0 CORRECTED TO ZERO'
-            elseif pp(5,1)>=1.
-                pp(5,1) = 1-beast.CellModels.CellModel.zerohere;
-                disp 'WARNING: R0R1A1R2A2 - parameter p(5,1)=Alpha2>=1 CORRECTED TO 1-ZERO'
-            end
-        end
-        
-        
-        % CHECK State Compatibility
-        function xx = coerceState( xx )
-            % TODO_020: Check State Consistency
-            if xx(1,1)>1
-                xx(1,1) = 1.;
-                disp 'WARNING: R0R1A1R2A2 - parameter x(1,1)=SOC>1. CORRECTED TO 1'
-            elseif xx(1,1)<0
-                xx(1,1) = 0.;
-                disp 'WARNING: R0R1A1R2A2 - parameter x(1,1)=SOC<0. CORRECTED TO 0'
-            end
-        end
-        
-        % CHECK Parameter Dimension Consistency
-        function checkCellModelDim( AA )
-            if beast.CellModels.R0R1A1R2A2.Nx ~= length(AA.x0)
-                disp 'ERROR: R0R1A1R2A2 - 10 Nx'
-                pause
-            end
-            if beast.CellModels.R0R1A1R2A2.Np ~= length(AA.p0)
-                disp 'ERROR: R0R1A1R2A2 - 20 Np'
-                pause
-            end
-            if beast.CellModels.R0R1A1R2A2.Nu ~= length(AA.u_all(:,1))
-                disp 'ERROR: R0R1A1R2A2 - 30 Nu'
-                pause
-            end
-        end
-
-    end    
-
+    end
+    
 end
 
 
