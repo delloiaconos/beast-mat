@@ -56,7 +56,7 @@ classdef CellModel
             % Every concrete cell model must provide a non-empty ordered
             % struct array with Name and Bounds fields.
             if ~isstruct(myObj) || isempty(myObj) || ~isvector(myObj) || ...
-                    ~all(isfield(myObj, {'Name', 'Bounds'}))
+                    ~all(isfield(myObj, {'name', 'bounds'}))
                 ex = MException( "CellModel:checkStandardObjType", ...
                     sprintf( "Variable '%s' must be a non-empty ordered struct array with Name and Bounds fields.", myName ) );
                 throw(ex);
@@ -64,7 +64,7 @@ classdef CellModel
 
             objValues = {myObj.Bounds};
             containsBounds = all(cellfun( ...
-                @(value) isa(value, 'Bounds') && isscalar(value), ...
+                @(value) isa(value, 'bounds') && isscalar(value), ...
                 objValues));
 
             objNames = {myObj.Name};
