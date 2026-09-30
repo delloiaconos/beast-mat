@@ -296,6 +296,50 @@ classdef CellModel
             end
             x = reshape(values, originalSize);
         end
+
+        function valid = checkModelShape( obj, shape )
+            % Check model dimensions supplied as a struct or dictionary.
+            valid = false;
+            requiredNames = ["Nx", "Ny", "Nu", "Np"];
+            expectedValues = [obj.Nx, obj.Ny, obj.Nu, obj.Np];
+
+            try
+                suppliedValues = cell(1, numel(requiredNames));
+
+                if isstruct(shape) && isscalar(shape)
+                    if ~all(isfield(shape, cellstr(requiredNames)))
+                        return;
+                    end
+
+                    for ii = 1:numel(requiredNames)
+                        suppliedValues{ii} = shape.(char(requiredNames(ii)));
+                    end
+                elseif isa(shape, 'dictionary')
+                    if ~all(isKey(shape, requiredNames))
+                        return;
+                    end
+
+                    for ii = 1:numel(requiredNames)
+                        suppliedValues{ii} = shape{requiredNames(ii)};
+                    end
+                else
+                    return;
+                end
+
+                valid = true;
+                for ii = 1:numel(requiredNames)
+                    value = suppliedValues{ii};
+                    if ~isnumeric(value) || ~isscalar(value) || ...
+                            ~isreal(value) || isnan(value) || isinf(value) || ...
+                            value ~= floor(value) || double(value) ~= expectedValues(ii)
+                        valid = false;
+                        return;
+                    end
+                end
+            catch
+                valid = false;
+            end
+        end
         
     end
 end
