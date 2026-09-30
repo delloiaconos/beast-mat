@@ -29,7 +29,8 @@ function [ cellmodel ] = initCellModel( cmSelector, basepath, prefix )
     coeffs = struct();
     
     for kk=1:length(cmCoefficients)
-    	fName = fullfile( basepath, sprintf( "%s_pfix_%s.in", prefix, cmCoefficients{kk} ) );
+        coefficientName = char(cmCoefficients(kk).Name);
+	 fName = fullfile( basepath, sprintf( "%s_pfix_%s.in", prefix, coefficientName ) );
     	if exist( fName, 'file' ) ~= 2 
     		dispError( "CellModelInit - File '%s' not found!", fName );
         	pause();
@@ -38,7 +39,7 @@ function [ cellmodel ] = initCellModel( cmSelector, basepath, prefix )
 			[vector,~] = fread(fr,'double');
             fclose(fr);
             
-            coeffs.(cmCoefficients{kk}) = vector;
+            coeffs.(coefficientName) = vector;
     	end
     end
     

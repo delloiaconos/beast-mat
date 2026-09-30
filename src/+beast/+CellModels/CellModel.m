@@ -53,26 +53,33 @@ classdef CellModel
     methods(Access=private)
         function obj = checkStandardObjType( obj, myName, myObj )
 
-            % Every concrete cell model must provide a non-empty dictionary whose values are Bounds objects.
-            if ~isa(myObj, 'dictionary') || isempty(myObj)
+            % Every concrete cell model must provide a non-empty ordered
+            % struct array with Name and Bounds fields.
+            if ~isstruct(myObj) || isempty(myObj) || ~isvector(myObj) || ...
+                    ~all(isfield(myObj, {'Name', 'Bounds'}))
                 ex = MException( "CellModel:checkStandardObjType", ...
-                    sprintf( "Variable '%s' must be a non-empty dictionary of Bounds objects.", myName ) );
+                    sprintf( "Variable '%s' must be a non-empty ordered struct array with Name and Bounds fields.", myName ) );
                 throw(ex);
             end
 
-            objValues = values(myObj);
-            if iscell(objValues)
-                containsBounds = all(cellfun( ...
-                    @(value) isa(value, 'Bounds') && isscalar(value), ...
-                    objValues));
-            else
-                containsBounds = isa(objValues, 'Bounds') && ...
-                    all(arrayfun(@(value) isscalar(value), objValues));
+            objValues = {myObj.Bounds};
+            containsBounds = all(cellfun( ...
+                @(value) isa(value, 'Bounds') && isscalar(value), ...
+                objValues));
+
+            objNames = {myObj.Name};
+            containsNames = all(cellfun( ...
+                @(name) (ischar(name) || isstring(name)) && isscalar(string(name)), ...
+                objNames));
+            if containsNames
+                names = string(objNames);
+                containsNames = all(strlength(names) > 0) && ...
+                    numel(unique(names)) == numel(names);
             end
 
-            if ~containsBounds
+            if ~containsBounds || ~containsNames
                 ex = MException( "CellModel:checkStandardObjType", ...
-                    sprintf( "Every '%s' dictionary value must be a scalar Bounds object.", myName ) );
+                    sprintf( "Every '%s' entry must have a unique name and a scalar Bounds object.", myName ) );
                 throw(ex);
             end
 
@@ -184,21 +191,24 @@ classdef CellModel
     methods(Access=public)
 
         function tf = checkCoefficients( obj, coeffs )
-            
             % Check supplied coefficient exists.
-            k = keys(obj.Coefficients);
-            fldexist = @(field) isfield( coeffs, field );
-            tf = all( cellfun( fldexist, k ) );
-            
+            k = string({obj.Coefficients.Name});
+
+            fldexist = @(field) isfield( coeffs, char(field) );
+            tf = all( arrayfun( fldexist, k ) );
         end
 
         function valid = validateCoefficients( obj, coeffs ) 
             % Check supplied coefficient boundaries.
-            c = struct2dict( coeffs );
-            k = c.keys();
-            
-            tf = arrayfun( @(key) obj.Coefficients( key ).validate( c{key} ), ...
-                k( isKey( obj.Coefficients, k ) ) );
+            k = string({obj.Coefficients.Name});
+            tf = false(size(k));
+
+            for ii = 1:numel(k)
+                field = char(k(ii));
+                if isfield(coeffs, field)
+                    tf(ii) = obj.Coefficients(ii).Bounds.validate(coeffs.(field));
+                end
+            end
 
             valid = all( tf );
         end
