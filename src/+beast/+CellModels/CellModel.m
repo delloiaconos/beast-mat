@@ -238,6 +238,64 @@ classdef CellModel
 
             valid = all( tf );
         end
+
+        function valid = validateParameter( obj, p )
+            % Validate each parameter against its corresponding bound.
+            if ~isnumeric(p) || numel(p) ~= obj.Np
+                valid = false;
+                return;
+            end
+
+            values = p(:);
+            valid = true;
+            for ii = 1:obj.Np
+                valid = valid && obj.parametersBound{ii}.validate(values(ii));
+            end
+        end
+
+        function valid = validateStates( obj, x )
+            % Validate each state against its corresponding bound.
+            if ~isnumeric(x) || numel(x) ~= obj.Nx
+                valid = false;
+                return;
+            end
+
+            values = x(:);
+            valid = true;
+            for ii = 1:obj.Nx
+                valid = valid && obj.statesBound{ii}.validate(values(ii));
+            end
+        end
+
+        function p = coerceParameters( obj, p )
+            % Coerce each parameter using its corresponding bound.
+            if ~isnumeric(p) || numel(p) ~= obj.Np
+                p = NaN;
+                return;
+            end
+
+            originalSize = size(p);
+            values = p(:);
+            for ii = 1:obj.Np
+                values(ii) = obj.parametersBound{ii}.coerce(values(ii));
+            end
+            p = reshape(values, originalSize);
+        end
+
+        function x = coerceStates( obj, x )
+            % Coerce each state using its corresponding bound.
+            if ~isnumeric(x) || numel(x) ~= obj.Nx
+                x = NaN;
+                return;
+            end
+
+            originalSize = size(x);
+            values = x(:);
+            for ii = 1:obj.Nx
+                values(ii) = obj.statesBound{ii}.coerce(values(ii));
+            end
+            x = reshape(values, originalSize);
+        end
         
     end
 end
