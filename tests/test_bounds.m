@@ -39,8 +39,8 @@ function results = test_bounds(results)
 
             % Bounds accepts scalar numeric bounds, but not logical, text,
             % empty, vector, or struct inputs.
-            boundsAccepted = isnumeric(lb) && isscalar(lb) && ...
-                isnumeric(ub) && isscalar(ub);
+            boundsAccepted = isnumeric(lb) && isscalar(lb) && isreal(lb) && ...
+                isnumeric(ub) && isscalar(ub) && isreal(ub);
 
             for iValue = 1:numel(inputs)
                 value = inputs{iValue};

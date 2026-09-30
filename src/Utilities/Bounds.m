@@ -1,20 +1,24 @@
 classdef Bounds
-    %BOUNDS Scalar interval validator.
-    %   BOUNDS(LB, UB, STRICTLB, STRICTUB) describes the interval between
-    %   scalar numeric bounds LB and UB.  A NaN or complex bound is
-    %   treated as absent.  STRICTLB and STRICTUB select open boundaries;
-    %   otherwise the corresponding boundary is closed.
+    %BOUNDS Scalar real bounds with recursive validation and coercion.
+    %   BOUNDS(LB, UB, STRICTLB, STRICTUB) defines lower and upper bounds.
+    %   Bounds must be scalar real numeric values. NaN and +/-Inf disable
+    %   the corresponding bound. STRICTLB and STRICTUB select open bounds.
     %
-    %   VALIDATE(OBJ, VALUE) returns true when VALUE is a real, non-NaN
-    %   scalar numeric value inside the interval, and false otherwise.
+    %   VALIDATE(OBJ, VALUE) returns a scalar logical. Numeric arrays are
+    %   validated element by element; invalid or nonnumeric inputs return
+    %   false without throwing an error.
+    %
+    %   COERCE(OBJ, VALUE) moves numeric values into the bounds recursively
+    %   and preserves the input numeric class. Invalid inputs return NaN.
 
-    properties(Access=protected)
+    properties(Access=private)
+        epsilon (1,1) double = 1e-15
         lb (1,1) double = -Inf
         ub (1,1) double = Inf
-        strictLB (1,1) logical = false  % false = >= , true = >
-        strictUB (1,1) logical = false  % false = <= , true = <
+        strictLB (1,1) logical = false
+        strictUB (1,1) logical = false
     end
-    
+
     methods(Access=public)
         function obj = Bounds(lb, ub, strictLB, strictUB)
             if nargin > 4
@@ -23,80 +27,121 @@ classdef Bounds
             end
 
             if nargin > 0
-                if ~isnumeric(lb) || ~isscalar(lb)
-                    error('Bounds:lb', ...
-                        'Lower bound must be a scalar numeric value.');
-                end
+                validateBound(lb, 'lower');
                 obj.lb = double(lb);
             end
 
             if nargin > 1
-                if ~isnumeric(ub) || ~isscalar(ub)
-                    error('Bounds:ub', ...
-                        'Upper bound must be a scalar numeric value.');
-                end
+                validateBound(ub, 'upper');
                 obj.ub = double(ub);
             end
 
             if nargin > 2
-                if ~islogical(strictLB) || ~isscalar(strictLB)
-                    error('Bounds:strictLB', ...
-                        'strictLB must be a scalar logical value.');
-                end
+                validateStrict(strictLB, 'strictLB');
                 obj.strictLB = strictLB;
             end
-            
+
             if nargin > 3
-                if ~islogical(strictUB) || ~isscalar(strictUB)
-                    error('Bounds:strictUB', ...
-                        'strictUB must be a scalar logical value.');
-                end
+                validateStrict(strictUB, 'strictUB');
                 obj.strictUB = strictUB;
             end
         end
-        
+
         function valid = validate(obj, val)
-            
-            if isvector( val ) && ~isscalar( val )
-                tf = arrayfun( @(v) obj.validate( v ), val );
-                valid = all( tf );
-                return
-            end
-
-            % Check Value
-            if ~isnumeric(val) || ~isscalar(val) || ...
-                ~isreal( val ) || isnan( val )
-                valid = false;
-                return
-            end
-
-            % Compare using the same floating-point representation as the
-            % stored bounds. This also supports integer numeric inputs.
-            val = double(val);
-
-            % Check Lower Bound
-            if isreal( obj.lb ) && ~isnan( obj.lb ) 
-                if obj.strictLB
-                    validLB = (val > obj.lb);
-                else
-                    validLB = (val >= obj.lb);
+            % Validation is deliberately non-throwing for arbitrary input.
+            try
+                if ~isnumeric(val) || isempty(val) || ~isreal(val)
+                    valid = false;
+                    return;
                 end
-            else
+
+                if ~isscalar(val)
+                    elementResults = arrayfun( ...
+                        @(element) obj.validate(element), val);
+                    valid = all(elementResults(:));
+                    return;
+                end
+
+                value = double(val);
                 validLB = true;
-            end
-            
-            % Check Upper Bound
-            if isreal( obj.ub ) && ~isnan( obj.ub ) 
-                if obj.strictUB
-                    validUB = (val < obj.ub);
-                else
-                    validUB = (val <= obj.ub);
-                end
-            else
                 validUB = true;
-            end
 
-            valid = validLB && validUB;
+                if ~isnan(obj.lb) && ~isinf(obj.lb)
+                    if obj.strictLB
+                        validLB = value > obj.lb;
+                    else
+                        validLB = value >= obj.lb;
+                    end
+                end
+
+                if ~isnan(obj.ub) && ~isinf(obj.ub)
+                    if obj.strictUB
+                        validUB = value < obj.ub;
+                    else
+                        validUB = value <= obj.ub;
+                    end
+                end
+
+                valid = logical(validLB && validUB);
+            catch
+                valid = false;
+            end
         end
+
+        function coerced = coerce(obj, val)
+            % Coercion returns NaN for invalid or nonnumeric inputs.
+            try
+                if ~isnumeric(val) || isempty(val) || ~isreal(val)
+                    coerced = NaN;
+                    return;
+                end
+
+                if ~isscalar(val)
+                    coerced = arrayfun(@(element) obj.coerce(element), val);
+                    coerced = cast(coerced, 'like', val);
+                    return;
+                end
+
+                value = double(val);
+
+                if ~isnan(obj.lb) && ~isinf(obj.lb)
+                    if obj.strictLB
+                        if value <= obj.lb
+                            value = obj.lb + obj.epsilon;
+                        end
+                    elseif value < obj.lb
+                        value = obj.lb;
+                    end
+                end
+
+                if ~isnan(obj.ub) && ~isinf(obj.ub)
+                    if obj.strictUB
+                        if value >= obj.ub
+                            value = obj.ub - obj.epsilon;
+                        end
+                    elseif value > obj.ub
+                        value = obj.ub;
+                    end
+                end
+
+                coerced = cast(value, 'like', val);
+            catch
+                coerced = NaN;
+            end
+        end
+    end
+end
+
+function validateBound(value, boundName)
+    if ~isnumeric(value) || ~isscalar(value) || ~isreal(value)
+        error(['Bounds:' boundName], ...
+            '%s bound must be a scalar real numeric value.', boundName);
+    end
+end
+
+function validateStrict(value, argumentName)
+    if ~islogical(value) || ~isscalar(value)
+        error(['Bounds:' argumentName], ...
+            '%s must be a scalar logical value.', argumentName);
     end
 end
