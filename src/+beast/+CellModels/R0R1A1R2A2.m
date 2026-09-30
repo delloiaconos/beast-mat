@@ -39,10 +39,15 @@ classdef R0R1A1R2A2 < beast.CellModels.CellModel
                             Bounds( NaN, NaN, false, false ), ...
                             Bounds( NaN, NaN, false, false )};
 
-        States = { "SoC", "V1", "V2" };
-        Parameters = { "R0", "R1", "A1", "R2", "A2" };
+        states = { "SoC", "V1", "V2" };
+        parameters = { "R0", "R1", "A1", "R2", "A2" };
         Inputs = { "Icell" };
         Outputs = { "Vcell" };
+    end
+
+    properties(Constant,GetAccess=protected)
+        statesBound = {Bounds(0.0, 1.0, false, false), Bounds(NaN, NaN, false, false), Bounds(NaN, NaN, false, false)};
+        parametersBound = {Bounds(NaN, NaN, false, false), Bounds(NaN, NaN, false, false), Bounds(NaN, NaN, false, false), Bounds(NaN, NaN, false, false), Bounds(NaN, NaN, false, false)};
     end
 
     properties(Access=public)

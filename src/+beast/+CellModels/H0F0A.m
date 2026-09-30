@@ -30,16 +30,27 @@ classdef H0F0A < beast.CellModels.CellModel
         Ny = 1;
 
         coefficients = {"Qn_Ah", "eta", "soc", "ocv0", "ocv1"};
-        coefficientsBound = {Bounds( 0.0, NaN, true, false ), ...
+        
+        states = { "SoC" };
+        parameters = { "R0" };
+        Inputs = { "Icell" };  
+        Outputs = { "Vcell" };
+    end
+
+    properties(Constant,GetAccess=protected)
+        coefficientsBound   = { ...
+                            Bounds( 0.0, NaN, true, false ), ...
                             Bounds( -1.0, 1.0, false, false ), ...
                             Bounds( 0.0, 1.0, false, false ), ...
                             Bounds( NaN, NaN, false, false ), ...
-                            Bounds( NaN, NaN, false, false )};
-        
-        States = { "SoC" };
-        Parameters = { "R0" };
-        Inputs = { "Icell" };  
-        Outputs = { "Vcell" };
+                            Bounds( NaN, NaN, false, false ) ...
+                        };
+        statesBound         = { ...
+                            Bounds(0.0, 1.0, false, false) ...
+                        };
+        parametersBound     = { ...
+                            Bounds(NaN, NaN, false, false) ...
+                        };
     end
 
 
@@ -151,6 +162,5 @@ classdef H0F0A < beast.CellModels.CellModel
     end
 
 end
-
 
 

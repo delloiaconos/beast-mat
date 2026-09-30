@@ -33,14 +33,16 @@ classdef CellModel
         Ny;
         
         coefficients;
-        States;
-        Parameters;
+        states;
+        parameters;
         Inputs;
         Outputs;
     end
 
-    properties(Constant,Access=protected,Abstract)
+    properties(Constant,GetAccess=protected,Abstract)
         coefficientsBound;
+        statesBound;
+        parametersBound;
     end
 
     properties(SetAccess=immutable,GetAccess=public)
@@ -57,7 +59,7 @@ classdef CellModel
     methods(Access=private)
         function obj = checkStandardObjType( obj, myName, myObj )
 
-            if strcmp(myName, "coefficients")
+            if any(strcmp(myName, ["coefficients", "states", "parameters"]))
                 if iscell(myObj)
                     names = string(myObj);
                     isValid = all(cellfun( ...
@@ -102,6 +104,22 @@ classdef CellModel
                 throw(ex);
             end
 
+            obj.checkStandardObjType( "states", obj.states );
+            obj.checkStandardObjType( "statesBound", obj.statesBound );
+            if numel(obj.states) ~= numel(obj.statesBound)
+                ex = MException( "CellModel:states", ...
+                    "states and statesBound must have the same length." );
+                throw(ex);
+            end
+
+            obj.checkStandardObjType( "parameters", obj.parameters );
+            obj.checkStandardObjType( "parametersBound", obj.parametersBound );
+            if numel(obj.parameters) ~= numel(obj.parametersBound)
+                ex = MException( "CellModel:parameters", ...
+                    "parameters and parametersBound must have the same length." );
+                throw(ex);
+            end
+
             % Check constructur specifications
             if isa( deltat, 'duration' )
                 deltat = seconds( deltat );
@@ -134,13 +152,13 @@ classdef CellModel
             end
 
             %Check cell model consistency!
-            if obj.Nx ~= length( obj.States )
+            if obj.Nx ~= length( obj.states )
                 ex = MException( "CellModel:States", ...
                                  "Wrong class implementaion." );
                 throw(ex);
             end
             
-            if obj.Np ~= length( obj.Parameters )
+            if obj.Np ~= length( obj.parameters )
                 ex = MException( "CellModel:Parameters", ...
                                  "Wrong class implementaion." );
                 throw(ex);

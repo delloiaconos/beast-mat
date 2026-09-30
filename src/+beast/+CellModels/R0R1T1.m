@@ -35,16 +35,21 @@ classdef R0R1T1 < beast.CellModels.CellModel
         Ny = 1;
         
         coefficients = {"Qn_Ah", "eta", "soc", "ocv0", "ocv1"};
+        
+        states = { "SoC", "V1" };
+        parameters = { "R0", "R1", "tau1" };
+        Inputs = { "Icell" };
+        Outputs = { "Vcell" };
+    end
+
+    properties(Constant,GetAccess=protected)
         coefficientsBound = {Bounds( 0.0, NaN, true, false ), ...
                             Bounds( -1.0, 1.0, false, false ), ...
                             Bounds( 0.0, 1.0, false, false ), ...
                             Bounds( NaN, NaN, false, false ), ...
                             Bounds( NaN, NaN, false, false )};
-        
-        States = { "SoC", "V1" };
-        Parameters = { "R0", "R1", "tau1" };
-        Inputs = { "Icell" };
-        Outputs = { "Vcell" };
+        statesBound = {Bounds(0.0, 1.0, false, false), Bounds(NaN, NaN, false, false)};
+        parametersBound = {Bounds(NaN, NaN, false, false), Bounds(NaN, NaN, false, false), Bounds(NaN, NaN, false, false)};
     end
 
     properties(Access=public)
